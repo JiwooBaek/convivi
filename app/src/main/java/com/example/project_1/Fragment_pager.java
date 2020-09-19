@@ -19,7 +19,7 @@ public class Fragment_pager extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.activity_main2, container, false);
+        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.activity_main, container, false);
         viewPager = rootView.findViewById(R.id.pager2);
 
 
