@@ -16,6 +16,8 @@ import androidx.viewpager.widget.ViewPager;
 public class MainActivity extends AppCompatActivity {
 
     ViewPager pager;
+    Fragment fragment1;
+    Fragment fragment2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
         pager.setPageTransformer(true, new DepthPageTransformer());
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
 
-        Fragment fragment1 = new Fragment1();
+        fragment1 = new Fragment1();
         pagerAdapter.addItem(fragment1);
 
-        Fragment fragment2 = new Fragment2();
+        fragment2 = new Fragment2();
         pagerAdapter.addItem(fragment2);
 
     }
