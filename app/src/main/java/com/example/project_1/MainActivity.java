@@ -31,8 +31,11 @@ public class MainActivity extends AppCompatActivity {
         fragment1 = new Fragment1();
         pagerAdapter.addItem(fragment1);
 
+
         fragment2 = new Fragment2();
         pagerAdapter.addItem(fragment2);
+
+        //ChatList
 
     }
 
