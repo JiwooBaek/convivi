@@ -61,7 +61,7 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="80dp"
             android:hint="글을 입력하세요." />
 
         <Button
