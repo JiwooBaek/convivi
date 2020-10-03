@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -47,10 +48,10 @@ public class SignupActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Create Account");
 
-        name = (EditText) findViewById(R.id.userName);
-        emailAdd = (EditText) findViewById(R.id.userEmail);
-        password = (EditText) findViewById(R.id.userPwd);
-        passwordCheck = (EditText) findViewById(R.id.userPwdCheck);
+        name = (TextInputEditText) findViewById(R.id.userName);
+        emailAdd = (TextInputEditText) findViewById(R.id.userEmail);
+        password = (TextInputEditText) findViewById(R.id.userPwd);
+        passwordCheck = (TextInputEditText) findViewById(R.id.userPwdCheck);
         signUp = (Button) findViewById(R.id.complete);
         showEmailVerified = (TextView) findViewById(R.id.emailVerifiedCheck);
 
