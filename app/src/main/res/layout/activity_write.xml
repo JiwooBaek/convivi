@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="6"
-            android:text="대여 및 공동구매"
+            android:text="글을 작성합니다"
             android:textSize="10pt" />
         <Button
             android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
             <ImageView
                 android:layout_width="50px"
                 android:layout_height="50px"
-                android:background="#0ff00000"/>
+                android:src="@drawable/write_add_image"/>
         </LinearLayout>
 
 
@@ -61,14 +61,14 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:hint="글을 입력하세요." />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="저장"
-            android:layout_gravity="center" />
+            android:layout_gravity="center|bottom" />
     </LinearLayout>
 
 
