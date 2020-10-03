@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
@@ -25,10 +26,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import model.UserModel;
 
 public class SignupActivity extends AppCompatActivity {
-    private EditText name;
-    private EditText emailAdd;
-    private EditText password;
-    private EditText passwordCheck;
+    private TextInputEditText name;
+    private TextInputEditText emailAdd;
+    private TextInputEditText password;
+    private TextInputEditText passwordCheck;
     private Button signUp;
     private TextView showEmailVerified;
     String name_txt;
@@ -48,24 +49,19 @@ public class SignupActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Create Account");
 
-        name = (TextInputEditText) findViewById(R.id.userName);
-        emailAdd = (TextInputEditText) findViewById(R.id.userEmail);
-        password = (TextInputEditText) findViewById(R.id.userPwd);
-        passwordCheck = (TextInputEditText) findViewById(R.id.userPwdCheck);
+        name = findViewById(R.id.userName);
+        emailAdd = findViewById(R.id.userEmail);
+        password = findViewById(R.id.userPwd);
+        passwordCheck = findViewById(R.id.userPwdCheck);
         signUp = (Button) findViewById(R.id.complete);
         showEmailVerified = (TextView) findViewById(R.id.emailVerifiedCheck);
 
-        //문자열 값 추출 및 문자열형 변수 설정
-        name_txt = name.getText().toString();
-        email_txt = emailAdd.getText().toString();
-        pwd_txt = password.getText().toString();
-        pwdCheck_txt = passwordCheck.getText().toString();
 
         Button verification = (Button) findViewById(R.id.verifyEmail);
         verification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseAuth.createUserWithEmailAndPassword(email_txt, pwd_txt)
+                firebaseAuth.createUserWithEmailAndPassword(emailAdd.getText().toString(), password.getText().toString())
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -74,8 +70,16 @@ public class SignupActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()) {
-                                                showEmailVerified.setText("이메일 인증 성공!");
-                                                signUp.setEnabled(true);
+                                                showEmailVerified.setText("인증 메일 전송!");
+                                                firebaseAuth.getCurrentUser().reload();
+
+                                                if(firebaseAuth.getCurrentUser().isEmailVerified()) {
+                                                    signUp.setEnabled(true);
+                                                } else {
+                                                    firebaseAuth.getCurrentUser().sendEmailVerification();
+                                                    showEmailVerified.setText("인증 메일 재전송!");
+                                                }
+
                                             } else {
                                                 Log.e("Email Verifier Error","sendEmailVerification",task.getException());
                                                 showEmailVerified.setText("이메일 인증 실패");
@@ -88,30 +92,36 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        user.reload();
+
         //확인 버튼 동작 구현
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(name_txt == null | email_txt == null | pwd_txt == null) {
+                if(name.getText().toString() == null | emailAdd.getText().toString() == null | password.getText().toString() == null) {
                     return;
                 }
 
                 String uid = firebaseAuth.getCurrentUser().getUid();
                 UserModel userModel = new UserModel();
 
-                if(isPwdChecked(pwd_txt, pwdCheck_txt) == true
+                if(isPwdChecked(password.getText().toString(), passwordCheck.getText().toString()) == true
                         && firebaseAuth.getCurrentUser().isEmailVerified() == true) {
-                    FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             SignupActivity.this.finish();
                         }
 
                     });
-                    userModel.name = name_txt;
-                    userModel.emailAddress = email_txt;
-                    FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(userModel);
-                } else if(isPwdChecked(pwd_txt, pwdCheck_txt) == false){
+
+                    //RealTime Database에 User 추가
+                    userModel.name = name.getText().toString();
+                    userModel.emailAddress = emailAdd.getText().toString();
+                    FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(userModel);
+
+                } else if(isPwdChecked(password.getText().toString(), passwordCheck.getText().toString()) == false){
                     Toast.makeText(SignupActivity.this, "비밀번호가 다릅니다.", Toast.LENGTH_LONG).show();
                 } else if(firebaseAuth.getCurrentUser().isEmailVerified() == false) {
                     Toast.makeText(SignupActivity.this, "이메일을 인증해주세요.", Toast.LENGTH_LONG).show();

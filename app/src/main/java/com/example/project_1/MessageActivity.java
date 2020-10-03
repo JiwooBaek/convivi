@@ -14,7 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+//import com.bumptech.glide.Glide;
 import com.example.project_1.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -105,7 +105,7 @@ public class MessageActivity extends AppCompatActivity {
                 if (user.getImageURL().equals("default")) {
                     profile_image.setImageResource(R.mipmap.ic_launcher);
                 } else {
-                   Glide.with(MessageActivity.this).load(user.getImageURL()).into(profile_image);
+//                    Glide.with(MessageActivity.this).load(user.getImageURL()).into(profile_image);
                 }
             }
 
