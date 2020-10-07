@@ -29,6 +29,9 @@ public class LogInActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signOut();
+
 
         id = (EditText) findViewById(R.id.userId);
         password = (EditText) findViewById(R.id.userPassword);
@@ -50,25 +53,22 @@ public class LogInActivity extends AppCompatActivity {
         });
     }
     private void loginUserAccount() {
-        String email = id.getText().toString();
-        String pswd = password.getText().toString();
-
-        if(TextUtils.isEmpty(email)) {
+        if(TextUtils.isEmpty(id.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Please enter email...", Toast.LENGTH_LONG).show();
             return;
         }
-        if(TextUtils.isEmpty(pswd)) {
+        if(TextUtils.isEmpty(password.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Please enter password...", Toast.LENGTH_LONG).show();
             return;
         }
 
-        firebaseAuth.signInWithEmailAndPassword(email, pswd)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        firebaseAuth.signInWithEmailAndPassword(id.getText().toString().trim(), password.getText().toString().trim())
+                .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "로그인 성공!", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LogInActivity.this, MainActivity.class));
+//                            startActivity(new Intent(LogInActivity.this, MainActivity.class));
                         } else {
                             Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
                         }

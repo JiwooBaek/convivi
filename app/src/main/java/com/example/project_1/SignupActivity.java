@@ -70,16 +70,8 @@ public class SignupActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()) {
+                                                firebaseAuth.getCurrentUser().sendEmailVerification();
                                                 showEmailVerified.setText("인증 메일 전송!");
-                                                firebaseAuth.getCurrentUser().reload();
-
-                                                if(firebaseAuth.getCurrentUser().isEmailVerified()) {
-                                                    signUp.setEnabled(true);
-                                                } else {
-                                                    firebaseAuth.getCurrentUser().sendEmailVerification();
-                                                    showEmailVerified.setText("인증 메일 재전송!");
-                                                }
-
                                             } else {
                                                 Log.e("Email Verifier Error","sendEmailVerification",task.getException());
                                                 showEmailVerified.setText("이메일 인증 실패");
@@ -92,13 +84,13 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        user.reload();
 
         //확인 버튼 동작 구현
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                firebaseAuth.getCurrentUser().reload();
+
                 if(name.getText().toString() == null | emailAdd.getText().toString() == null | password.getText().toString() == null) {
                     return;
                 }
