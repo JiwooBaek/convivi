@@ -62,12 +62,12 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
-        /*Database에 메시지 쓰기
+//
         database = FirebaseDatabase.getInstance();
         mRef = database.getReference("message");
 
         mRef.setValue("Test message.");
-        */ //왜인지 안 변하고 있음.
+//
 
         profile_image = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);

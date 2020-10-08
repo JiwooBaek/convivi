@@ -9,11 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class Frgament_popup extends Fragment {
+public class PopupFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup rootview = (ViewGroup)inflater.inflate(R.layout.fragment_popup, container, false);
-        return rootview;
+        View view = (ViewGroup)inflater.inflate(R.layout.fragment_popup, container, false);
+        return view;
     }
 }

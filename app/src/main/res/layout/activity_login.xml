@@ -52,7 +52,15 @@
                 android:layout_weight="1"
                 android:text="회원가입"></Button>
         </LinearLayout>
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/google_signIn"
+            android:layout_width="match_parent"
+            android:layout_height="50sp">
+
+        </com.google.android.gms.common.SignInButton>
     </LinearLayout>
+
+
 
     <Button
         android:id="@+id/findPswdId"

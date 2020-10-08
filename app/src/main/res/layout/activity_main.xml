@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    >
 
-        <fragment
-            android:id="@+id/fragment1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp">
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </fragment>
+<FrameLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainFrame"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toTopOf="@+id/bottomNav"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+</FrameLayout>
 
-        <fragment
-            android:id="@+id/fragment2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+<com.google.android.material.bottomnavigation.BottomNavigationView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomNav"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:itemBackground="@android:color/white"
+    app:itemIconTint="#000000"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:menu="@menu/bottom_navigaion_menu"
+    app:layout_editor_absoluteX="16dp"
+    />
 
-        </fragment>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-        <fragment
-            android:id="@+id/fragment3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-</ScrollView>

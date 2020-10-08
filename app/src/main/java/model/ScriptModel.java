@@ -1,10 +1,23 @@
 package model;
 
+<<<<<<< HEAD
 
 public class ScriptModel {
     public String title;   //제목
     public String description; // 내용
     public int imgld;  //프로필 이미지?
+=======
+public class ScriptModel {
+    String uid;    //닉네임
+    String title;   //제목
+    int imgld;  //프로필 이미지?
+
+    public ScriptModel(String uid, String title, int imgld){
+        this.uid = uid;
+        this.title = title;
+        this.imgld = imgld;
+    }
+>>>>>>> c60cc64035fc1a9fa36129833e9f6a3e702cda49
 
 
 //    public ScriptModel(String uid, String title, String description, int imgld){
