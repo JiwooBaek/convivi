@@ -35,8 +35,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+import model.UserModel;
 
-public class LogInActivity extends AppCompatActivity {
+public class LogInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private EditText id;
     private EditText password;
@@ -107,7 +108,7 @@ public class LogInActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "로그인 성공!", Toast.LENGTH_SHORT).show();
-//                            startActivity(new Intent(LogInActivity.this, MainActivity.class));
+                            startActivity(new Intent(LogInActivity.this, MainActivity.class));
                         } else {
                             Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
                         }
@@ -132,6 +133,9 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        String uid = firebaseAuth.getCurrentUser().getUid();
+        UserModel userModel = new UserModel();
+
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -141,8 +145,13 @@ public class LogInActivity extends AppCompatActivity {
                             Toast.makeText(LogInActivity.this, "Google account 인증 실패", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(LogInActivity.this, "Google account 로그인 성공", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LogInActivity.this, MainActivity.class));
                         }
                     }
                 });
+    }
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
