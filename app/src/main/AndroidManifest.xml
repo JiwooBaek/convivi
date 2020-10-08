@@ -17,6 +17,15 @@
         <activity android:name=".LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+<<<<<<< HEAD
+=======
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SignupActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+>>>>>>> 2559300fd76a034ea8e90e4feefff9c16461db37
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

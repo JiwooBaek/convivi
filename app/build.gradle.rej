@@ -1,0 +1,13 @@
+diff a/app/build.gradle b/app/build.gradle	(rejected hunks)
+@@ -53,4 +53,11 @@
+ 
+     //Circular ImageView
+     implementation 'de.hdodenhof:circleimageview:3.1.0'
++<<<<<<< HEAD
++
++    //Bottom navigation
++    'com.android.support:design:28.0.0'
++}
++=======
+ }
++>>>>>>> ac4ac227562c5543de2a5dd5dff32675ff25fa2d
