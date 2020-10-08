@@ -25,6 +25,7 @@ public class LogInActivity extends AppCompatActivity {
     private EditText password;
     private FirebaseAuth firebaseAuth;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
