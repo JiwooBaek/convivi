@@ -1,11 +1,11 @@
 package model;
 
-public class Script {
+public class ScriptModel {
     String uid;    //닉네임
     String title;   //제목
     int imgld;  //프로필 이미지?
 
-    public Script(String uid, String title, int imgld){
+    public ScriptModel(String uid, String title, int imgld){
         this.uid = uid;
         this.title = title;
         this.imgld = imgld;
