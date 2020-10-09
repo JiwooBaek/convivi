@@ -21,12 +21,8 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-<<<<<<< HEAD
         </activity>
-        <activity android:name=".SignupActivity">
-=======
->>>>>>> 7f7f1d57ab7e036a4add243904d8d07863f2611c
-        </activity>
+        <activity android:name=".SignupActivity"></activity>
     </application>
 
 </manifest>
