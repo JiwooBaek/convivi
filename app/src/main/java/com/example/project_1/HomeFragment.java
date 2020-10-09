@@ -1,10 +1,12 @@
 package com.example.project_1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -23,7 +25,7 @@ public class HomeFragment extends Fragment {
         write_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                startActivity(new Intent((MainActivity)getActivity().getApplicationContext(), WriteActivity.class));
             }
         });
         return view;
