@@ -14,12 +14,20 @@
         android:gravity="center"
         />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:id="@+id/recycler_view"
+        />
 
-    <ListView
-        android:id="@+id/lv_1"
-        android:layout_gravity="left"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent" />
+
+
+<!--    <ListView-->
+<!--        android:id="@+id/lv"-->
+<!--        android:layout_gravity="left"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_width="match_parent" />-->
 
 
 

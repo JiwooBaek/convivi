@@ -25,7 +25,7 @@ public class HomeFragment extends Fragment {
         write_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent((MainActivity)getActivity().getApplicationContext(), WriteActivity.class));
+                startActivity(new Intent(getActivity().getApplicationContext(), WriteActivity.class));
             }
         });
         return view;
