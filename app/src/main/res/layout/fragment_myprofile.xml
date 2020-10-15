@@ -14,8 +14,9 @@
 
         <ImageView
             android:id="@+id/profile_img"
-            android:layout_width="150dp"
-            android:layout_height="200dp"
+            android:layout_width="120dp"
+            android:layout_height="150dp"
+            android:layout_marginLeft="20dp"
             android:src="@drawable/default_1">
         </ImageView>
 
@@ -30,9 +31,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
             </TextView>
+
         </LinearLayout>
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:src="@drawable/line1"/>
 
     <LinearLayout
         android:id="@+id/profile_deal"
@@ -44,11 +51,45 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
             android:text="거래"
             android:textSize="40dp"
             android:textStyle="bold"/>
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:src="@drawable/line1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:text="거래목록"
+            android:textSize="32dp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/line1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:text="거래내역"
+            android:textSize="32dp"/>
+
+
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:src="@drawable/line1"/>
 
     <LinearLayout
         android:id="@+id/profile_review"
@@ -60,9 +101,36 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
             android:text="리뷰"
             android:textSize="40dp"
             android:textStyle="bold"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:src="@drawable/line1"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:text="내가 작성한 후기"
+            android:textSize="32dp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/line1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:text="내 거래 후기"
+            android:textSize="32dp"/>
 
     </LinearLayout>
 </LinearLayout>
