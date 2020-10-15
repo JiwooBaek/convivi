@@ -50,8 +50,8 @@ public class SignupActivity extends AppCompatActivity {
         //파이어베이스 접근 설정
         firebaseAuth = FirebaseAuth.getInstance();
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Create Account");
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setTitle("Create Account");
 
         name = findViewById(R.id.userName);
         emailAdd = findViewById(R.id.userEmail);
@@ -116,7 +116,8 @@ public class SignupActivity extends AppCompatActivity {
                     userModel.name = name.getText().toString();
                     userModel.emailAddress = emailAdd.getText().toString();
                     FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(userModel);
-                   //DB에 Uid 추가
+
+                    //DB에 Uid 추가
                     HashMap<String, String> hashMap = new HashMap<>();
                     hashMap.put("id", uid);
 
