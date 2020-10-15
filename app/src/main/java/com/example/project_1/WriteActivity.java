@@ -64,7 +64,10 @@ public class WriteActivity extends AppCompatActivity {
 
 
                  FirebaseDatabase.getInstance().getReference().child("Buy").child(uid).setValue(scriptModel);
+<<<<<<< HEAD
                  finish();
+=======
+>>>>>>> c6753f504159257d8aea6e59c9ec5be2833fd4fb
 
              }
          });
