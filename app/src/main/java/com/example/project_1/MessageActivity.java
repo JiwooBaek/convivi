@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.bumptech.glide.Glide;
+import com.bumptech.glide.Glide;
 import com.example.project_1.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import model.UserModel;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -80,6 +82,22 @@ public class MessageActivity extends AppCompatActivity {
                 }
                 //다시 비우는 건가
                 text_send.setText("");
+            }
+        });
+        //시험으로 추가해보는 중
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserModel user = dataSnapshot.getValue(UserModel.class);
+                username.setText(user.name);
+                profile_image.setImageResource(R.mipmap.ic_launcher);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 /*
