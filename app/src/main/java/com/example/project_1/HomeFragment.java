@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
         homeListDecoration = new HomeListDecoration();
         homeBuyRecyclerView.addItemDecoration(homeListDecoration);
 
-        HomeBuyItem homeBuyItem = new HomeBuyItem(R.drawable.polarbear, "OO동 XX아파트", "공구제목", "3명", "5명");
+        HomeBuyItem homeBuyItem = new HomeBuyItem(R.drawable.polarbear, "공구 제목", "OO동 XX아파트", "3명", "5명");
         arrayList.add(homeBuyItem);
         arrayList.add(homeBuyItem);
         arrayList.add(homeBuyItem);
