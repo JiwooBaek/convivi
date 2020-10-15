@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         chatFragment = new ChatFragment();
         myprofileFragment = new MyprofileFragment();
         setFrag(0);
+
     }
 
     //프래그먼트 교체

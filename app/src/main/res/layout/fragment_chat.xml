@@ -6,6 +6,11 @@
     android:background="#808080"
     tools:context=".ChatFragment">
 
+    <Button
+        android:id="@+id/chatcheck"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_recycler_view"
         android:layout_width="match_parent"

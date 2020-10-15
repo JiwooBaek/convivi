@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.bumptech.glide.Glide;
+import com.bumptech.glide.Glide;
 import com.example.project_1.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import model.UserModel;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -39,10 +41,6 @@ public class MessageActivity extends AppCompatActivity {
     ImageButton btn_send;
     EditText text_send;
 
-    //메시지 써지나 시험 용도
-    FirebaseDatabase database;
-    DatabaseReference mRef;
-
     Intent intent;
 
     @Override
@@ -50,7 +48,6 @@ public class MessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
 
-        //toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
@@ -62,13 +59,6 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
-//
-        database = FirebaseDatabase.getInstance();
-        mRef = database.getReference("message");
-
-        mRef.setValue("Test message.");
-//
-
         profile_image = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
         btn_send = findViewById(R.id.btn_send);
@@ -76,25 +66,43 @@ public class MessageActivity extends AppCompatActivity {
 
         intent = getIntent();
         final String userid = intent.getStringExtra("userid");
+        //putExtra 받아오기
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String msg = text_send.getText().toString();
+                //msg가 비어있지 않으면 Uid 보내고
                 if (!msg.equals("")) {
+                    //sender receiver message.
                     sendMessage(fuser.getUid(), userid, msg);
                 } else {
-                    Toast.makeText(MessageActivity.this, "메시지가 없습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MessageActivity.this, "You can't send empty message", Toast.LENGTH_SHORT).show();
                 }
+                //다시 비우는 건가
                 text_send.setText("");
             }
         });
+        //시험으로 추가해보는 중
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
 
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserModel user = dataSnapshot.getValue(UserModel.class);
+                username.setText(user.name);
+                profile_image.setImageResource(R.mipmap.ic_launcher);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+/*
         //Database Users 정보 가져오기
-
         reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
-
 
         //데이터베이스에 변화가 일어날 때마다 데이터를 불러옴.
         reference.addValueEventListener(new ValueEventListener() {
@@ -113,7 +121,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
     }
 
     private void sendMessage(String sender, String receiver, String message) {
