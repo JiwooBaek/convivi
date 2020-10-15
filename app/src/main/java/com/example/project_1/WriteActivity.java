@@ -63,7 +63,15 @@ public class WriteActivity extends AppCompatActivity {
                 scriptModel.imgld = R.drawable.default_1;
 
 
+<<<<<<< HEAD
                 FirebaseDatabase.getInstance().getReference().child("").child(uid).setValue(scriptModel);
+=======
+                 FirebaseDatabase.getInstance().getReference().child("Buy").child(uid).setValue(scriptModel);
+<<<<<<< HEAD
+                 finish();
+=======
+>>>>>>> c6753f504159257d8aea6e59c9ec5be2833fd4fb
+>>>>>>> 892f6b2a62fd221bef38b9264cfdd7c166797565
 
             }
         });

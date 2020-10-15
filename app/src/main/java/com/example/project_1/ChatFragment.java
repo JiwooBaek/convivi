@@ -1,5 +1,8 @@
 package com.example.project_1;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.project_1.Model.Chat;
 import com.example.project_1.Model.User;
@@ -35,12 +39,25 @@ public class ChatFragment extends Fragment {
 
     private List<String> userList;
 
-    /* 사람 누르면 채팅방 열림. 채팅 리스트에 누구랑 채팅하는지 보임
+    //추가해보는 중
+    Button chatcheck;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
 
+        chatcheck = view.findViewById(R.id.chatcheck);
+
+        chatcheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), MessageActivity.class);
+                intent.putExtra("userid", "hihihihihihihih");
+
+                startActivity(intent);
+            }
+        });
+        /*
         //Chat 목록 보여주기
         recyclerView = view.findViewById(R.id.list_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -76,10 +93,10 @@ public class ChatFragment extends Fragment {
 
             }
         });
-
+*/
         return view;
     }
-
+/*
     private void readChats() {
         mUser = new ArrayList<>();
 
@@ -103,8 +120,7 @@ public class ChatFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        })
-    }
+        });
+    }*/
 
-     */
 }
