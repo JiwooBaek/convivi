@@ -65,7 +65,8 @@ public class ViewMoreActivity extends AppCompatActivity {
 
 
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Buy").child("Buy").child("0000");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Buy").child("0000");
+
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
