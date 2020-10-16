@@ -2,17 +2,27 @@ package com.example.project_1.Model;
 
 public class User {
 
+    private String uid;
     private String id;
     private String username;
     private String imageURL;
 
-    public User(String id, String username, String imageURL) {
+    public User(String uid, String id, String username, String imageURL) {
+        this.uid = uid;
         this.id = id;
         this.username = username;
         this.imageURL = imageURL;
     }
 
     public User() {
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getId() {
