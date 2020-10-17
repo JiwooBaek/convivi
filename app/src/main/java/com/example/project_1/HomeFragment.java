@@ -5,29 +5,43 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.project_1.Adapter.HomeBuyAdater;
+import com.example.project_1.Adapter.HomeShareAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import model.ShareModel;
+
 public class HomeFragment extends Fragment {
     //HomeBuy RecyclerView 관련 변수
-    private ArrayList<HomeBuyItem> arrayList;
+    private ArrayList<HomeBuyItem> buyList;
     private HomeBuyAdater homeBuyAdater;
     private RecyclerView homeBuyRecyclerView;
-    private LinearLayoutManager linearLayoutManager;
+    private LinearLayoutManager buyLayoutManager;
     private HomeListDecoration homeListDecoration;
+
+    //HomeShare Recyclerview 관련 변수
+    private ArrayList<HomeShareItem> shareList;
+    private HomeShareAdapter homeShareAdapter;
+    private RecyclerView homeShareRecyclerView;
+    private LinearLayoutManager shareLayoutManager;
+
+    //Firebase
+    private DatabaseReference share = FirebaseDatabase.getInstance().getReference().child("Share");
+
 
     @Nullable
     @Override
@@ -36,21 +50,51 @@ public class HomeFragment extends Fragment {
 
         //HomeBuyRecyclerView
         homeBuyRecyclerView = (RecyclerView) view.findViewById(R.id.buy_listView);
-        linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-        homeBuyRecyclerView.setLayoutManager(linearLayoutManager);
-        arrayList = new ArrayList<>();
-        homeBuyAdater = new HomeBuyAdater(arrayList);
+        buyLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        homeBuyRecyclerView.setLayoutManager(buyLayoutManager);
+        buyList = new ArrayList<>();
+        homeBuyAdater = new HomeBuyAdater(buyList);
         homeBuyRecyclerView.setAdapter(homeBuyAdater);
         homeListDecoration = new HomeListDecoration();
         homeBuyRecyclerView.addItemDecoration(homeListDecoration);
 
         HomeBuyItem homeBuyItem = new HomeBuyItem(R.drawable.polarbear, "공구 제목", "OO동 XX아파트", "3명", "5명");
-        arrayList.add(homeBuyItem);
-        arrayList.add(homeBuyItem);
-        arrayList.add(homeBuyItem);
-        arrayList.add(homeBuyItem);
-        arrayList.add(homeBuyItem);
+        buyList.add(homeBuyItem);
+        buyList.add(homeBuyItem);
+        buyList.add(homeBuyItem);
+        buyList.add(homeBuyItem);
+        buyList.add(homeBuyItem);
         homeBuyAdater.notifyDataSetChanged();
+
+        //HomeShareRecyclerView
+        homeShareRecyclerView = (RecyclerView) view.findViewById(R.id.share_listView);
+        shareLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        homeShareRecyclerView.setLayoutManager(shareLayoutManager);
+        shareList = new ArrayList<>();
+        homeShareAdapter = new HomeShareAdapter(shareList);
+        homeShareRecyclerView.setAdapter(homeShareAdapter);
+        homeShareRecyclerView.addItemDecoration(homeListDecoration);
+
+            //Share DB에서 최근 5개의 글 가져와 RecyclerView로 보여주기
+        share.orderByKey().limitToLast(5).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot latestShare : dataSnapshot.getChildren()){
+                    ShareModel shareModel = latestShare.getValue(ShareModel.class);
+                    HomeShareItem homeShareItem = new HomeShareItem(R.drawable.polarbear, shareModel.title, "OO동 XX아파트");
+                    shareList.add(homeShareItem);
+                }
+                homeShareAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
 
         //글쓰기 버튼
         FloatingActionButton write_button = (FloatingActionButton) view.findViewById(R.id.write_button);
