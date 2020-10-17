@@ -113,9 +113,10 @@ public class SignupActivity extends AppCompatActivity {
                     });
 
                     //RealTime Database에 User 추가
-                    userModel.uid =
+                    userModel.uid = uid;
                     userModel.name = name.getText().toString();
                     userModel.emailAddress = emailAdd.getText().toString();
+                    userModel.imgURL = "default";
                     FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(userModel);
 
                     //DB에 Uid 추가
