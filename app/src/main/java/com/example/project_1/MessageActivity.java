@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 //import com.bumptech.glide.Glide;
 import com.bumptech.glide.Glide;
+import com.example.project_1.Adapter.MessageAdapter;
+import com.example.project_1.Model.Chat;
 import com.example.project_1.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,7 +27,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import model.UserModel;
@@ -40,6 +44,11 @@ public class MessageActivity extends AppCompatActivity {
 
     ImageButton btn_send;
     EditText text_send;
+
+    MessageAdapter messageAdapter;
+    List<Chat> mchat;
+
+    RecyclerView recyclerView;
 
     Intent intent;
 
@@ -58,6 +67,12 @@ public class MessageActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         profile_image = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
@@ -92,7 +107,10 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserModel user = dataSnapshot.getValue(UserModel.class);
                 username.setText(user.name);
+                //이 부분 나중에 고쳐야 함
                 profile_image.setImageResource(R.mipmap.ic_launcher);
+
+                readMessages(fuser.getUid(), userid, "default");
             }
 
             @Override
@@ -132,5 +150,33 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("message", message);
 
         reference.child("Chats").push().setValue(hashMap);
+    }
+
+    private void readMessages(final String myid, final String userid, final String imageurl) {
+        mchat = new ArrayList<>();
+
+        reference = FirebaseDatabase.getInstance().getReference("Chats");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mchat.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Chat chat = snapshot.getValue(Chat.class);
+
+                    //이거 때문에 추가가 안되는 중.
+                    if (chat.getReceiver().equals(myid) && chat.getSender().equals(userid) || chat.getReceiver().equals(userid) && chat.getSender().equals(myid)) {
+                        mchat.add(chat);
+                    }
+
+                    messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageurl);
+                    recyclerView.setAdapter(messageAdapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
