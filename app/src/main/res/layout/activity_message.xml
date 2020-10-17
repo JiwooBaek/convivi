@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e6e6e6">
+    android:background="#e6e6e6"
+    tools:context=".MessageActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/bar_layout"
@@ -63,8 +64,7 @@
             android:hint="메시지를 입력하세요..."
             android:padding="10dp"
             android:layout_toLeftOf="@id/btn_send"
-            android:layout_centerVertical="true">
-        </EditText>
+            android:layout_centerVertical="true"/>
 
         <ImageButton
             android:id="@+id/btn_send"

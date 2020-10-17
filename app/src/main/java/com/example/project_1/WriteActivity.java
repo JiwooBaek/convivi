@@ -64,11 +64,23 @@ public class WriteActivity extends AppCompatActivity {
 
 //               FirebaseDatabase.getInstance().getReference().child("").child(uid).setValue(scriptModel);
 
+<<<<<<< HEAD
+=======
+                FirebaseDatabase.getInstance().getReference().child("").child(uid).setValue(scriptModel);
+
+>>>>>>> 2efd0e62d70353dcd17434ec0a582cf4cc917e62
                  FirebaseDatabase.getInstance().getReference().child("Buy").child(uid).setValue(scriptModel);
+
                  finish();
 
+<<<<<<< HEAD
              }
          });
+=======
+            }
+        });
+
+>>>>>>> 2efd0e62d70353dcd17434ec0a582cf4cc917e62
     }
 
 //    public void clickSave(View view){
@@ -157,7 +169,6 @@ public class WriteActivity extends AppCompatActivity {
 
             }
         });
->>>>>>> 3447c123918f468a44cc5c62d8324aa98cf7b8d3
 
     }
 
