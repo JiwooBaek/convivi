@@ -5,13 +5,13 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import model.UserModel;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.project_1.Model.User;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
@@ -21,7 +21,7 @@ public class ChatFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
-    private List<User> mUser;
+    private List<UserModel> mUser;
 
     FirebaseUser fuser;
     DatabaseReference reference;

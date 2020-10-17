@@ -62,25 +62,11 @@ public class WriteActivity extends AppCompatActivity {
                 scriptModel.description = et_description.getText().toString();
                 scriptModel.imgld = R.drawable.default_1;
 
-//               FirebaseDatabase.getInstance().getReference().child("").child(uid).setValue(scriptModel);
-
-<<<<<<< HEAD
-=======
-                FirebaseDatabase.getInstance().getReference().child("").child(uid).setValue(scriptModel);
-
->>>>>>> 2efd0e62d70353dcd17434ec0a582cf4cc917e62
-                 FirebaseDatabase.getInstance().getReference().child("Buy").child(uid).setValue(scriptModel);
+                FirebaseDatabase.getInstance().getReference().child("Buy").child(uid).setValue(scriptModel);
 
                  finish();
-
-<<<<<<< HEAD
              }
          });
-=======
-            }
-        });
-
->>>>>>> 2efd0e62d70353dcd17434ec0a582cf4cc917e62
     }
 
 //    public void clickSave(View view){
