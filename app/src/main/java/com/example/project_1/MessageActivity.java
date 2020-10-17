@@ -15,10 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.bumptech.glide.Glide;
-import com.bumptech.glide.Glide;
 import com.example.project_1.Adapter.MessageAdapter;
-import com.example.project_1.Model.Chat;
-import com.example.project_1.Model.User;
+import model.Chat;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
