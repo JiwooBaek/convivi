@@ -119,9 +119,6 @@ public class SignupActivity extends AppCompatActivity {
                     userModel.imgURL = "default";
                     FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(userModel);
 
-                    //DB에 Uid 추가
-                    HashMap<String, String> hashMap = new HashMap<>();
-                    hashMap.put("id", uid);
 
                 } else if(isPwdChecked(password.getText().toString(), passwordCheck.getText().toString()) == false){
                     Toast.makeText(SignupActivity.this, "비밀번호가 다릅니다.", Toast.LENGTH_LONG).show();
