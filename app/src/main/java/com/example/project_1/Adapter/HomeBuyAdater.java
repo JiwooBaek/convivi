@@ -1,5 +1,7 @@
 package com.example.project_1.Adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1.HomeBuyItem;
+import com.example.project_1.PopUpActivity;
 import com.example.project_1.R;
 
 import org.w3c.dom.Text;
@@ -19,9 +22,11 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class HomeBuyAdater extends RecyclerView.Adapter<HomeBuyAdater.ViewHolder> {
+    Context context;
     ArrayList<HomeBuyItem> arrayList;
 
-    public HomeBuyAdater(ArrayList<HomeBuyItem> arrayList) {
+    public HomeBuyAdater(Context context, ArrayList<HomeBuyItem> arrayList) {
+        this.context = context;
         this.arrayList = arrayList;
     }
 
@@ -47,6 +52,8 @@ public class HomeBuyAdater extends RecyclerView.Adapter<HomeBuyAdater.ViewHolder
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "팝업창 띄우기", Toast.LENGTH_SHORT).show();
+                context.startActivity(new Intent(context, PopUpActivity.class));
+
             }
         });
     }

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:background="@drawable/background_popup"
+    android:layout_width="300dp"
+    android:layout_height="320dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:src="@drawable/polarbear"
+        app:civ_border_color="#FF000000"
+        android:layout_margin="20dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/profile_image"
+        android:layout_marginTop="70dp"
+        android:text="모집자"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/userId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/profile_image"
+        android:layout_marginTop="95dp"
+        android:text="아이디입니다" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_image"
+        android:layout_marginLeft="20dp"
+        android:text=" 공구제목칸입니다"
+        android:textStyle="bold"
+        android:textSize="20dp" />
+    <TextView
+        android:id="@+id/userAdress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:text="OO동 XX아파트" />
+    <Button
+        android:layout_width="90dp"
+        android:layout_height="35dp"
+        android:background="#68656E"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="140dp"
+        android:layout_marginRight="20dp"
+        android:text="채팅방"
+        android:textSize="16dp"
+        android:textColor="#FFFFFF" />
+    <View
+        android:id="@+id/line"
+        android:layout_width="265dp"
+        android:layout_height="3dp"
+        android:background="#9C9B9B"
+        android:layout_below="@id/userAdress"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="5dp" />
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line"
+        android:layout_margin="15dp"
+        android:text="공구할 물품은 블라블라입니다. 같이 구매해요~~~~~~~~~"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/description">
+        <TextView
+            android:id="@+id/currentNOP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3명" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" / " />
+        <TextView
+            android:id="@+id/targetNOP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5명" />
+
+
+    </LinearLayout>
+</RelativeLayout>
