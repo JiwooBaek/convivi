@@ -32,6 +32,6 @@ public class HomeShareItem {
     }
 
     public void setAdress(String adress) {
-        this.adress = adress;
-    }
+    this.adress = adress;
+}
 }

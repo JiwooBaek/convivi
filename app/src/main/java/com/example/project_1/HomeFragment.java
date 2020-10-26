@@ -51,10 +51,10 @@ public class HomeFragment extends Fragment {
         //HomeBuyRecyclerView
         homeBuyRecyclerView = (RecyclerView) view.findViewById(R.id.buy_listView);
 
-        linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-        homeBuyRecyclerView.setLayoutManager(linearLayoutManager);
-        arrayList = new ArrayList<>();
-        homeBuyAdater = new HomeBuyAdater(getContext(), arrayList);
+        buyLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        homeBuyRecyclerView.setLayoutManager(buyLayoutManager);
+        buyList = new ArrayList<>();
+        homeBuyAdater = new HomeBuyAdater(getContext(), buyList);
 
         buyLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         homeBuyRecyclerView.setLayoutManager(buyLayoutManager);
