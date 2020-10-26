@@ -25,7 +25,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/userId"
+        android:id="@+id/hostId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/profile_image"
@@ -50,6 +50,7 @@
         android:layout_marginTop="5dp"
         android:text="OO동 XX아파트" />
     <Button
+        android:id="@+id/chat_button"
         android:layout_width="90dp"
         android:layout_height="35dp"
         android:background="#68656E"
@@ -96,6 +97,16 @@
             android:layout_height="wrap_content"
             android:text="5명" />
 
-
     </LinearLayout>
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/x"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"/>
+
 </RelativeLayout>
