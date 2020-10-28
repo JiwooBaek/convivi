@@ -8,14 +8,25 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.WindowDecorActionBar;
+import model.ShareModel;
 
 public class PopUpActivity extends AppCompatActivity {
 
     TextView titleView;
     TextView addressView;
+    TextView descriptionView;
+    String idNum;
+    String uid;
+    private FirebaseDatabase database;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,17 +37,27 @@ public class PopUpActivity extends AppCompatActivity {
 
         titleView = (TextView) findViewById(R.id.title);
         addressView = (TextView) findViewById(R.id.userAddress);
-
-        //UI 객체 생성
+        descriptionView = (TextView) findViewById(R.id.description);
 
         //데이터 가져오기
         Intent intent = getIntent();
-        String title = intent.getStringExtra("title");
-        String address = intent.getStringExtra("address");
+        idNum = Long.toString(intent.getLongExtra("idNum", 0));
 
         //데이터 설정하기
-        titleView.setText(title);
-        addressView.setText(address);
+        database.getInstance().getReference("Share").child(idNum).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
+                uid = shareModel.host;
+                titleView.setText(shareModel.title);
+                descriptionView.setText(shareModel.description);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         //닫기 버튼 클릭시 팝업 닫기
         Button close_button = (Button) findViewById(R.id.cancel_button);

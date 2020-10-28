@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
         shareLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         homeShareRecyclerView.setLayoutManager(shareLayoutManager);
         shareList = new ArrayList<>();
-        homeShareAdapter = new HomeShareAdapter(getActivity().getApplicationContext(), shareList);
+        homeShareAdapter = new HomeShareAdapter(shareList);
         homeShareRecyclerView.setAdapter(homeShareAdapter);
         homeShareRecyclerView.addItemDecoration(homeListDecoration);
 
@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment {
                             ShareModel shareModel = latestShare.getValue(ShareModel.class);
 
                             UserModel userModel = userDataSnapshot.child(shareModel.host).getValue(UserModel.class);
-                            HomeShareItem homeShareItem = new HomeShareItem(userModel.imgURL, shareModel.title, "OO동 XX아파트");
+                            HomeShareItem homeShareItem = new HomeShareItem(shareModel.idNum, userModel.imgURL, shareModel.title, "OO동 XX아파트");
                             shareList.add(homeShareItem);
 
                         }
