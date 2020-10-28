@@ -1,21 +1,23 @@
 package com.example.project_1;
 
+import android.net.Uri;
+
 public class HomeShareItem {
-    private int profile;
+    private String profile;
     private String title;
     private String adress;
 
-    public HomeShareItem(int profile, String title, String adress) {
+    public HomeShareItem(String profile, String title, String adress) {
         this.profile = profile;
         this.title = title;
         this.adress = adress;
     }
 
-    public int getProfile() {
+    public String getProfile() {
         return profile;
     }
 
-    public void setProfile(int profile) {
+    public void setProfile(String profile) {
         this.profile = profile;
     }
 

@@ -1,6 +1,7 @@
 package com.example.project_1.Adapter;
 
 import android.content.Context;
+
 import android.content.Intent;
 import android.media.Image;
 import android.view.LayoutInflater;
@@ -11,15 +12,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.annotation.GlideModule;
+import com.example.project_1.HomeFragment;
 import com.example.project_1.HomeShareItem;
+import com.example.project_1.MainActivity;
 import com.example.project_1.PopUpActivity;
 import com.example.project_1.R;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeShareAdapter extends RecyclerView.Adapter<HomeShareAdapter.Viewhloder> {
     Context context;
@@ -41,7 +47,10 @@ public class HomeShareAdapter extends RecyclerView.Adapter<HomeShareAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull HomeShareAdapter.Viewhloder holder, int position) {
-        holder.profile.setImageResource(arrayList.get(position).getProfile());
+        Glide.with(holder.itemView.getContext())
+                .load(arrayList.get(position).getProfile())
+                .into(holder.profile);
+
         holder.title.setText(arrayList.get(position).getTitle());
         holder.adress.setText(arrayList.get(position).getAdress());
         holder.itemView.setTag(position);
@@ -69,13 +78,13 @@ public class HomeShareAdapter extends RecyclerView.Adapter<HomeShareAdapter.View
     }
 
     public class Viewhloder extends RecyclerView.ViewHolder {
-        protected ImageView profile;
+        protected CircleImageView profile;
         protected TextView title;
         protected TextView adress;
 
         public Viewhloder(@NonNull View itemView) {
             super(itemView);
-            this.profile = (ImageView) itemView.findViewById(R.id.profile);
+            this.profile = (CircleImageView) itemView.findViewById(R.id.profile);
             this.title = (TextView) itemView.findViewById(R.id.title);
             this.adress = (TextView) itemView.findViewById(R.id.adress);
         }
