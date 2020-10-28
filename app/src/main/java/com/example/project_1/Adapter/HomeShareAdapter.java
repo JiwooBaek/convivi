@@ -1,11 +1,9 @@
 package com.example.project_1.Adapter;
 
 import android.content.Context;
-<<<<<<< HEAD
-=======
+
 import android.content.Intent;
 import android.media.Image;
->>>>>>> 15b8a7278eadaf5b5d9e643f6bde488d40307373
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +19,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.annotation.GlideModule;
 import com.example.project_1.HomeFragment;
 import com.example.project_1.HomeShareItem;
-<<<<<<< HEAD
 import com.example.project_1.MainActivity;
-=======
 import com.example.project_1.PopUpActivity;
->>>>>>> 15b8a7278eadaf5b5d9e643f6bde488d40307373
 import com.example.project_1.R;
 
 import java.util.ArrayList;
