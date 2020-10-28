@@ -64,7 +64,7 @@
         android:layout_width="265dp"
         android:layout_height="3dp"
         android:background="#9C9B9B"
-        android:layout_below="@id/userAdress"
+        android:layout_below="@id/userAddress"
         android:layout_centerInParent="true"
         android:layout_marginTop="5dp" />
     <TextView

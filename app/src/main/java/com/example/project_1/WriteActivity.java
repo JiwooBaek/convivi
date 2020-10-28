@@ -79,6 +79,7 @@ public class WriteActivity extends AppCompatActivity {
                 ScriptModel scriptModel = new ScriptModel();
                 uid = firebaseAuth.getCurrentUser().getUid();
 
+                scriptModel.idNum = (maxNum + 1);
                 scriptModel.title = et_title.getText().toString();
                 scriptModel.host = uid;
                 scriptModel.description = et_description.getText().toString();

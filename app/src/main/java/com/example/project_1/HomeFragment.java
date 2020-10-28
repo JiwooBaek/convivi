@@ -54,12 +54,12 @@ public class HomeFragment extends Fragment {
         buyLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         homeBuyRecyclerView.setLayoutManager(buyLayoutManager);
         buyList = new ArrayList<>();
-        homeBuyAdater = new HomeBuyAdater(getContext(), buyList);
+        homeBuyAdater = new HomeBuyAdater(buyList);
 
         buyLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         homeBuyRecyclerView.setLayoutManager(buyLayoutManager);
         buyList = new ArrayList<>();
-        homeBuyAdater = new HomeBuyAdater(getContext(), buyList);
+        homeBuyAdater = new HomeBuyAdater(buyList);
 
         homeBuyRecyclerView.setAdapter(homeBuyAdater);
         homeListDecoration = new HomeListDecoration();

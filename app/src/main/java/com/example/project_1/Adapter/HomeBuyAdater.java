@@ -22,11 +22,10 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class HomeBuyAdater extends RecyclerView.Adapter<HomeBuyAdater.ViewHolder> {
-    Context context;
+
     ArrayList<HomeBuyItem> arrayList;
 
-    public HomeBuyAdater(Context context, ArrayList<HomeBuyItem> arrayList) {
-        this.context = context;
+    public HomeBuyAdater(ArrayList<HomeBuyItem> arrayList) {
         this.arrayList = arrayList;
     }
 
@@ -54,13 +53,13 @@ public class HomeBuyAdater extends RecyclerView.Adapter<HomeBuyAdater.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, PopUpActivity.class);
+                Intent intent = new Intent(v.getContext(), PopUpActivity.class);
 
                 intent.putExtra("address", addressStr);
                 intent.putExtra("title", titleStr);
 
                 Toast.makeText(v.getContext(), "팝업창 띄우기", Toast.LENGTH_SHORT).show();
-                context.startActivity(intent);
+                v.getContext().startActivity(intent);
 
             }
         });
