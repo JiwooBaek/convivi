@@ -34,12 +34,16 @@ public class MyprofileFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         uid = firebaseAuth.getCurrentUser().getUid();
 
-        // 사용자 이름 가져오기
+        userNameView = (TextView) view.findViewById(R.id.profile_name);
+
+        // 사용자 정보 가져오기
         database.getInstance().getReference("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserModel userModel = dataSnapshot.getValue(UserModel.class);
                 userName = userModel.name;
+                userNameView.setText(userName);
+
             }
 
             @Override
@@ -49,7 +53,6 @@ public class MyprofileFragment extends Fragment {
         });
 
         // 프로플 이름 설정
-        userNameView = (TextView) view.findViewById(R.id.profile_name);
         userNameView.setText(userName);
 
         return view;
