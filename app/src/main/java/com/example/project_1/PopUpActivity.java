@@ -42,6 +42,19 @@ public class PopUpActivity extends AppCompatActivity {
             }
         });
 
+        Button openChat;
+        openChat = (Button) findViewById(R.id.chat_button);
+
+        openChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PopUpActivity.this, MessageActivity.class);
+                intent.putExtra("userid", "hihi");
+
+                startActivity(intent);
+            }
+        });
+
     }
 
     //바깥 레이어 클릭시 안닫히게
