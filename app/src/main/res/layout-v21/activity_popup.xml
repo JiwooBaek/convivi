@@ -38,11 +38,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/profile_image"
         android:layout_marginLeft="20dp"
-        android:text=" 공구제목칸입니다"
         android:textStyle="bold"
         android:textSize="20dp" />
     <TextView
-        android:id="@+id/userAdress"
+        android:id="@+id/userAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"

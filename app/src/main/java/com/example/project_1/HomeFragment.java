@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
         shareLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         homeShareRecyclerView.setLayoutManager(shareLayoutManager);
         shareList = new ArrayList<>();
-        homeShareAdapter = new HomeShareAdapter(shareList);
+        homeShareAdapter = new HomeShareAdapter(getActivity().getApplicationContext(), shareList);
         homeShareRecyclerView.setAdapter(homeShareAdapter);
         homeShareRecyclerView.addItemDecoration(homeListDecoration);
 

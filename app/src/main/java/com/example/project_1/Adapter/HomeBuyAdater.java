@@ -41,6 +41,9 @@ public class HomeBuyAdater extends RecyclerView.Adapter<HomeBuyAdater.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        String titleStr = arrayList.get(position).getTitle();
+        String addressStr = arrayList.get(position).getAdress();
+
         holder.profile.setImageResource(arrayList.get(position).getProfile());
         holder.title.setText(arrayList.get(position).getTitle());
         holder.adress.setText(arrayList.get(position).getAdress());
@@ -51,8 +54,13 @@ public class HomeBuyAdater extends RecyclerView.Adapter<HomeBuyAdater.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(context, PopUpActivity.class);
+
+                intent.putExtra("address", addressStr);
+                intent.putExtra("title", titleStr);
+
                 Toast.makeText(v.getContext(), "팝업창 띄우기", Toast.LENGTH_SHORT).show();
-                context.startActivity(new Intent(context, PopUpActivity.class));
+                context.startActivity(intent);
 
             }
         });
