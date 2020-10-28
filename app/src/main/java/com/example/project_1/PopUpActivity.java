@@ -1,5 +1,6 @@
 package com.example.project_1;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -19,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.WindowDecorActionBar;
 import model.ShareModel;
 
-public class PopUpActivity extends AppCompatActivity {
+public class PopUpActivity extends Activity {
 
     TextView titleView;
     TextView addressView;
