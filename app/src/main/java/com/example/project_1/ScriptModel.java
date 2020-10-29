@@ -2,7 +2,7 @@ package com.example.project_1;
 
 
 public class ScriptModel {
-<<<<<<< HEAD:app/src/main/java/com/example/project_1/ScriptModel.java
+
     public String title;   //제목
     public String description; // 내용
     public String host; //uid
@@ -101,24 +101,3 @@ public class ScriptModel {
 //        return imgld;
 //    }
 //
-=======
-    public long idNum;           // 게시글 고유번호
-    public String title;        //제목
-    public String host;         //사용자uid
-    public String description;  // 내용
-    public int imgld;           //프로필 이미지?
-
-    public ScriptModel() {
-    }
-
-    public ScriptModel(long idNum, String title, String host, String description, int imgld) {
-        this.idNum = idNum;
-        this.title = title;
-        this.host = host;
-        this.description = description;
-        this.imgld = imgld;
-    }
-}
-
->>>>>>> 2bbd814ddc400a098469c031a300c7bed51e7634:app/src/main/java/model/ScriptModel.java
-

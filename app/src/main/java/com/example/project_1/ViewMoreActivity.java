@@ -102,7 +102,7 @@ public class ViewMoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_more);
         items = new ArrayList<>();
 
-        items.add(new )
+    //    items.add(new )
 
 
         ViewMoreAdapter viewMoreAdapter = new ViewMoreAdapter(this, R.layout.list_row, items);
