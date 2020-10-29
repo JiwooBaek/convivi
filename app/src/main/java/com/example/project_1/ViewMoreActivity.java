@@ -61,37 +61,20 @@ public class ViewMoreActivity extends AppCompatActivity {
 
 }*/
 
-import android.annotation.SuppressLint;
-import android.app.DownloadManager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import model.BuyModel;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
 public class ViewMoreActivity extends AppCompatActivity {
 
-    private ArrayList<ScriptModel> items;
+    private ArrayList<BuyModel> items;
 
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Buy");
 

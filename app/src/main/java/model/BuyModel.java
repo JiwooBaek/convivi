@@ -1,21 +1,37 @@
-package com.example.project_1;
+package model;
 
 
+<<<<<<< HEAD:app/src/main/java/com/example/project_1/ScriptModel.java
 public class ScriptModel {
 
     public String title;   //제목
     public String description; // 내용
     public String host; //uid
     public Integer image;  //프로필 이미지?
+=======
+public class BuyModel {
+    public String idNum;            // 게시글 식별아이디
+    public String title;            //제목
+    public String description;      // 내용
+    public String host;             //uid
+>>>>>>> dd2d46a70a4f2e469c5128fb035afbf8438c2741:app/src/main/java/model/BuyModel.java
 
-    public ScriptModel(){
+    public BuyModel(){
 
     };
-    public ScriptModel(String title, String description, String host, Integer image) {
+    public BuyModel(String idNum, String title, String description, String host) {
+        this.idNum = idNum;
         this.title = title;
         this.description = description;
         this.host = host;
-        this.image = image;
+    }
+
+    public String getIdNum() {
+        return idNum;
+    }
+
+    public void setIdNum(String idNum) {
+        this.idNum = idNum;
     }
 
     public String getTitle() {
@@ -30,10 +46,6 @@ public class ScriptModel {
         return host;
     }
 
-    public Integer getImage() {
-        return image;
-    }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -46,9 +58,6 @@ public class ScriptModel {
         this.host = host;
     }
 
-    public void setImage(Integer image) {
-        this.image = image;
-    }
 }
 
 //    public ScriptModel(String uid, String title, String description, int imgld){
@@ -100,4 +109,9 @@ public class ScriptModel {
 //    public int getImgld(){
 //        return imgld;
 //    }
+<<<<<<< HEAD:app/src/main/java/com/example/project_1/ScriptModel.java
 //
+=======
+//
+
+>>>>>>> dd2d46a70a4f2e469c5128fb035afbf8438c2741:app/src/main/java/model/BuyModel.java

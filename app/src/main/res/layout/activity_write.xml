@@ -6,38 +6,37 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="40dp"
+        android:background="@color/common_google_signin_btn_text_light_disabled">
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:text="취소"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="6"
-            android:text="글을 작성합니다"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:text="글 작성"
             android:textSize="10pt" />
-        <Button
-            android:id="@+id/btn_exit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="> "
-            android:gravity="right"
-            android:layout_weight="1"
-            android:textSize="10pt"
-            android:background="#00000000"/>
-    </LinearLayout>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
 
         <!-- 글 제목-->
         <EditText
-            android:id="@+id/et_title"
+            android:id="@+id/write_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:hint="제목을 입력하세요." />
 
         <!--이미지 추가 레이아웃-->

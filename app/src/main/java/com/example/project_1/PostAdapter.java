@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import model.BuyModel;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -18,12 +19,12 @@ import java.util.List;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyHolder> {
 
     Context context;
-    List<ScriptModel> ScriptModellist;
+    List<BuyModel> buyModellist;
     String Uid;
 
-    public PostAdapter(Context context, List<ScriptModel> scriptModels) {
+    public PostAdapter(Context context, List<BuyModel> buyModels) {
         this.context = context;
-        this.ScriptModellist = scriptModels;
+        this.buyModellist = buyModels;
         Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
@@ -38,10 +39,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyHolder> {
     //position에 해당하는 데이터를 viewholder가 관리하는 view에 바인딩
     @Override
     public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
-        final String title = ScriptModellist.get(i).title;
-        final String description = ScriptModellist.get(i).description;
-        final String host = ScriptModellist.get(i).host;
-        final Integer image = ScriptModellist.get(i).image;
+        final String title = buyModellist.get(i).title;
+        final String description = buyModellist.get(i).description;
+        final String host = buyModellist.get(i).host;
+        final Integer image = buyModellist.get(i).image;
 
 
         Log.d(host, " " + title+" "+ description+" " + image +" ");
@@ -56,7 +57,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyHolder> {
     @Override
     public int getItemCount() {
 
-        return ScriptModellist.size();
+        return buyModellist.size();
     }
 
     //각 list에 들어갈 객체의 맴버 변수
