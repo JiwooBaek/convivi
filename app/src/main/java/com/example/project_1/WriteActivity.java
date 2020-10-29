@@ -16,9 +16,6 @@ import android.widget.Spinner;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,12 +57,6 @@ public class WriteActivity extends AppCompatActivity {
         btn_save = findViewById(R.id.btn_save);
         category = (Spinner) findViewById(R.id.category);
 
-
-        Integer defaultImage = R.drawable.default_1;
-//        FirebaseUser user = firebaseAuth.getCurrentUser();
-//        if (user != null) {
-//            uid = user.getUid();
-//        }
 //        category.setOnItemSelectedListener();
 
 
@@ -93,10 +84,6 @@ public class WriteActivity extends AppCompatActivity {
                 uid = firebaseAuth.getCurrentUser().getUid();
                 BuyModel buyModel = new BuyModel();
                 FirebaseDatabase.getInstance().getReference().child("Buy").child(uid).setValue(buyModel);
-
-
-                 finish();
-
 
                 buyModel.idNum = Long.toString(maxNum + 1);
                 buyModel.title = et_title.getText().toString();
