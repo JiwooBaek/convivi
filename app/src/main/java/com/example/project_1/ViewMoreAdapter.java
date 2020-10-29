@@ -76,11 +76,18 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import model.BuyModel;
+
 public class ViewMoreAdapter extends BaseAdapter {
     Context context;
     int layout;
+<<<<<<< HEAD
     ArrayList<ListRowItem> arrayList;
     public ViewMoreAdapter(Context context, int layout, ArrayList<ListRowItem> arrayList) {
+=======
+    ArrayList<BuyModel> arrayList;
+    public ViewMoreAdapter(Context context, int layout, ArrayList<BuyModel> arrayList) {
+>>>>>>> 28885f4ecf6077734b2ae3d2373007f8e914760b
         this.context = context;
         this.layout = layout;
         this.arrayList = arrayList;
