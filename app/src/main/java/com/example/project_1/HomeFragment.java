@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.project_1.Adapter.HomeBuyAdapter;
 import com.example.project_1.Adapter.HomeShareAdapter;
@@ -116,6 +117,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
+        //대여 및 나눔 더보기 클릭 시 ViewMoreActivity로 이동
+        TextView view_more_share = view.findViewById(R.id.view_more_share);
+        view_more_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity().getApplicationContext(), ViewMoreActivity.class));
+            }
+        });
 
 
 

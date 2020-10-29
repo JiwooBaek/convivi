@@ -1,5 +1,10 @@
 package com.example.project_1;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,14 +17,26 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseError;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+
+import com.google.firebase.database.core.view.View;
+
+import java.io.File;
 
 import java.util.ArrayList;
 
@@ -54,6 +71,8 @@ public class WriteActivity extends AppCompatActivity {
 
 //        category.setOnItemSelectedListener();
 
+        Integer defaultImage = R.drawable.default_1;
+
         autoNum = FirebaseDatabase.getInstance().getReference().child("Buy");
         autoNum.addValueEventListener(new ValueEventListener() {
             @Override
@@ -69,7 +88,6 @@ public class WriteActivity extends AppCompatActivity {
             }
         });
 
-        firebaseUser = firebaseAuth.getCurrentUser();
         firebaseUser.reload();
 
         btn_save.setOnClickListener(new android.view.View.OnClickListener() {

@@ -69,7 +69,10 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -78,8 +81,13 @@ import model.BuyModel;
 public class ViewMoreAdapter extends BaseAdapter {
     Context context;
     int layout;
+<<<<<<< HEAD
+    ArrayList<ListRowItem> arrayList;
+    public ViewMoreAdapter(Context context, int layout, ArrayList<ListRowItem> arrayList) {
+=======
     ArrayList<BuyModel> arrayList;
     public ViewMoreAdapter(Context context, int layout, ArrayList<BuyModel> arrayList) {
+>>>>>>> 28885f4ecf6077734b2ae3d2373007f8e914760b
         this.context = context;
         this.layout = layout;
         this.arrayList = arrayList;
@@ -92,7 +100,7 @@ public class ViewMoreAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return arrayList.get(position).title;
+        return arrayList.get(position);
     }
 
     @Override
@@ -110,12 +118,13 @@ public class ViewMoreAdapter extends BaseAdapter {
 
 
         TextView title = view.findViewById(R.id.text_title);
-        title.setText(arrayList.get(pos).title);
+        title.setText(arrayList.get(pos).getTitle());
         TextView description = view.findViewById(R.id.text_description);
-        description.setText(arrayList.get(pos).description);
-        TextView imageView = view.findViewById(R.id.img_flag);
-        imageView.setText(arrayList.get(pos).image);
-
+        description.setText(arrayList.get(pos).getDescription());
+        ImageView image= view.findViewById(R.id.img_flag);
+        Glide.with(view.getContext())
+                .load(arrayList.get(position).getProfile())
+                .into(image);
 
 
 

@@ -43,7 +43,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyHolder> {
         final String description = buyModellist.get(i).description;
         final String host = buyModellist.get(i).host;
 
-
         Log.d(host, " " + title+" "+ description+" ");
         if(host!=null) {
 

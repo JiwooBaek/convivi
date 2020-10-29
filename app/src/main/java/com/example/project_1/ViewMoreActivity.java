@@ -1,65 +1,5 @@
 package com.example.project_1;
-/*
-import android.app.AppComponentFactory;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import java.util.ArrayList;
-
-public class ViewMoreActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    FirebaseDatabase database;
-    PostAdapter adapter;
-
-    DatabaseReference mbase;
-    ArrayList<ScriptModel> arrayList;
-    ScriptModel scriptModel;
-
-
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference storageReference = storage.getReferenceFromUrl("gs://project-75936.appspot.com");
-    StorageReference pathReference = storageReference.child("photos/default_1.png");
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_more);
-
-        adapter = new PostAdapter(this, arrayList);
-
-
-
-        recyclerView = findViewById(R.id.recycler_view);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        database = FirebaseDatabase.getInstance();
-        mbase = FirebaseDatabase.getInstance().getReference("Buy").child("0000");
-        scriptModel = new ScriptModel()
-        arrayList.add()
-
-        FirebaseRecyclerOptions<ScriptModel> options = new FirebaseRecyclerOptions.Builder<ScriptModel>().setQuery(mbase, ScriptModel.class).build();
-
-        //recyclerView.setAdapter(adapter);
-    }
-
-
-}*/
 
 import android.os.Bundle;
 import android.widget.ListView;
@@ -69,8 +9,24 @@ import model.BuyModel;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+<<<<<<< HEAD
+import java.util.List;
+
+import model.ShareModel;
+import model.UserModel;
+
+import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
+
+public class ViewMoreActivity extends AppCompatActivity {
+
+    private ArrayList<ListRowItem> items;
+    private DatabaseReference share = FirebaseDatabase.getInstance().getReference().child("Share");
+    private DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("Users");
+    private ViewMoreAdapter viewMoreAdapter;
+=======
 
 public class ViewMoreActivity extends AppCompatActivity {
 
@@ -78,6 +34,7 @@ public class ViewMoreActivity extends AppCompatActivity {
 
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Buy");
 
+>>>>>>> 28885f4ecf6077734b2ae3d2373007f8e914760b
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,10 +42,45 @@ public class ViewMoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_more);
         items = new ArrayList<>();
 
-        items.add(new )
+<<<<<<< HEAD
+        viewMoreAdapter = new ViewMoreAdapter(this, R.layout.list_row, items);
 
 
-        ViewMoreAdapter viewMoreAdapter = new ViewMoreAdapter(this, R.layout.list_row, items);
+        users.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot userDataSnapshot) {
+
+                share.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot Share : dataSnapshot.getChildren()){
+                            ShareModel shareModel = Share.getValue(ShareModel.class);
+
+                            UserModel userModel = userDataSnapshot.child(shareModel.host).getValue(UserModel.class);
+                            ListRowItem listRowItem = new ListRowItem(userModel.imgURL, shareModel.title, shareModel.description);
+                            items.add(listRowItem);
+
+                        }
+                        viewMoreAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+=======
+    //    items.add(new )
+>>>>>>> 28885f4ecf6077734b2ae3d2373007f8e914760b
+
+
         ListView lv = findViewById(R.id.list_item);
         lv.setAdapter(viewMoreAdapter);
 

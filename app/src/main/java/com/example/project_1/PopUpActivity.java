@@ -90,7 +90,6 @@ public class PopUpActivity extends Activity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
                         uid = shareModel.host;
-                        chatlistModel.receiver = uid;
                     }
 
                     @Override
@@ -98,12 +97,12 @@ public class PopUpActivity extends Activity {
 
                     }
                 });
-
+                chatlistModel.receiver = uid;
                 FirebaseDatabase.getInstance().getReference().child("Chatlist").push().setValue(chatlistModel);
 
                 //채팅방 클릭 시 이동
                 Intent intent = new Intent(PopUpActivity.this, MessageActivity.class);
-                intent.putExtra("userid", "hihi");
+                intent.putExtra("userid", uid);
                 startActivity(intent);
             }
         });

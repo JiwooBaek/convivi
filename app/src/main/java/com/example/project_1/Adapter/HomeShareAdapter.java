@@ -8,6 +8,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+<<<<<<< HEAD
+import com.example.project_1.HomeFragment;
+=======
+>>>>>>> 28885f4ecf6077734b2ae3d2373007f8e914760b
 import com.example.project_1.HomeShareItem;
 import com.example.project_1.PopUpActivity;
 import com.example.project_1.R;

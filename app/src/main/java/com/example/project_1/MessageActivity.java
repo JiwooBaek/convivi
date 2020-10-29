@@ -99,7 +99,7 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
         //시험으로 추가해보는 중
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
