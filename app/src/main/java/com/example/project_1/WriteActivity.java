@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 
 import androidx.appcompat.app.AppCompatActivity;
 import model.BuyModel;
+import model.ShareModel;
 
 import android.os.Bundle;
 
 import android.view.View;
 
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -56,10 +58,26 @@ public class WriteActivity extends AppCompatActivity {
         btn_save = findViewById(R.id.btn_save);
         category = (Spinner) findViewById(R.id.category);
 
-//        category.setOnItemSelectedListener();
+//        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                    if(position == 0) {
+//
+//                    } else if(position == 1) {
+//
+//                    } else {
+//
+//                    }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
 
-        autoNum = FirebaseDatabase.getInstance().getReference().child("Buy");
+        autoNum = FirebaseDatabase.getInstance().getReference().child("Share");
         autoNum.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -74,21 +92,21 @@ public class WriteActivity extends AppCompatActivity {
             }
         });
 
-        firebaseUser.reload();
+//        firebaseUser.reload();
 
         btn_save.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 uid = firebaseAuth.getCurrentUser().getUid();
-                BuyModel buyModel = new BuyModel();
-                FirebaseDatabase.getInstance().getReference().child("Buy").child(uid).setValue(buyModel);
+                ShareModel shareModel = new ShareModel();
+                FirebaseDatabase.getInstance().getReference().child("Share").child(uid).setValue(shareModel);
 
-                buyModel.idNum = Long.toString(maxNum + 1);
-                buyModel.title = et_title.getText().toString();
-                buyModel.host = uid;
-                buyModel.description = et_description.getText().toString();
-                autoNum.child(String.valueOf(maxNum + 1)).setValue(buyModel);
+                shareModel.idNum = Long.toString(maxNum + 1);
+                shareModel.title = et_title.getText().toString();
+                shareModel.host = uid;
+                shareModel.description = et_description.getText().toString();
+                autoNum.child(String.valueOf(maxNum + 1)).setValue(shareModel);
 
                 finish();
             }

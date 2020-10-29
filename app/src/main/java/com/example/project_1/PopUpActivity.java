@@ -47,7 +47,7 @@ public class PopUpActivity extends Activity {
 
         //데이터 가져오기
         Intent intent = getIntent();
-        idNum = Long.toString(intent.getLongExtra("idNum", 0));
+        idNum = intent.getStringExtra("idNum");
 
         //데이터 설정하기
         database.getInstance().getReference("Share").child(idNum).addListenerForSingleValueEvent(new ValueEventListener() {

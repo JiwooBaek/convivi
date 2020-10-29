@@ -41,7 +41,7 @@ public class HomeShareAdapter extends RecyclerView.Adapter<HomeShareAdapter.View
                 .load(arrayList.get(position).getProfile())
                 .into(holder.profile);
 
-        long idNum = arrayList.get(position).getIdNum();
+        String idNum = arrayList.get(position).getIdNum();
 
         holder.title.setText(arrayList.get(position).getTitle());
         holder.adress.setText(arrayList.get(position).getAdress());
