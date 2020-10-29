@@ -1,17 +1,38 @@
 package com.example.project_1;
 
+<<<<<<< HEAD
+=======
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+>>>>>>> 2bbd814ddc400a098469c031a300c7bed51e7634
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
+<<<<<<< HEAD
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+=======
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseError;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.core.view.View;
+>>>>>>> 2bbd814ddc400a098469c031a300c7bed51e7634
 
 import java.io.File;
 
@@ -25,6 +46,9 @@ public class WriteActivity extends AppCompatActivity {
     EditText et_description;
     Button btn_exit;
     Button btn_save;
+    DatabaseReference autoNum;
+    long maxNum = 0;
+
 
     /*
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -33,7 +57,7 @@ public class WriteActivity extends AppCompatActivity {
 */
 
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
 
@@ -45,11 +69,28 @@ public class WriteActivity extends AppCompatActivity {
         btn_exit = findViewById(R.id.btn_exit);
         btn_save = findViewById(R.id.btn_save);
 
+<<<<<<< HEAD
         Integer defaultImage = R.drawable.default_1;
 //        FirebaseUser user = firebaseAuth.getCurrentUser();
 //        if (user != null) {
 //            uid = user.getUid();
 //        }
+=======
+        autoNum = FirebaseDatabase.getInstance().getReference().child("Buy");
+        autoNum.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    maxNum = dataSnapshot.getChildrenCount();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+>>>>>>> 2bbd814ddc400a098469c031a300c7bed51e7634
 
         firebaseUser = firebaseAuth.getCurrentUser();
         firebaseUser.reload();
@@ -58,6 +99,7 @@ public class WriteActivity extends AppCompatActivity {
             @Override
             public void onClick(android.view.View v) {
 
+<<<<<<< HEAD
                 uid = firebaseAuth.getCurrentUser().getUid();
                 ScriptModel scriptModel = new ScriptModel(
                         et_title.getText().toString(),
@@ -75,11 +117,20 @@ public class WriteActivity extends AppCompatActivity {
                  FirebaseDatabase.getInstance().getReference().child("Buy").child(uid).setValue(scriptModel);
                  finish();
 
+=======
+                scriptModel.idNum = (maxNum + 1);
+                scriptModel.title = et_title.getText().toString();
+                scriptModel.host = uid;
+                scriptModel.description = et_description.getText().toString();
+                scriptModel.imgld = R.drawable.default_1;
+                autoNum.child(String.valueOf(maxNum + 1)).setValue(scriptModel);
+
+                finish();
+>>>>>>> 2bbd814ddc400a098469c031a300c7bed51e7634
             }
         });
-
     }
-
+}
 //    public void clickSave(View view){
 //
 //        scriptModel.title = et_title.getText().toString();
@@ -92,8 +143,6 @@ public class WriteActivity extends AppCompatActivity {
 //    }
 //
 
-
-}
 
 
 

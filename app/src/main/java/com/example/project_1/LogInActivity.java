@@ -21,6 +21,7 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,8 +40,8 @@ import model.UserModel;
 
 public class LogInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
-    private EditText id;
-    private EditText password;
+    private TextInputEditText id;
+    private TextInputEditText password;
     private FirebaseAuth firebaseAuth;
     private GoogleApiClient mGoogleApiClient;
     SignInButton signIn_google;
@@ -74,8 +75,8 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
-        id = (EditText) findViewById(R.id.userId);
-        password = (EditText) findViewById(R.id.userPassword);
+        id = (TextInputEditText) findViewById(R.id.userId);
+        password = (TextInputEditText) findViewById(R.id.userPassword);
 
         Button login = (Button) findViewById(R.id.logIn);
         login.setOnClickListener(new View.OnClickListener() {

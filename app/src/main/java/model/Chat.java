@@ -1,4 +1,4 @@
-package com.example.project_1.Model;
+package model;
 
 public class Chat {
     private String sender;

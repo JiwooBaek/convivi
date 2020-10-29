@@ -1,5 +1,7 @@
 package com.example.project_1.Adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1.HomeBuyItem;
+import com.example.project_1.PopUpActivity;
 import com.example.project_1.R;
 
 import org.w3c.dom.Text;
@@ -19,6 +22,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class HomeBuyAdater extends RecyclerView.Adapter<HomeBuyAdater.ViewHolder> {
+
     ArrayList<HomeBuyItem> arrayList;
 
     public HomeBuyAdater(ArrayList<HomeBuyItem> arrayList) {
@@ -36,6 +40,9 @@ public class HomeBuyAdater extends RecyclerView.Adapter<HomeBuyAdater.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        String titleStr = arrayList.get(position).getTitle();
+        String addressStr = arrayList.get(position).getAdress();
+
         holder.profile.setImageResource(arrayList.get(position).getProfile());
         holder.title.setText(arrayList.get(position).getTitle());
         holder.adress.setText(arrayList.get(position).getAdress());
@@ -46,7 +53,14 @@ public class HomeBuyAdater extends RecyclerView.Adapter<HomeBuyAdater.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), PopUpActivity.class);
+
+                intent.putExtra("address", addressStr);
+                intent.putExtra("title", titleStr);
+
                 Toast.makeText(v.getContext(), "팝업창 띄우기", Toast.LENGTH_SHORT).show();
+                v.getContext().startActivity(intent);
+
             }
         });
     }
