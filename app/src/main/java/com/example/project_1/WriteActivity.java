@@ -1,23 +1,19 @@
 package com.example.project_1;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.core.view.View;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
-
-import model.ScriptModel;
+import java.io.File;
 
 public class WriteActivity extends AppCompatActivity {
 
@@ -30,6 +26,11 @@ public class WriteActivity extends AppCompatActivity {
     Button btn_exit;
     Button btn_save;
 
+    /*
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageReference = storage.getReferenceFromUrl("gs://project-75936.appspot.com");
+    StorageReference pathReference = storageReference.child("photos/default_1.png");
+*/
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class WriteActivity extends AppCompatActivity {
         btn_exit = findViewById(R.id.btn_exit);
         btn_save = findViewById(R.id.btn_save);
 
+        Integer defaultImage = R.drawable.default_1;
 //        FirebaseUser user = firebaseAuth.getCurrentUser();
 //        if (user != null) {
 //            uid = user.getUid();
@@ -55,23 +57,23 @@ public class WriteActivity extends AppCompatActivity {
         btn_save.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View v) {
-                ScriptModel scriptModel = new ScriptModel();
+
                 uid = firebaseAuth.getCurrentUser().getUid();
-
+                ScriptModel scriptModel = new ScriptModel(
+                        et_title.getText().toString(),
+                        et_description.getText().toString(),
+                        uid,
+                        defaultImage
+                );
                 scriptModel.title = et_title.getText().toString();
-                scriptModel.description = et_description.getText().toString();
-                scriptModel.imgld = R.drawable.default_1;
+                scriptModel.description =
+                scriptModel.host = uid;
+              //  scriptModel.image = pathReference.getPath();
 
 
-<<<<<<< HEAD
-                FirebaseDatabase.getInstance().getReference().child("").child(uid).setValue(scriptModel);
-=======
+              //  FirebaseDatabase.getInstance().getReference().child("").child(uid).setValue(scriptModel);
                  FirebaseDatabase.getInstance().getReference().child("Buy").child(uid).setValue(scriptModel);
-<<<<<<< HEAD
                  finish();
-=======
->>>>>>> c6753f504159257d8aea6e59c9ec5be2833fd4fb
->>>>>>> 892f6b2a62fd221bef38b9264cfdd7c166797565
 
             }
         });
