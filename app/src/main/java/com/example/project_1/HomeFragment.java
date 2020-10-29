@@ -1,16 +1,13 @@
 package com.example.project_1;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.service.autofill.UserData;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.project_1.Adapter.HomeBuyAdater;
+import com.example.project_1.Adapter.HomeBuyAdapter;
 import com.example.project_1.Adapter.HomeShareAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +30,7 @@ import model.UserModel;
 public class HomeFragment extends Fragment {
     //HomeBuy RecyclerView 관련 변수
     private ArrayList<HomeBuyItem> buyList;
-    private HomeBuyAdater homeBuyAdater;
+    private HomeBuyAdapter homeBuyAdapter;
     private RecyclerView homeBuyRecyclerView;
     private LinearLayoutManager buyLayoutManager;
     private HomeListDecoration homeListDecoration;
@@ -60,14 +57,14 @@ public class HomeFragment extends Fragment {
         buyLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         homeBuyRecyclerView.setLayoutManager(buyLayoutManager);
         buyList = new ArrayList<>();
-        homeBuyAdater = new HomeBuyAdater(buyList);
+        homeBuyAdapter = new HomeBuyAdapter(buyList);
 
         buyLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         homeBuyRecyclerView.setLayoutManager(buyLayoutManager);
         buyList = new ArrayList<>();
-        homeBuyAdater = new HomeBuyAdater(buyList);
+        homeBuyAdapter = new HomeBuyAdapter(buyList);
 
-        homeBuyRecyclerView.setAdapter(homeBuyAdater);
+        homeBuyRecyclerView.setAdapter(homeBuyAdapter);
         homeListDecoration = new HomeListDecoration();
         homeBuyRecyclerView.addItemDecoration(homeListDecoration);
 
@@ -77,7 +74,7 @@ public class HomeFragment extends Fragment {
         buyList.add(homeBuyItem);
         buyList.add(homeBuyItem);
         buyList.add(homeBuyItem);
-        homeBuyAdater.notifyDataSetChanged();
+        homeBuyAdapter.notifyDataSetChanged();
 
         //HomeShareRecyclerView
         homeShareRecyclerView = (RecyclerView) view.findViewById(R.id.share_listView);

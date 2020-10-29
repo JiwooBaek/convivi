@@ -1,38 +1,35 @@
 package com.example.project_1;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import model.BuyModel;
 
 import android.os.Bundle;
+
 import android.view.View;
+
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseError;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
+
+
+import java.io.File;
+
+import java.util.ArrayList;
 
 public class WriteActivity extends AppCompatActivity {
 
@@ -42,17 +39,12 @@ public class WriteActivity extends AppCompatActivity {
     String uid;
     EditText et_title;
     EditText et_description;
+    Spinner category;
     Button btn_exit;
     Button btn_save;
     DatabaseReference autoNum;
     long maxNum = 0;
 
-
-    /*
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference storageReference = storage.getReferenceFromUrl("gs://project-75936.appspot.com");
-    StorageReference pathReference = storageReference.child("photos/default_1.png");
-*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +55,10 @@ public class WriteActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         et_title = findViewById(R.id.write_title);
-        et_description = findViewById(R.id.et_description);
+        et_description = findViewById(R.id.description);
         btn_exit = findViewById(R.id.back_button);
         btn_save = findViewById(R.id.btn_save);
+        category = (Spinner) findViewById(R.id.category);
 
 
         Integer defaultImage = R.drawable.default_1;
@@ -73,6 +66,8 @@ public class WriteActivity extends AppCompatActivity {
 //        if (user != null) {
 //            uid = user.getUid();
 //        }
+//        category.setOnItemSelectedListener();
+
 
         autoNum = FirebaseDatabase.getInstance().getReference().child("Buy");
         autoNum.addValueEventListener(new ValueEventListener() {
@@ -89,7 +84,6 @@ public class WriteActivity extends AppCompatActivity {
             }
         });
 
-        firebaseUser = firebaseAuth.getCurrentUser();
         firebaseUser.reload();
 
         btn_save.setOnClickListener(new android.view.View.OnClickListener() {

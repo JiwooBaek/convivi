@@ -30,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_weight="1"
         android:layout_marginTop="10dp">
 
         <!-- 글 제목-->
@@ -39,32 +40,39 @@
             android:layout_height="60dp"
             android:hint="제목을 입력하세요." />
 
-        <!--이미지 추가 레이아웃-->
-        <LinearLayout
+<!--        이미지 추가 레이아웃-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <ImageView-->
+<!--                android:layout_width="50px"-->
+<!--                android:layout_height="50px"-->
+<!--                android:src="@drawable/write_add_image"/>-->
+<!--        </LinearLayout>-->
+
+
+<!--        <Button-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="장소 선택하기"-->
+<!--            android:gravity="right"-->
+<!--            android:layout_weight="1"-->
+<!--            android:textSize="10pt"-->
+<!--            android:background="#00000000"/>-->
+        <Spinner
+            android:id="@+id/category"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="50px"
-                android:layout_height="50px"
-                android:src="@drawable/write_add_image"/>
-        </LinearLayout>
-
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="장소 선택하기"
-            android:gravity="right"
-            android:layout_weight="1"
-            android:textSize="10pt"
-            android:background="#00000000"/>
+            android:layout_height="40dp"
+            android:entries="@array/WritingCategory">
+        </Spinner>
 
         <EditText
-            android:id="@+id/et_description"
+            android:id="@+id/description"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:hint="글을 입력하세요." />
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:hint="글을 입력해주세요." />
 
         <Button
             android:id="@+id/btn_save"
