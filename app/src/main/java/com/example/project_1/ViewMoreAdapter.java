@@ -1,4 +1,4 @@
-//package com.example.project_1;
+package com.example.project_1;
 //
 //import android.view.LayoutInflater;
 //import android.view.ViewGroup;
@@ -64,3 +64,60 @@
 //        return mDataset.length;
 //    }
 //}
+
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+public class ViewMoreAdapter extends BaseAdapter {
+    Context context;
+    int layout;
+    ArrayList<ScriptModel> arrayList;
+    public ViewMoreAdapter(Context context, int layout, ArrayList<ScriptModel> arrayList) {
+        this.context = context;
+        this.layout = layout;
+        this.arrayList = arrayList;
+    }
+
+    @Override
+    public int getCount() {
+        return arrayList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return arrayList.get(position).title;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+
+
+    @Override
+    public View getView(int position, View view, ViewGroup parent) {
+        final int pos = position;
+        if (view == null)
+            view = View.inflate(context, layout, null);
+
+
+        TextView title = view.findViewById(R.id.text_title);
+        title.setText(arrayList.get(pos).title);
+        TextView description = view.findViewById(R.id.text_description);
+        description.setText(arrayList.get(pos).description);
+        TextView imageView = view.findViewById(R.id.img_flag);
+        imageView.setText(arrayList.get(pos).image);
+
+
+
+
+        return view;
+    }
+}
+
