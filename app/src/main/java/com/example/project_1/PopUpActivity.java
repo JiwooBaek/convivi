@@ -20,16 +20,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.WindowDecorActionBar;
 import model.ShareModel;
 
-<<<<<<< HEAD
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import model.ChatlistModel;
 
-public class PopUpActivity extends AppCompatActivity {
-=======
 public class PopUpActivity extends Activity {
->>>>>>> 2f8214b8327f9b10f6e583b31b30da485ee7d40c
 
     TextView titleView;
     TextView addressView;
@@ -88,7 +84,21 @@ public class PopUpActivity extends Activity {
                 //채팅방 데베에 생성
                 ChatlistModel chatlistModel = new ChatlistModel();
                 chatlistModel.sender = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                chatlistModel.receiver = "hihi";
+
+                database.getInstance().getReference("Share").child(idNum).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
+                        uid = shareModel.host;
+                        chatlistModel.receiver = uid;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
                 FirebaseDatabase.getInstance().getReference().child("Chatlist").push().setValue(chatlistModel);
 
                 //채팅방 클릭 시 이동
