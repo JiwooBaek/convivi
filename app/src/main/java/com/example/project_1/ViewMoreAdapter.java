@@ -73,11 +73,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import model.BuyModel;
+
 public class ViewMoreAdapter extends BaseAdapter {
     Context context;
     int layout;
-    ArrayList<ScriptModel> arrayList;
-    public ViewMoreAdapter(Context context, int layout, ArrayList<ScriptModel> arrayList) {
+    ArrayList<BuyModel> arrayList;
+    public ViewMoreAdapter(Context context, int layout, ArrayList<BuyModel> arrayList) {
         this.context = context;
         this.layout = layout;
         this.arrayList = arrayList;
