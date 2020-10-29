@@ -1,38 +1,27 @@
 package com.example.project_1.Adapter;
 
-import android.content.Context;
-
 import android.content.Intent;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuView;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.annotation.GlideModule;
-import com.example.project_1.HomeFragment;
 import com.example.project_1.HomeShareItem;
-import com.example.project_1.MainActivity;
 import com.example.project_1.PopUpActivity;
 import com.example.project_1.R;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeShareAdapter extends RecyclerView.Adapter<HomeShareAdapter.Viewhloder> {
-    Context context;
     ArrayList<HomeShareItem> arrayList;
 
-    public HomeShareAdapter(Context context, ArrayList<HomeShareItem> arrayList) {
-        this.context = context;
+    public HomeShareAdapter(ArrayList<HomeShareItem> arrayList) {
         this.arrayList = arrayList;
     }
 
@@ -51,23 +40,21 @@ public class HomeShareAdapter extends RecyclerView.Adapter<HomeShareAdapter.View
                 .load(arrayList.get(position).getProfile())
                 .into(holder.profile);
 
+        long idNum = arrayList.get(position).getIdNum();
+
         holder.title.setText(arrayList.get(position).getTitle());
         holder.adress.setText(arrayList.get(position).getAdress());
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, PopUpActivity.class);
+                Intent intent = new Intent(v.getContext(), PopUpActivity.class);
 
-                String titleStr = arrayList.get(position).getTitle();
-                String addressStr = holder.adress.getText().toString();
-
-                intent.putExtra("address", addressStr);
-                intent.putExtra("title", titleStr);
+                intent.putExtra("idNum", idNum);
 
                 Toast.makeText(v.getContext(), "팝업창 띄우기", Toast.LENGTH_SHORT).show();
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                v.getContext().startActivity(intent);
             }
         });
     }
