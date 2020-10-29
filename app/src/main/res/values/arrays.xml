@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="WritingCategory">
+        <item>구매</item>
+        <item>나눔</item>
+    </string-array>
+</resources>

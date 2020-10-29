@@ -42,10 +42,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyHolder> {
         final String title = buyModellist.get(i).title;
         final String description = buyModellist.get(i).description;
         final String host = buyModellist.get(i).host;
-        final Integer image = buyModellist.get(i).image;
 
 
-        Log.d(host, " " + title+" "+ description+" " + image +" ");
+        Log.d(host, " " + title+" "+ description+" ");
         if(host!=null) {
 
             myHolder.title.setText(title);
