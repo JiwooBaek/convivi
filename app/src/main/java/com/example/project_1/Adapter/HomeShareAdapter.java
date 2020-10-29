@@ -16,7 +16,6 @@ import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.annotation.GlideModule;
 import com.example.project_1.HomeFragment;
 import com.example.project_1.HomeShareItem;
 import com.example.project_1.MainActivity;
