@@ -20,6 +20,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.WindowDecorActionBar;
 import model.ShareModel;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+
+import model.ChatlistModel;
+
 public class PopUpActivity extends Activity {
 
     TextView titleView;
@@ -76,6 +81,27 @@ public class PopUpActivity extends Activity {
         openChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //채팅방 데베에 생성
+                ChatlistModel chatlistModel = new ChatlistModel();
+                chatlistModel.sender = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                database.getInstance().getReference("Share").child(idNum).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
+                        uid = shareModel.host;
+                        chatlistModel.receiver = uid;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                FirebaseDatabase.getInstance().getReference().child("Chatlist").push().setValue(chatlistModel);
+
+                //채팅방 클릭 시 이동
                 Intent intent = new Intent(PopUpActivity.this, MessageActivity.class);
                 intent.putExtra("userid", "hihi");
                 startActivity(intent);
