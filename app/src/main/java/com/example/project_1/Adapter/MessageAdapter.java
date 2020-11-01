@@ -11,7 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import model.Chat;
+import model.ChatModel;
+
 import com.example.project_1.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,12 +25,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public static final int MSG_TYPE_RIGHT = 1;
 
     private Context mContext;
-    private List<Chat> mChat;
+    //private List<Chat> mChat;
+    private List<ChatModel.Comment> mChat;
     private String imageurl;
 
     FirebaseUser fuser;
 
-    public MessageAdapter(Context mContext, List<Chat> mChat, String imageurl) {
+    public MessageAdapter(Context mContext, List<ChatModel.Comment> mChat, String imageurl) {
         this.mChat = mChat;
         this.mContext = mContext;
         this.imageurl = imageurl;
@@ -50,15 +52,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
 
-        Chat chat = mChat.get(position);
+        //Chat chat = mChat.get(position);
+        ChatModel.Comment comment = mChat.get(position);
+        //아래 문장도 클래스 바뀌어서 바뀜
+        holder.show_message.setText(comment.message);
 
-        holder.show_message.setText(chat.getMessage());
-
-        if(imageurl.equals("default")) {
+        holder.profile_image.setImageResource(R.mipmap.ic_launcher);
+       /* if(imageurl.equals("default")) {
             holder.profile_image.setImageResource(R.mipmap.ic_launcher);
         } else {
             Glide.with(mContext).load(imageurl).into(holder.profile_image);
-        }
+        }*/
 
     }
 
@@ -82,7 +86,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public int getItemViewType(int position) {
         //메시지가 누구껀지 누가 보낸건지 내가 보낸거면 오른쪽 아니면 왼쪽 배치
         fuser = FirebaseAuth.getInstance().getCurrentUser();
-        if (mChat.get(position).getSender().equals(fuser.getUid())) {
+
+        //if문 안도 바뀜
+        if (mChat.get(position).uid.equals(fuser.getUid())) {
             return MSG_TYPE_RIGHT;
         } else {
             return MSG_TYPE_LEFT;

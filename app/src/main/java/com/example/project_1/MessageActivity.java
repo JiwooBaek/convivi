@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 //import com.bumptech.glide.Glide;
 import com.example.project_1.Adapter.MessageAdapter;
-import model.Chat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,10 +26,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import model.ChatModel;
 import model.UserModel;
 
 public class MessageActivity extends AppCompatActivity {
@@ -45,7 +44,8 @@ public class MessageActivity extends AppCompatActivity {
     EditText text_send;
 
     MessageAdapter messageAdapter;
-    List<Chat> mchat;
+    //List<Chat> mchat;
+    List<ChatModel.Comment> mchat;
 
     RecyclerView recyclerView;
 
@@ -80,6 +80,7 @@ public class MessageActivity extends AppCompatActivity {
 
         intent = getIntent();
         final String userid = intent.getStringExtra("userid");
+        final String chatid = intent.getStringExtra("chatid");
         //putExtra 받아오기
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -89,7 +90,7 @@ public class MessageActivity extends AppCompatActivity {
                 String msg = text_send.getText().toString();
                 //msg가 비어있지 않으면 Uid 보내고
                 if (!msg.equals("")) {
-                    sendMessage(fuser.getUid(), userid, msg);
+                    sendMessage(fuser.getUid(), chatid, msg);
                 } else {
                     Toast.makeText(MessageActivity.this, "You can't send empty message", Toast.LENGTH_SHORT).show();
                 }
@@ -105,10 +106,15 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserModel user = dataSnapshot.getValue(UserModel.class);
                 username.setText(user.name);
-                //이 부분 나중에 고쳐야 함
+                /*이 부분 나중에 고쳐야 함
+                * if (user.getImageURL().equals("default")) {
+                    profile_image.setImageResource(R.mipmap.ic_launcher);
+                } else {
+//                    Glide.with(MessageActivity.this).load(user.getImageURL()).into(profile_image);
+                }*/
                 profile_image.setImageResource(R.mipmap.ic_launcher);
 
-                readMessages(fuser.getUid(), userid, "default");
+                readMessages(chatid, "default");
             }
 
             @Override
@@ -140,19 +146,24 @@ public class MessageActivity extends AppCompatActivity {
         });*/
     }
 
-    private void sendMessage(String sender, String receiver, String message) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+    private void sendMessage(String myId, String chatid, String message) {
+        /*시도 해보는 중 1
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("receiver", receiver);
         hashMap.put("message", message);
+        */
 
-        reference.child("Chats").push().setValue(hashMap);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        ChatModel.Comment chatModel = new ChatModel.Comment();
+        chatModel.uid = myId;
+        chatModel.message = message;
+        reference.child("Chatlist").child(chatid).child("comments").push().setValue(chatModel);
     }
 
-    private void readMessages(final String myid, final String userid, final String imageurl) {
+    private void readMessages(final String chatid, final String imageurl) {
         mchat = new ArrayList<>();
-
+        /*시도 해보는 중 2
         reference = FirebaseDatabase.getInstance().getReference("Chats");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -161,7 +172,6 @@ public class MessageActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Chat chat = snapshot.getValue(Chat.class);
 
-                    //이거 때문에 추가가 안되는 중.
                     if (chat.getReceiver().equals(myid) && chat.getSender().equals(userid) || chat.getReceiver().equals(userid) && chat.getSender().equals(myid)) {
                         mchat.add(chat);
                     }
@@ -175,6 +185,26 @@ public class MessageActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+        });*/
+        reference = FirebaseDatabase.getInstance().getReference().child("Chatlist").child(chatid).child("comments");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mchat.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    ChatModel.Comment comment = snapshot.getValue(ChatModel.Comment.class);
+
+                    mchat.add(comment);
+                    messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageurl);
+                    recyclerView.setAdapter(messageAdapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
         });
+
     }
 }
