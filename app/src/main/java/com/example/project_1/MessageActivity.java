@@ -89,7 +89,6 @@ public class MessageActivity extends AppCompatActivity {
                 String msg = text_send.getText().toString();
                 //msg가 비어있지 않으면 Uid 보내고
                 if (!msg.equals("")) {
-                    //sender receiver message.
                     sendMessage(fuser.getUid(), userid, msg);
                 } else {
                     Toast.makeText(MessageActivity.this, "You can't send empty message", Toast.LENGTH_SHORT).show();

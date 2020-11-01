@@ -16,14 +16,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.WindowDecorActionBar;
+
+import model.ChatModel;
 import model.ShareModel;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-
-import model.ChatlistModel;
 
 public class PopUpActivity extends Activity {
 
@@ -32,6 +29,7 @@ public class PopUpActivity extends Activity {
     TextView descriptionView;
     String idNum;
     String uid;
+    String userUid;
     private FirebaseDatabase database;
 
     @Override
@@ -76,15 +74,16 @@ public class PopUpActivity extends Activity {
 
         Button openChat;
         openChat = (Button) findViewById(R.id.chat_button);
+        userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // 채팅방 버튼 클릭시 이동
         openChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //채팅방 데베에 생성
-                ChatlistModel chatlistModel = new ChatlistModel();
-                chatlistModel.sender = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
+                ChatModel chatModel = new ChatModel();
+                chatModel.host = uid;
+                chatModel.roomNumber = idNum;
                 database.getInstance().getReference("Share").child(idNum).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -97,8 +96,9 @@ public class PopUpActivity extends Activity {
 
                     }
                 });
-                chatlistModel.receiver = uid;
-                FirebaseDatabase.getInstance().getReference().child("Chatlist").push().setValue(chatlistModel);
+                chatModel.users.put(userUid, true);
+                chatModel.users.put(uid, true);
+                FirebaseDatabase.getInstance().getReference().child("Chatlist").push().setValue(chatModel);
 
                 //채팅방 클릭 시 이동
                 Intent intent = new Intent(PopUpActivity.this, MessageActivity.class);
