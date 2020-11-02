@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +33,7 @@ public class WriteActivity extends AppCompatActivity {
     Spinner category;
     Button btn_exit;
     Button btn_save;
+    NumberPicker targetNum;
     DatabaseReference ref_share;
     DatabaseReference ref_buy;
     long shareMaxNum;
@@ -52,6 +54,13 @@ public class WriteActivity extends AppCompatActivity {
         btn_exit = findViewById(R.id.back_button);
         btn_save = findViewById(R.id.btn_save);
         category = (Spinner) findViewById(R.id.category);
+        targetNum = (NumberPicker) findViewById(R.id.targetNoP);
+
+        // 목표인원수 제한 설정 및 설정값 가져오기
+        targetNum.setMinValue(1);
+        targetNum.setMaxValue(6);
+
+
 
         //'나눔' 게시글 자동번호 생성
         ref_share = FirebaseDatabase.getInstance().getReference().child("Share");
@@ -90,6 +99,7 @@ public class WriteActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //'나눔' 선택시
                 if(position == 1) {
+                    targetNum.setEnabled(false);
                     btn_save.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -109,6 +119,7 @@ public class WriteActivity extends AppCompatActivity {
 
                 //'구매' 선택시
                 } else {
+                    targetNum.setEnabled(true);
                     btn_save.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -121,7 +132,7 @@ public class WriteActivity extends AppCompatActivity {
                             buyModel.host = uid;
                             buyModel.description = et_description.getText().toString();
                             buyModel.currentNOP = 0;
-                            buyModel.targetNOP = 0;
+                            buyModel.targetNOP = targetNum.getValue();
                             ref_buy.child(String.valueOf(buyMaxNum + 1)).setValue(buyModel);
 
                             finish();

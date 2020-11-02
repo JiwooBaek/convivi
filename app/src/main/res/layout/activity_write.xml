@@ -41,19 +41,45 @@
             android:layout_alignParentTop="true"
             android:hint="제목을 입력하세요." />
 
-        <Spinner
-            android:id="@+id/category"
+        <LinearLayout
+            android:id="@+id/pickerPanel"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/write_title"
-            android:entries="@array/WritingCategory">
-        </Spinner>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginVertical="5dp"
+            android:layout_below="@+id/write_title">
+
+            <Spinner
+                android:id="@+id/category"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="2"
+                android:entries="@array/WritingCategory">
+            </Spinner>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="목표인원"
+                android:textSize="18dp"/>
+
+            <NumberPicker
+                android:id="@+id/targetNoP"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_below="@+id/write_title"
+                android:layout_alignRight="@+id/category">
+            </NumberPicker>
+        </LinearLayout>
 
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/category"
+            android:layout_below="@+id/pickerPanel"
+            android:background="@null"
             android:hint="글을 입력해주세요." />
 
         <Button
