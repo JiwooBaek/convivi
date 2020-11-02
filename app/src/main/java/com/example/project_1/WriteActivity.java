@@ -23,17 +23,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.File;
-
-import java.io.File;
-
-import java.util.ArrayList;
-
 public class WriteActivity extends AppCompatActivity {
 
     //인스턴스 선언
     private FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
     String uid;
     EditText et_title;
     EditText et_description;
@@ -41,7 +34,9 @@ public class WriteActivity extends AppCompatActivity {
     Button btn_exit;
     Button btn_save;
     DatabaseReference autoNum;
-    long maxNum = 0;
+    long shareMaxNum = 0;
+    long buyMaxNum = 0;
+
 
 
     @Override
@@ -58,59 +53,122 @@ public class WriteActivity extends AppCompatActivity {
         btn_save = findViewById(R.id.btn_save);
         category = (Spinner) findViewById(R.id.category);
 
-//        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                    if(position == 0) {
-//
-//                    } else if(position == 1) {
-//
-//                    } else {
-//
-//                    }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-
-
-        autoNum = FirebaseDatabase.getInstance().getReference().child("Share");
-        autoNum.addValueEventListener(new ValueEventListener() {
+        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()) {
-                    maxNum = dataSnapshot.getChildrenCount();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //'나눔' 선택시
+                if(position == 1) {
+                    btn_save.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //'나눔' 게시글 자동번호 생성
+                            autoNum = FirebaseDatabase.getInstance().getReference().child("Share");
+                            autoNum.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()) {
+                                        shareMaxNum = dataSnapshot.getChildrenCount();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                            uid = firebaseAuth.getCurrentUser().getUid();
+                            ShareModel shareModel = new ShareModel();
+                            FirebaseDatabase.getInstance().getReference().child("Share").child(uid).setValue(shareModel);
+
+                            shareModel.idNum = Long.toString(shareMaxNum + 1);
+                            shareModel.title = et_title.getText().toString();
+                            shareModel.host = uid;
+                            shareModel.description = et_description.getText().toString();
+                            autoNum.child(String.valueOf(shareMaxNum + 1)).setValue(shareModel);
+
+                            finish();
+                        }
+                    });
+
+                //'구매' 선택시
+                } else {
+                    btn_save.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //'구매' 게시글 자동번호 생성
+                            autoNum = FirebaseDatabase.getInstance().getReference().child("Buy");
+                            autoNum.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()) {
+                                        buyMaxNum = dataSnapshot.getChildrenCount();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                            uid = firebaseAuth.getCurrentUser().getUid();
+                            BuyModel buyModel = new BuyModel();
+                            FirebaseDatabase.getInstance().getReference().child("Buy").child(uid).setValue(buyModel);
+
+                            buyModel.idNum = Long.toString(buyMaxNum + 1);
+                            buyModel.title = et_title.getText().toString();
+                            buyModel.host = uid;
+                            buyModel.description = et_description.getText().toString();
+                            autoNum.child(String.valueOf(buyMaxNum + 1)).setValue(buyModel);
+
+                            finish();
+
+                        }
+                    });
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+
+
+//        autoNum = FirebaseDatabase.getInstance().getReference().child("Share");
+//        autoNum.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if(dataSnapshot.exists()) {
+//                    shareMaxNum = dataSnapshot.getChildrenCount();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
 //        firebaseUser.reload();
 
-        btn_save.setOnClickListener(new android.view.View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                uid = firebaseAuth.getCurrentUser().getUid();
-                ShareModel shareModel = new ShareModel();
-                FirebaseDatabase.getInstance().getReference().child("Share").child(uid).setValue(shareModel);
-
-                shareModel.idNum = Long.toString(maxNum + 1);
-                shareModel.title = et_title.getText().toString();
-                shareModel.host = uid;
-                shareModel.description = et_description.getText().toString();
-                autoNum.child(String.valueOf(maxNum + 1)).setValue(shareModel);
-
-                finish();
-            }
-        });
+//        btn_save.setOnClickListener(new android.view.View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                uid = firebaseAuth.getCurrentUser().getUid();
+//                ShareModel shareModel = new ShareModel();
+//                FirebaseDatabase.getInstance().getReference().child("Share").child(uid).setValue(shareModel);
+//
+//                shareModel.idNum = Long.toString(shareMaxNum + 1);
+//                shareModel.title = et_title.getText().toString();
+//                shareModel.host = uid;
+//                shareModel.description = et_description.getText().toString();
+//                autoNum.child(String.valueOf(shareMaxNum + 1)).setValue(shareModel);
+//
+//                finish();
+//            }
+//        });
     }
 }
 //    public void clickSave(View view){
