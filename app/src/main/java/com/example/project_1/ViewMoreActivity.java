@@ -14,6 +14,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 import model.ShareModel;
 import model.UserModel;
 
@@ -44,7 +46,7 @@ public class ViewMoreActivity extends AppCompatActivity {
                             UserModel userModel = userDataSnapshot.child(shareModel.host).getValue(UserModel.class);
                             ListRowItem listRowItem = new ListRowItem(userModel.imgURL, shareModel.title, shareModel.description);
                             items.add(listRowItem);
-
+                            Collections.reverse(items); //역순으로 보여줌
                         }
                         viewMoreAdapter.notifyDataSetChanged();
                     }
@@ -62,6 +64,5 @@ public class ViewMoreActivity extends AppCompatActivity {
 
         ListView lv = findViewById(R.id.list_item);
         lv.setAdapter(viewMoreAdapter);
-
     }
 }
