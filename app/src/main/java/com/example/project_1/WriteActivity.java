@@ -13,35 +13,32 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.File;
-
-import java.io.File;
-
-import java.util.ArrayList;
-
 public class WriteActivity extends AppCompatActivity {
 
     //인스턴스 선언
     private FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
     String uid;
     EditText et_title;
     EditText et_description;
     Spinner category;
     Button btn_exit;
     Button btn_save;
-    DatabaseReference autoNum;
-    long maxNum = 0;
+    NumberPicker targetNum;
+    DatabaseReference ref_share;
+    DatabaseReference ref_buy;
+    long shareMaxNum;
+    long buyMaxNum;
+
 
 
     @Override
@@ -57,32 +54,36 @@ public class WriteActivity extends AppCompatActivity {
         btn_exit = findViewById(R.id.back_button);
         btn_save = findViewById(R.id.btn_save);
         category = (Spinner) findViewById(R.id.category);
+        targetNum = (NumberPicker) findViewById(R.id.targetNoP);
 
-//        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                    if(position == 0) {
-//
-//                    } else if(position == 1) {
-//
-//                    } else {
-//
-//                    }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+        // 목표인원수 제한 설정 및 설정값 가져오기
+        targetNum.setMinValue(1);
+        targetNum.setMaxValue(6);
 
 
-        autoNum = FirebaseDatabase.getInstance().getReference().child("Share");
-        autoNum.addValueEventListener(new ValueEventListener() {
+
+        //'나눔' 게시글 자동번호 생성
+        ref_share = FirebaseDatabase.getInstance().getReference().child("Share");
+        ref_share.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    maxNum = dataSnapshot.getChildrenCount();
+                    shareMaxNum = dataSnapshot.getChildrenCount();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //'구매' 게시글 자동번호 생성
+        ref_buy = FirebaseDatabase.getInstance().getReference().child("Buy");
+        ref_buy.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    buyMaxNum = dataSnapshot.getChildrenCount();
                 }
             }
 
@@ -92,142 +93,57 @@ public class WriteActivity extends AppCompatActivity {
             }
         });
 
-//        firebaseUser.reload();
-
-        btn_save.setOnClickListener(new android.view.View.OnClickListener() {
+        // 게시글 유형 선택시
+        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //'나눔' 선택시
+                if(position == 1) {
+                    targetNum.setEnabled(false);
+                    btn_save.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            uid = firebaseAuth.getCurrentUser().getUid();
+                            ShareModel shareModel = new ShareModel();
+                            FirebaseDatabase.getInstance().getReference().child("Share").child(uid).setValue(shareModel);
 
-                uid = firebaseAuth.getCurrentUser().getUid();
-                ShareModel shareModel = new ShareModel();
-                FirebaseDatabase.getInstance().getReference().child("Share").child(uid).setValue(shareModel);
+                            shareModel.idNum = Long.toString(shareMaxNum + 1);
+                            shareModel.title = et_title.getText().toString();
+                            shareModel.host = uid;
+                            shareModel.description = et_description.getText().toString();
+                            ref_share.child(String.valueOf(shareMaxNum + 1)).setValue(shareModel);
 
-                shareModel.idNum = Long.toString(maxNum + 1);
-                shareModel.title = et_title.getText().toString();
-                shareModel.host = uid;
-                shareModel.description = et_description.getText().toString();
-                autoNum.child(String.valueOf(maxNum + 1)).setValue(shareModel);
+                            finish();
+                        }
+                    });
 
-                finish();
+                //'구매' 선택시
+                } else {
+                    targetNum.setEnabled(true);
+                    btn_save.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            uid = firebaseAuth.getCurrentUser().getUid();
+                            BuyModel buyModel = new BuyModel();
+                            FirebaseDatabase.getInstance().getReference().child("Buy").child(uid).setValue(buyModel);
+
+                            buyModel.idNum = Long.toString(buyMaxNum + 1);
+                            buyModel.title = et_title.getText().toString();
+                            buyModel.host = uid;
+                            buyModel.description = et_description.getText().toString();
+                            buyModel.currentNOP = 0;
+                            buyModel.targetNOP = targetNum.getValue();
+                            ref_buy.child(String.valueOf(buyMaxNum + 1)).setValue(buyModel);
+
+                            finish();
+
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
     }
 }
-//    public void clickSave(View view){
-//
-//        scriptModel.title = et_title.getText().toString();
-//        scriptModel.description = et_description.getText().toString();
-//        scriptModel.imgld = R.drawable.default_1;
-//
-//
-//        FirebaseDatabase.getInstance().getReference().child("posts").child(uid).setValue(scriptModel);
-//
-//    }
-//
-
-
-
-
-/* package com.example.project_1;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.core.view.View;
-
-import java.util.ArrayList;
-
-import model.ScriptModel;
-
-public class WriteActivity extends AppCompatActivity {
-
-    //인스턴스 선언
-    private FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
-    String uid;
-    EditText et_title;
-    EditText et_description;
-    Button btn_exit;
-    Button btn_save;
-
-
-    @Override
-    protected void onCreate( Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_write);
-
-        //인스턴스 초기화
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        et_title = findViewById(R.id.et_title);
-        et_description = findViewById(R.id.et_description);
-        btn_exit = findViewById(R.id.btn_exit);
-        btn_save = findViewById(R.id.btn_save);
-
-//        FirebaseUser user = firebaseAuth.getCurrentUser();
-//        if (user != null) {
-//            uid = user.getUid();
-//        }
-
-        firebaseUser = firebaseAuth.getCurrentUser();
-        firebaseUser.reload();
-
-        btn_save.setOnClickListener(new android.view.View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View v) {
-                ScriptModel scriptModel = new ScriptModel();
-                uid = firebaseAuth.getCurrentUser().getUid();
-
-                scriptModel.title = et_title.getText().toString();
-                scriptModel.description = et_description.getText().toString();
-                scriptModel.imgld = R.drawable.default_1;
-
-
-                FirebaseDatabase.getInstance().getReference().child("Buy").child(uid).setValue(scriptModel);
-
-            }
-        });
-
-    }
-
-//    public void clickSave(View view){
-//
-//        scriptModel.title = et_title.getText().toString();
-//        scriptModel.description = et_description.getText().toString();
-//        scriptModel.imgld = R.drawable.default_1;
-//
-//
-//        FirebaseDatabase.getInstance().getReference().child("posts").child(uid).setValue(scriptModel);
-//
-//    }
-//
-
-
-}
-
-
-//    public void clickSave(View view){
-//
-//        scriptModel.title = et_title.getText().toString();
-//        scriptModel.description = et_description.getText().toString();
-//        scriptModel.imgld = R.drawable.default_1;
-//
-//
-//        FirebaseDatabase.getInstance().getReference().child("posts").child(uid).setValue(scriptModel);
-//
-//    }
-//
-
-
-
-*/

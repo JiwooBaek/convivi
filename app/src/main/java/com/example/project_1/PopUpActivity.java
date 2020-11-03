@@ -16,14 +16,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.WindowDecorActionBar;
+
+import model.ChatModel;
 import model.ShareModel;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-
-import model.ChatlistModel;
 
 public class PopUpActivity extends Activity {
 
@@ -32,7 +29,10 @@ public class PopUpActivity extends Activity {
     TextView descriptionView;
     String idNum;
     String uid;
+    String userUid;
     private FirebaseDatabase database;
+
+    String checkRoom = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,15 +76,16 @@ public class PopUpActivity extends Activity {
 
         Button openChat;
         openChat = (Button) findViewById(R.id.chat_button);
+        userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // 채팅방 버튼 클릭시 이동
         openChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //채팅방 데베에 생성
-                ChatlistModel chatlistModel = new ChatlistModel();
-                chatlistModel.sender = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
+                ChatModel chatModel = new ChatModel();
+                chatModel.host = uid;
+                chatModel.roomNumber = idNum;
                 database.getInstance().getReference("Share").child(idNum).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -97,17 +98,42 @@ public class PopUpActivity extends Activity {
 
                     }
                 });
-                chatlistModel.receiver = uid;
-                FirebaseDatabase.getInstance().getReference().child("Chatlist").push().setValue(chatlistModel);
+                chatModel.users.put(userUid, true);
+                chatModel.users.put(uid, true);
+
+                //checkChatRoom(idNum);
+                if(checkRoom == null) {
+                    FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).setValue(chatModel);
+                }
 
                 //채팅방 클릭 시 이동
                 Intent intent = new Intent(PopUpActivity.this, MessageActivity.class);
                 intent.putExtra("userid", uid);
+                intent.putExtra("chatid", idNum);
                 startActivity(intent);
             }
         });
 
     }
+    /*
+    void checkChatRoom(String chatid) {
+        FirebaseDatabase.getInstance().getReference().child("Chatlist").child(chatid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    ChatModel chatModel = snapshot.getValue(ChatModel.class);
+                    if(chatModel.roomNumber.equals(chatid)) {
+                        checkRoom = chatid;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }*/
 
     //바깥 레이어 클릭시 안닫히게
     @Override

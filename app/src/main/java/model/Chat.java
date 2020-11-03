@@ -1,4 +1,4 @@
-package model;
+/*package model;
 
 public class Chat {
     private String sender;
@@ -37,4 +37,4 @@ public class Chat {
     public void setMessage(String message) {
         this.message = message;
     }
-}
+}*/
