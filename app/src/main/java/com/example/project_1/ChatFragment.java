@@ -32,73 +32,48 @@ public class ChatFragment extends Fragment {
     private RecyclerView recyclerView;
 
 //    private List<UserModel> mUser;
-    private List<ChatModel> mChatList;
+
 
     FirebaseUser fuser;
     DatabaseReference reference;
 
-    private List<ChatModel> chatList;
-    private List<String> users;
+    private List<ChatModel> mChatList;
+    //private List<ChatModel> chatList;
+    private List<String> userList;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
 
-        recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        fuser = FirebaseAuth.getInstance().getCurrentUser();
-
-        reference = FirebaseDatabase.getInstance().getReference("Chatlist").child("5").child("users");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                chatList.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String user = (String) snapshot.getValue();
-                    if(user.equals(fuser)) {
-                       // mChatList.add();
-                    }
-                    users.add(user);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        /*
-        //Chat 목록 보여주기
         recyclerView = view.findViewById(R.id.list_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
+        String fuserid = fuser.getUid();
+
+        //chatList = new ArrayList<>();
         userList = new ArrayList<>();
+        mChatList = new ArrayList<>();
 
-        reference = FirebaseDatabase.getInstance().getReference("Chats");
-
+        reference = FirebaseDatabase.getInstance().getReference("Chatlist");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                userList.clear();
+                //chatList.clear();
+                mChatList.clear();
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Chat chat = snapshot.getValue(Chat.class);
-
-                    if (chat.getSender().equals(fuser.getUid())){
-                        userList.add(chat.getReceiver());
-                    }
-                    if (chat.getReceiver().equals(fuser.getUid())){
-                        userList.add(chat.getSender());
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    ChatModel chatList = snapshot.getValue(ChatModel.class); //숫자 때문에 잘되고 있는지 의문.
+                    userList(chatList.roomNumber);
+                    for(String user : userList) {
+                        if (user.equals(fuserid)) {
+                            mChatList.add(chatList);
+                        }
                     }
                 }
-
-                readChats();
             }
 
             @Override
@@ -106,8 +81,28 @@ public class ChatFragment extends Fragment {
 
             }
         });
-*/
+
         return view;
+    }
+
+    private void userList(String roomnumber) {
+        reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(roomnumber).child("users");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userList.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String user = snapshot.getKey();
+                    userList.add(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 /*
