@@ -22,6 +22,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
 
     private Context mContext;
     private List<ChatModel> mChats;
+
     public ChatAdapter(Context mContext, List<ChatModel> mChats) {
         this.mContext = mContext;
         this.mChats = mChats;
@@ -49,7 +50,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
                 Intent intent = new Intent(mContext, MessageActivity.class);
                 intent.putExtra("userid", chatModel.host);
                 intent.putExtra("chatid", chatModel.roomNumber);
-                //이게 그 리스트에 채팅방 남게하는 부분인가봄.
+
                 mContext.startActivity(intent);
             }
         });
