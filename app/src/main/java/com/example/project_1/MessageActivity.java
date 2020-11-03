@@ -122,28 +122,6 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
-/*
-        //Database Users 정보 가져오기
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
-
-        //데이터베이스에 변화가 일어날 때마다 데이터를 불러옴.
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class); //dataSnapshot으로 데이터 접근 user에 담는다.
-                username.setText(user.getUsername());
-                if (user.getImageURL().equals("default")) {
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
-                } else {
-//                    Glide.with(MessageActivity.this).load(user.getImageURL()).into(profile_image);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
     }
 
     private void sendMessage(String myId, String chatid, String message) {
@@ -187,7 +165,7 @@ public class MessageActivity extends AppCompatActivity {
             }
         });*/
         reference = FirebaseDatabase.getInstance().getReference().child("Chatlist").child(chatid).child("comments");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mchat.clear();
@@ -195,6 +173,7 @@ public class MessageActivity extends AppCompatActivity {
                     ChatModel.Comment comment = snapshot.getValue(ChatModel.Comment.class);
 
                     mchat.add(comment);
+
                     messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageurl);
                     recyclerView.setAdapter(messageAdapter);
                 }
