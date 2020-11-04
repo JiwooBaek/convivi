@@ -1,6 +1,5 @@
 package com.example.project_1;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,15 +8,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import model.ChatModel;
-import model.UserModel;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.project_1.Adapter.ChatAdapter;
-import com.example.project_1.Adapter.MessageAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -90,7 +86,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void userList(String roomnumber) {
-        reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(roomnumber).child("users");
+        reference = FirebaseDatabase.getInstance().getReference().child("Chatlist").child(roomnumber).child("users");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
