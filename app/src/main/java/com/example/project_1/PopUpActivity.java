@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import model.ChatModel;
+import model.ChatUserModel;
 import model.ShareModel;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -82,7 +83,8 @@ public class PopUpActivity extends Activity {
         openChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ChatModel chatModel = new ChatModel();
+                //ChatModel chatModel = new ChatModel();
+                ChatUserModel chatUserModel = new ChatUserModel();
                 idNum = intent.getStringExtra("idNum");
                 //채팅방 데베에 생성
                 /*
@@ -101,10 +103,10 @@ public class PopUpActivity extends Activity {
 
                     }
                 });*/
-                chatModel.users.put(fuserUid, true);
-                //chatModel.users.put(uid, true);
+                //chatModel.users.put(fuserUid, true);
+                chatUserModel.users.put(fuserUid, true);
 
-                //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue();
+                //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue(chatUserModel);
 
                 //채팅방 클릭 시 이동
                 Intent intent = new Intent(PopUpActivity.this, MessageActivity.class);
@@ -115,25 +117,6 @@ public class PopUpActivity extends Activity {
         });
 
     }
-    /*
-    void checkChatRoom(String chatid) {
-        FirebaseDatabase.getInstance().getReference().child("Chatlist").child(chatid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    ChatModel chatModel = snapshot.getValue(ChatModel.class);
-                    if(chatModel.roomNumber.equals(chatid)) {
-                        checkRoom = chatid;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }*/
 
     //바깥 레이어 클릭시 안닫히게
     @Override
