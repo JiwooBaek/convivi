@@ -37,8 +37,8 @@ public class WriteActivity extends AppCompatActivity {
     NumberPicker targetNum;
     DatabaseReference ref_share;
     DatabaseReference ref_buy;
-    long shareMaxNum;
-    long buyMaxNum;
+    long shareMaxNum=0;
+    long buyMaxNum=0;
 
     //채팅방 인스턴스
     private FirebaseDatabase database;
@@ -109,7 +109,6 @@ public class WriteActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             uid = firebaseAuth.getCurrentUser().getUid();
                             ShareModel shareModel = new ShareModel();
-                            FirebaseDatabase.getInstance().getReference().child("Share").child(uid).setValue(shareModel);
 
                             shareModel.idNum = Long.toString(shareMaxNum + 1);
                             shareModel.title = et_title.getText().toString();
@@ -122,18 +121,18 @@ public class WriteActivity extends AppCompatActivity {
                             chatModel.host = uid;
                             roomNumber = Long.toString(shareMaxNum + 1);
                             chatModel.roomNumber = roomNumber;
-                            database.getInstance().getReference("Share").child(roomNumber).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
-                                    uid = shareModel.host;
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
+//                            database.getInstance().getReference("Share").child(roomNumber).addListenerForSingleValueEvent(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                    ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
+//                                    uid = shareModel.host;
+//                                }
+//
+//                                @Override
+//                                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                                }
+//                            });
 
                             chatModel.users.put(uid, true);
 
@@ -151,7 +150,6 @@ public class WriteActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             uid = firebaseAuth.getCurrentUser().getUid();
                             BuyModel buyModel = new BuyModel();
-                            FirebaseDatabase.getInstance().getReference().child("Buy").child(uid).setValue(buyModel);
 
                             buyModel.idNum = Long.toString(buyMaxNum + 1);
                             buyModel.title = et_title.getText().toString();
@@ -162,7 +160,6 @@ public class WriteActivity extends AppCompatActivity {
                             ref_buy.child(String.valueOf(buyMaxNum + 1)).setValue(buyModel);
 
                             finish();
-
                         }
                     });
                 }
