@@ -29,7 +29,7 @@ public class PopUpActivity extends Activity {
     TextView descriptionView;
     String idNum;
     String uid;
-    String userUid;
+    String fuserUid;
     private FirebaseDatabase database;
 
     String checkRoom = "";
@@ -76,13 +76,16 @@ public class PopUpActivity extends Activity {
 
         Button openChat;
         openChat = (Button) findViewById(R.id.chat_button);
-        userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        fuserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // 채팅방 버튼 클릭시 이동
         openChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ChatModel chatModel = new ChatModel();
+                idNum = intent.getStringExtra("idNum");
                 //채팅방 데베에 생성
+                /*
                 ChatModel chatModel = new ChatModel();
                 chatModel.host = uid;
                 chatModel.roomNumber = idNum;
@@ -97,14 +100,11 @@ public class PopUpActivity extends Activity {
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
-                });
-                chatModel.users.put(userUid, true);
-                chatModel.users.put(uid, true);
+                });*/
+                chatModel.users.put(fuserUid, true);
+                //chatModel.users.put(uid, true);
 
-                //checkChatRoom(idNum);
-                if(checkRoom == null) {
-                    FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).setValue(chatModel);
-                }
+                //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue();
 
                 //채팅방 클릭 시 이동
                 Intent intent = new Intent(PopUpActivity.this, MessageActivity.class);
