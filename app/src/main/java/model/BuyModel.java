@@ -5,14 +5,14 @@ public class BuyModel {
     public String title;            //제목
     public String description;      // 내용
     public String host;             //uid
-    public int currentNOP; //현재 모인 인원
-    public int targetNOP; // 목표 공구 인원
+    public String currentNOP; //현재 모인 인원
+    public String targetNOP; // 목표 공구 인원
 
 
     public BuyModel(){
 
     };
-    public BuyModel(String idNum, String title, String description, String host, int currentNOP, int targetNOP) {
+    public BuyModel(String idNum, String title, String description, String host, String currentNOP, String targetNOP) {
         this.idNum = idNum;
         this.title = title;
         this.description = description;
@@ -53,19 +53,19 @@ public class BuyModel {
         this.host = host;
     }
 
-    public int getCurrentNOP() {
+    public String getCurrentNOP() {
         return currentNOP;
     }
 
-    public void setCurrentNOP(int currentNOP) {
+    public void setCurrentNOP(String currentNOP) {
         this.currentNOP = currentNOP;
     }
 
-    public int getTargetNOP() {
+    public String getTargetNOP() {
         return targetNOP;
     }
 
-    public void setTargetNOP(int targetNOP) {
+    public void setTargetNOP(String targetNOP) {
         this.targetNOP = targetNOP;
     }
 }
