@@ -1,11 +1,10 @@
 package com.example.project_1;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.ListView;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,41 +15,42 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import model.BuyModel;
 import model.ShareModel;
 import model.UserModel;
 
-
-public class ViewMoreActivity extends AppCompatActivity {
-    private ArrayList<ListRowItem> items;
-    private DatabaseReference share = FirebaseDatabase.getInstance().getReference().child("Share");
+public class ViewMoreActivity2 extends AppCompatActivity {
+    private ArrayList<ListRowItem_Buy> items;
+    private DatabaseReference buy = FirebaseDatabase.getInstance().getReference().child("Buy");
     private DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("Users");
-    private ViewMoreAdapter viewMoreAdapter;
+    private ViewMoreAdapterBuy viewMoreAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_more2);
 
-        setContentView(R.layout.activity_view_more);
         items = new ArrayList<>();
+        viewMoreAdapter = new ViewMoreAdapterBuy(this, R.layout.list_row_buy, items);
 
-        viewMoreAdapter = new ViewMoreAdapter(this, R.layout.list_row, items);
 
         users.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot userDataSnapshot) {
-                share.addValueEventListener(new ValueEventListener() {
+                buy.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot Share : dataSnapshot.getChildren()){
-                            ShareModel shareModel = Share.getValue(ShareModel.class);
-                            UserModel userModel = userDataSnapshot.child(shareModel.host).getValue(UserModel.class);
-                            ListRowItem listRowItem = new ListRowItem(userModel.imgURL, shareModel.title, shareModel.description);
-                            items.add(listRowItem);
+                        for(DataSnapshot Buy : dataSnapshot.getChildren()){
+                            BuyModel buyModel = Buy.getValue(BuyModel.class);
+                            UserModel userModel = userDataSnapshot.child(buyModel.host).getValue(UserModel.class);
+                            ListRowItem_Buy listRowItem_buy = new ListRowItem_Buy(userModel.imgURL, buyModel.title, buyModel.description, buyModel.currentNOP, buyModel.targetNOP);
+                            items.add(listRowItem_buy);
                         }
                         viewMoreAdapter.notifyDataSetChanged();
                         Collections.reverse(items); //역순으로 보여줌
 
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
@@ -62,8 +62,9 @@ public class ViewMoreActivity extends AppCompatActivity {
 
             }
         });
-
-        ListView lv = findViewById(R.id.list_item);
+        ListView lv = findViewById(R.id.list_item_buy);
         lv.setAdapter(viewMoreAdapter);
+
+
     }
 }

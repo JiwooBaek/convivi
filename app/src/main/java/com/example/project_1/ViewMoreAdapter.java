@@ -22,6 +22,7 @@ public class ViewMoreAdapter extends BaseAdapter {
         this.arrayList = arrayList;
     }
 
+
     @Override
     public int getCount() {
         return arrayList.size();
