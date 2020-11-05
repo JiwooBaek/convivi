@@ -9,8 +9,9 @@ public class HomeListDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
 
-        if (parent.getChildAdapterPosition(view) != parent.getAdapter().getItemCount() - 1) {
-            outRect.right = 30;
+        {
+            outRect.left = 15;
+            outRect.right = 15;
         }
     }
 }
