@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import androidx.appcompat.app.AppCompatActivity;
 import model.BuyModel;
+import model.ChatModel;
 import model.ShareModel;
 
 import android.os.Bundle;
@@ -39,6 +40,9 @@ public class WriteActivity extends AppCompatActivity {
     long shareMaxNum;
     long buyMaxNum;
 
+    //채팅방 인스턴스
+    private FirebaseDatabase database;
+    String roomNumber;
 
 
     @Override
@@ -112,6 +116,28 @@ public class WriteActivity extends AppCompatActivity {
                             shareModel.host = uid;
                             shareModel.description = et_description.getText().toString();
                             ref_share.child(String.valueOf(shareMaxNum + 1)).setValue(shareModel);
+
+                            //채팅방 생성
+                            ChatModel chatModel = new ChatModel();
+                            chatModel.host = uid;
+                            roomNumber = Long.toString(shareMaxNum + 1);
+                            chatModel.roomNumber = roomNumber;
+                            database.getInstance().getReference("Share").child(roomNumber).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
+                                    uid = shareModel.host;
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                            chatModel.users.put(uid, true);
+
+                            FirebaseDatabase.getInstance().getReference().child("Chatlist").child(roomNumber).setValue(chatModel);
 
                             finish();
                         }
