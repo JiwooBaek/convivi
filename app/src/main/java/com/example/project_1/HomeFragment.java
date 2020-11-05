@@ -132,6 +132,14 @@ public class HomeFragment extends Fragment {
         });
 
 
+        //공동구매 더보기 클릭 시 ViewMoreActivity2로 이동
+        TextView view_more_buy = view.findViewById(R.id.view_more_buy);
+        view_more_buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity().getApplicationContext(), ViewMoreActivity2.class));
+            }
+        });
 
 
         //글쓰기 버튼
