@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import model.ShareModel;
 import model.UserModel;
@@ -79,6 +81,8 @@ public class HomeFragment extends Fragment {
         //HomeShareRecyclerView
         homeShareRecyclerView = (RecyclerView) view.findViewById(R.id.share_listView);
         shareLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        shareLayoutManager.setReverseLayout(true);
+        shareLayoutManager.setStackFromEnd(true);
         homeShareRecyclerView.setLayoutManager(shareLayoutManager);
         shareList = new ArrayList<>();
         homeShareAdapter = new HomeShareAdapter(shareList);
