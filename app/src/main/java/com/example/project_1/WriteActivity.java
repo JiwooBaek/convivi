@@ -30,17 +30,15 @@ public class WriteActivity extends AppCompatActivity {
 
     //인스턴스 선언
     private FirebaseAuth firebaseAuth;
-    String uid;
-    EditText et_title;
-    EditText et_description;
-    Spinner category;
-    Button btn_exit;
-    Button btn_save;
-    NumberPicker targetNum;
-    DatabaseReference ref_share;
-    DatabaseReference ref_buy;
-    long shareMaxNum=0;
-    long buyMaxNum=0;
+    private String uid;
+    private EditText et_title;
+    private EditText et_description;
+    private Spinner category;
+    private Button btn_exit;
+    private Button btn_save;
+    private NumberPicker targetNum;
+    private DatabaseReference ref_share;
+    private DatabaseReference ref_buy;
 
     private long shareCount;
     private  long buyCount;
@@ -69,21 +67,6 @@ public class WriteActivity extends AppCompatActivity {
         targetNum.setMinValue(1);
         targetNum.setMaxValue(6);
 
-        //'나눔' 게시글 자동번호 생성
-//        ref_share = FirebaseDatabase.getInstance().getReference().child("Share");
-//        ref_share.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if(dataSnapshot.exists()) {
-//                    shareMaxNum = dataSnapshot.getChildrenCount();
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-
         // Share에서 가장 마지막 글 번호 가져오기
         ref_share = FirebaseDatabase.getInstance().getReference().child("Share");
         ref_share.orderByKey().limitToLast(1).addValueEventListener(new ValueEventListener() {
@@ -102,21 +85,6 @@ public class WriteActivity extends AppCompatActivity {
             }
         });
 
-        //'구매' 게시글 자동번호 생성
-//        ref_buy = FirebaseDatabase.getInstance().getReference().child("Buy");
-//        ref_buy.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if(dataSnapshot.exists()) {
-//                    buyMaxNum = dataSnapshot.getChildrenCount();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
         ref_buy = FirebaseDatabase.getInstance().getReference().child("Buy");
         ref_buy.orderByChild("id").limitToLast(1).addValueEventListener(new ValueEventListener() {
             @Override
@@ -155,7 +123,6 @@ public class WriteActivity extends AppCompatActivity {
                             shareModel.host = uid;
                             shareModel.description = et_description.getText().toString();
                             ref_share.child(shareModel.id).setValue(shareModel);
-//                            ref_share.child(String.valueOf(shareMaxNum + 1)).setValue(shareModel);
 
                             //채팅방 생성
                             ChatModel chatModel = new ChatModel();
@@ -200,7 +167,6 @@ public class WriteActivity extends AppCompatActivity {
 
                             buyModel.targetNOP = targetNum.getValue() + "";
                             ref_buy.child(buyModel.id).setValue(buyModel);
-//                            ref_buy.child(String.valueOf(buyMaxNum + 1)).setValue(buyModel);
 
                             finish();
                         }
