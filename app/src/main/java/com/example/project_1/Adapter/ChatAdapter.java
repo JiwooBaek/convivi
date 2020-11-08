@@ -49,7 +49,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, MessageActivity.class);
                 intent.putExtra("userid", chatModel.host);
-                intent.putExtra("chatid", chatModel.roomNumber);
+                intent.putExtra("chatid", chatModel.roomId);
 
                 mContext.startActivity(intent);
             }

@@ -6,6 +6,7 @@ public class BuyModel {
     public String title;            //제목
     public String description;      // 내용
     public String host;             //uid
+    public String imgUrl;
     public String currentNOP; //현재 모인 인원
     public String targetNOP; // 목표 공구 인원
 

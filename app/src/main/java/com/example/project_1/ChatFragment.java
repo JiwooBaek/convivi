@@ -64,7 +64,7 @@ public class ChatFragment extends Fragment {
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ChatModel chatList = snapshot.getValue(ChatModel.class); //숫자 때문에 잘되고 있는지 의문.
-                    userList(chatList.roomNumber);
+                    userList(chatList.roomId);
                     for(String user : userList) {
                         if (user.equals(fuserid)) {
                             mChatList.add(chatList);

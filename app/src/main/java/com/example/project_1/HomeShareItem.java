@@ -1,26 +1,24 @@
 package com.example.project_1;
 
-import android.net.Uri;
-
 public class HomeShareItem {
-    private String idNum;
+    private String id;
     private String profile;
     private String title;
     private String adress;
 
-    public HomeShareItem(String idNum, String profile, String title, String adress) {
-        this.idNum = idNum;
+    public HomeShareItem(String id, String profile, String title, String adress) {
+        this.id = id;
         this.profile = profile;
         this.title = title;
         this.adress = adress;
     }
 
-    public String getIdNum() {
-        return idNum;
+    public String getId() {
+        return id;
     }
 
-    public void setIdNum(String idNum) {
-        this.idNum = idNum;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getProfile() {
