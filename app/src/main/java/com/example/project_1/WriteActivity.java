@@ -163,9 +163,9 @@ public class WriteActivity extends AppCompatActivity {
                             buyModel.title = et_title.getText().toString();
                             buyModel.host = uid;
                             buyModel.description = et_description.getText().toString();
-                            buyModel.currentNOP = "" +0;
+                            buyModel.currentNOP = 0;
 
-                            buyModel.targetNOP = targetNum.getValue() + "";
+                            buyModel.targetNOP = targetNum.getValue();
                             ref_buy.child(buyModel.id).setValue(buyModel);
 
                             finish();

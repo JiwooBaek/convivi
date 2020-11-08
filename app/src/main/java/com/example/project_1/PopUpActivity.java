@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,12 +34,19 @@ public class PopUpActivity extends Activity {
     TextView titleView;
     TextView addressView;
     TextView descriptionView;
+    TextView hostView;
+    TextView targetNumView;
+    TextView currentNumView;
     CircleImageView profileImageView;
+    LinearLayout hostLayout;
     String title;
     String address;
     String image;
     String description;
     String id;
+    String hostName;
+    String targetNum;
+    String currentNum;
     String uid;
     String userUid;
     private FirebaseDatabase database;
@@ -58,6 +66,11 @@ public class PopUpActivity extends Activity {
         addressView = (TextView) findViewById(R.id.userAddress);
         descriptionView = (TextView) findViewById(R.id.description);
         profileImageView = (CircleImageView) findViewById(R.id.profile_image);
+        hostView = (TextView) findViewById(R.id.hostName);
+        targetNumView = (TextView) findViewById(R.id.targetNOP);
+        currentNumView = (TextView) findViewById(R.id.currentNOP);
+        hostLayout = (LinearLayout) findViewById(R.id.number_of_people);
+
 
 
         //데이터 가져오기
@@ -75,6 +88,7 @@ public class PopUpActivity extends Activity {
                     title = shareModel.title;
                     description = shareModel.description;
 
+                    hostLayout.setVisibility(View.INVISIBLE);
                     titleView.setText(title);
                     descriptionView.setText(description);
                 }
@@ -93,6 +107,13 @@ public class PopUpActivity extends Activity {
                     uid = buyModel.host;
                     title = buyModel.title;
                     description = buyModel.description;
+                    targetNum = Integer.toString(buyModel.targetNOP);
+                    currentNum = Integer.toString(buyModel.currentNOP);
+
+                    titleView.setText(title);
+                    descriptionView.setText(description);
+                    targetNumView.setText(targetNum);
+                    currentNumView.setText(currentNum);
                 }
 
                 @Override
@@ -109,16 +130,6 @@ public class PopUpActivity extends Activity {
         titleView.setText(title);
         descriptionView.setText(description);
         Glide.with(this).load(image).into(profileImageView);
-
-
-        //닫기 버튼 클릭시 팝업 닫기
-        Button close_button = (Button) findViewById(R.id.cancel_button);
-        close_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         Button openChat;
         openChat = (Button) findViewById(R.id.chat_button);
