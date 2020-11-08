@@ -2,6 +2,7 @@ package model;
 
 public class ShareModel {
     public String idNum;
+    public String id;
     public String title;
     public String host;
     public String description;
