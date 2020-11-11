@@ -35,10 +35,6 @@ public class SignupActivity extends AppCompatActivity {
     private TextInputEditText passwordCheck;
     private Button signUp;
     private TextView showEmailVerified;
-    String name_txt;
-    String email_txt;
-    String pwd_txt;
-    String pwdCheck_txt;
     FirebaseAuth firebaseAuth;
 
     @Override

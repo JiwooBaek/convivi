@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/verifyMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="18dp"
+        android:text="인증번호 전송을 위해 전화번호를 입력해주세요."/>
+
+
+    <LinearLayout
+        android:id="@+id/PhoneNumber_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_below="@+id/verifyMessage"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:textSize="20dp"
+            android:text="+82"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/PhoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="10-0000-0000"
+            android:textSize="20dp"
+            app:errorEnabled="true"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"></com.google.android.material.textfield.TextInputEditText>
+
+        <Button
+            android:id="@+id/sendCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="인증번호 전송"></Button>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/codeMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/PhoneNumber_box"
+        android:layout_marginHorizontal="10dp"
+        android:text="인증번호 입력"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/verifyCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_below="@+id/codeMessage"
+        android:textSize="20dp"
+        app:errorEnabled="true"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"></com.google.android.material.textfield.TextInputEditText>
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/verifyCode">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="코드 전송 중입니다.\n기다려주세요."
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+    </RelativeLayout>
+</RelativeLayout>
