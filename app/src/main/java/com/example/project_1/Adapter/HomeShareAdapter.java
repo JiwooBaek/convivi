@@ -8,7 +8,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.project_1.HomeFragment;
 import com.example.project_1.HomeShareItem;
 import com.example.project_1.PopUpActivity;
 import com.example.project_1.R;
@@ -41,7 +40,8 @@ public class HomeShareAdapter extends RecyclerView.Adapter<HomeShareAdapter.View
                 .load(arrayList.get(position).getProfile())
                 .into(holder.profile);
 
-        String idNum = arrayList.get(position).getIdNum();
+        String id = arrayList.get(position).getId();
+        String profileImage = arrayList.get(position).getProfile();
 
         holder.title.setText(arrayList.get(position).getTitle());
         holder.adress.setText(arrayList.get(position).getAdress());
@@ -51,7 +51,8 @@ public class HomeShareAdapter extends RecyclerView.Adapter<HomeShareAdapter.View
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), PopUpActivity.class);
 
-                intent.putExtra("idNum", idNum);
+                intent.putExtra("id", id);
+                intent.putExtra("profileImage", profileImage);
 
                 Toast.makeText(v.getContext(), "팝업창 띄우기", Toast.LENGTH_SHORT).show();
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

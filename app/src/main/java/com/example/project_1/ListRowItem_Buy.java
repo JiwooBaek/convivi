@@ -4,10 +4,10 @@ public class ListRowItem_Buy {
     private String profile;
     private String title;
     private String description;
-    private String currentNOP;
-    private String targetNOP;
+    private int currentNOP;
+    private int targetNOP;
 
-    public ListRowItem_Buy(String profile, String title, String description, String currentNOP, String targetNOP) {
+    public ListRowItem_Buy(String profile, String title, String description, int currentNOP, int targetNOP) {
         this.profile = profile;
         this.title = title;
         this.description = description;
@@ -41,20 +41,19 @@ public class ListRowItem_Buy {
         this.description = description;
     }
 
-    public String getCurrentNOP() {
+    public int getCurrentNOP() {
         return currentNOP;
     }
 
-    public void setCurrentNOP(String currentNOP) {
+    public void setCurrentNOP(int currentNOP) {
         this.currentNOP = currentNOP;
     }
 
-    public String getTargetNOP() {
+    public int getTargetNOP() {
         return targetNOP;
     }
 
-    public void setTargetNOP(String targetNOP) {
+    public void setTargetNOP(int targetNOP) {
         this.targetNOP = targetNOP;
     }
-
 }

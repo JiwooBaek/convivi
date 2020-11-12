@@ -23,7 +23,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
+import model.BuyModel;
 import model.ShareModel;
 import model.UserModel;
 
@@ -42,6 +45,7 @@ public class HomeFragment extends Fragment {
     private LinearLayoutManager shareLayoutManager;
 
     //Firebase
+    private DatabaseReference buy = FirebaseDatabase.getInstance().getReference().child("Buy");
     private DatabaseReference share = FirebaseDatabase.getInstance().getReference().child("Share");
     private DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("Users");
 
@@ -55,6 +59,8 @@ public class HomeFragment extends Fragment {
         homeBuyRecyclerView = (RecyclerView) view.findViewById(R.id.buy_listView);
 
         buyLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        buyLayoutManager.setReverseLayout(true);
+        buyLayoutManager.setStackFromEnd(true);
         homeBuyRecyclerView.setLayoutManager(buyLayoutManager);
         buyList = new ArrayList<>();
         homeBuyAdapter = new HomeBuyAdapter(buyList);
@@ -68,24 +74,48 @@ public class HomeFragment extends Fragment {
         homeListDecoration = new HomeListDecoration();
         homeBuyRecyclerView.addItemDecoration(homeListDecoration);
 
-        HomeBuyItem homeBuyItem = new HomeBuyItem(R.drawable.polarbear, "공구 제목", "OO동 XX아파트", "3명", "5명");
-        buyList.add(homeBuyItem);
-        buyList.add(homeBuyItem);
-        buyList.add(homeBuyItem);
-        buyList.add(homeBuyItem);
-        buyList.add(homeBuyItem);
-        homeBuyAdapter.notifyDataSetChanged();
+        //Buy DB에서 최근 5개의 글 가져와 HomeBuyRecyclerView로 보여주기
+        users.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot userDataSnapshot) {
+                buy.orderByKey().limitToLast(5).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot latestBuy : dataSnapshot.getChildren()){
+                            BuyModel buyModel = latestBuy.getValue(BuyModel.class);
+
+                            UserModel userModel = userDataSnapshot.getValue(UserModel.class);
+                            HomeBuyItem homeBuyItem = new HomeBuyItem(userModel.imgURL, buyModel.title, "OO동 XX아파트", buyModel.currentNOP, buyModel.targetNOP);
+                            buyList.add(homeBuyItem);
+                        }
+                        homeBuyAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         //HomeShareRecyclerView
         homeShareRecyclerView = (RecyclerView) view.findViewById(R.id.share_listView);
         shareLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        shareLayoutManager.setReverseLayout(true);
+        shareLayoutManager.setStackFromEnd(true);
         homeShareRecyclerView.setLayoutManager(shareLayoutManager);
         shareList = new ArrayList<>();
         homeShareAdapter = new HomeShareAdapter(shareList);
         homeShareRecyclerView.setAdapter(homeShareAdapter);
         homeShareRecyclerView.addItemDecoration(homeListDecoration);
 
-            //Share DB에서 최근 5개의 글 가져와 RecyclerView로 보여주기
+        //Share DB에서 최근 5개의 글 가져와 HomeShareRecyclerView로 보여주기
         users.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot userDataSnapshot) {
@@ -97,9 +127,8 @@ public class HomeFragment extends Fragment {
                             ShareModel shareModel = latestShare.getValue(ShareModel.class);
 
                             UserModel userModel = userDataSnapshot.child(shareModel.host).getValue(UserModel.class);
-                            HomeShareItem homeShareItem = new HomeShareItem(shareModel.idNum, userModel.imgURL, shareModel.title, "OO동 XX아파트");
+                            HomeShareItem homeShareItem = new HomeShareItem(shareModel.id, userModel.imgURL, shareModel.title, "OO동 XX아파트");
                             shareList.add(homeShareItem);
-
                         }
                         homeShareAdapter.notifyDataSetChanged();
                     }

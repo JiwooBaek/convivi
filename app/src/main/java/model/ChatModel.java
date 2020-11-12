@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class ChatModel {
     public String host;
-    public String roomNumber;
+    public String roomId;
 
     public Map<String, User> users = new HashMap<>();
     public Map<String, Comment> comments = new HashMap<>();

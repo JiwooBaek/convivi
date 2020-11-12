@@ -1,13 +1,13 @@
 package com.example.project_1;
 
 public class HomeBuyItem {
-    private int profile;
+    private String profile;
     private String title;
     private String adress;
     private String currentNOP;
     private String targetNOP;
 
-    public HomeBuyItem(int profile, String title, String adress, String currentNOP, String targetNOP) {
+    public HomeBuyItem(String profile, String title, String adress, String currentNOP, String targetNOP) {
         this.profile = profile;
         this.title = title;
         this.adress = adress;
@@ -15,11 +15,11 @@ public class HomeBuyItem {
         this.targetNOP = targetNOP;
     }
 
-    public int getProfile() {
+    public String getProfile() {
         return profile;
     }
 
-    public void setProfile(int profile) {
+    public void setProfile(String profile) {
         this.profile = profile;
     }
 

@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearlayout_anchor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:text="콩비비"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/wandohopeb"
+        android:textSize="40sp"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:padding="6dp">
+        android:padding="6dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="공동구매"
-            android:textSize="30dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="#공동구매"
+            android:textSize="30sp"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/view_more_buy"
@@ -28,26 +41,24 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/buy_listView"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:scrollbars="horizontal" />
+        android:layout_height="wrap_content"
+        android:scrollbars="horizontal"
+        android:layout_marginLeft="20dp"/>
 
-    <View
-        android:id="@+id/line"
-        android:layout_width="380dp"
-        android:layout_height="3dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="5dp"
-        android:background="#9C9B9B"
-        />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:padding="6dp">
+        android:padding="6dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="대여 및 나눔"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="#함께나눔"
             android:textSize="30dp"
             android:textStyle="bold" />
         <TextView
@@ -63,15 +74,21 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/share_listView"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:scrollbars="horizontal" />
+        android:layout_height="wrap_content"
+        android:scrollbars="horizontal"
+        android:layout_marginLeft="20dp" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/write_button"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_gravity="end|bottom"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:layout_anchor="@id/share_listView"
+        app:layout_anchorGravity="bottom"/>
 
 </LinearLayout>

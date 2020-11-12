@@ -3,38 +3,42 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
-    android:background="@drawable/background_popup"
-    android:layout_width="250dp"
+    android:background="@drawable/home_item"
+    android:layout_width="200dp"
     android:layout_height="200dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_centerVertical="true"
         android:src="@drawable/polarbear"
         app:civ_border_color="#FF000000"
-        android:layout_margin="10dp" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp">
+        android:layout_below="@id/profile"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp">
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumbarungothic_bold"
+            android:textColor="#ffffff"
             android:text="대여제목"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/adress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OO동 XX아파트"
-            android:textSize="20dp" />
+            android:fontFamily="@font/nanumbarungothic"
+            android:textColor="#ffffff"
+            android:text="성북구 종암동"
+            android:textSize="17sp" />
 
     </LinearLayout>
 </RelativeLayout>

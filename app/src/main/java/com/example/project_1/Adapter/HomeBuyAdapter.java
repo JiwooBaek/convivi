@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.project_1.HomeBuyItem;
 import com.example.project_1.PopUpActivity;
 import com.example.project_1.R;
@@ -39,7 +40,9 @@ public class HomeBuyAdapter extends RecyclerView.Adapter<HomeBuyAdapter.ViewHold
         String titleStr = arrayList.get(position).getTitle();
         String addressStr = arrayList.get(position).getAdress();
 
-        holder.profile.setImageResource(arrayList.get(position).getProfile());
+        Glide.with(holder.itemView.getContext())
+                .load(arrayList.get(position).getProfile())
+                .into(holder.profile);
         holder.title.setText(arrayList.get(position).getTitle());
         holder.adress.setText(arrayList.get(position).getAdress());
         holder.currentNOP.setText(arrayList.get(position).getCurrentNOP());

@@ -54,7 +54,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         //Chat chat = mChat.get(position);
         ChatModel.Comment comment = mChat.get(position);
-        //아래 문장도 클래스 바뀌어서 바뀜
+
         holder.show_message.setText(comment.message);
 
         holder.profile_image.setImageResource(R.mipmap.ic_launcher);

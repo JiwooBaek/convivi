@@ -20,8 +20,14 @@
         <activity android:name=".MainActivity" />
         <activity
             android:name=".PopUpActivity"
+<<<<<<< HEAD
             android:theme="@style/Theme.AppCompat.Dialog" />
         <activity android:name=".LogInActivity">
+=======
+            android:theme="@style/Theme.AppCompat.Dialog"></activity>
+        <activity android:name=".LogInActivity"
+            android:theme="@style/SplashTheme">
+>>>>>>> e73e62d89d3d6af178f09325bdca1bd9041ef4e9
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
