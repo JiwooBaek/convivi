@@ -44,7 +44,7 @@ public class MessageActivity extends AppCompatActivity {
     EditText text_send;
 
     MessageAdapter messageAdapter;
-    //List<Chat> mchat;
+
     List<ChatModel.Comment> mchat;
 
     RecyclerView recyclerView;
@@ -55,6 +55,10 @@ public class MessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+
+
+        reference  = FirebaseDatabase.getInstance().getReference().child("Chatlist");
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,6 +77,8 @@ public class MessageActivity extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
+
+
         profile_image = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
         btn_send = findViewById(R.id.btn_send);
@@ -83,6 +89,7 @@ public class MessageActivity extends AppCompatActivity {
         final String chatid = intent.getStringExtra("chatid");
         //putExtra 받아오기
         fuser = FirebaseAuth.getInstance().getCurrentUser();
+
 
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +103,8 @@ public class MessageActivity extends AppCompatActivity {
                 }
                 //다시 비우는 건가
                 text_send.setText("");
+
+
             }
         });
         //시험으로 추가해보는 중
@@ -142,7 +151,9 @@ public class MessageActivity extends AppCompatActivity {
     private void readMessages(final String chatid, final String imageurl) {
         mchat = new ArrayList<>();
 
-        reference = FirebaseDatabase.getInstance().getReference().child("Chatlist").child(chatid).child("comments");
+        messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageurl);
+        recyclerView.setAdapter(messageAdapter);
+
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -151,9 +162,8 @@ public class MessageActivity extends AppCompatActivity {
                     ChatModel.Comment comment = snapshot.getValue(ChatModel.Comment.class);
 
                     mchat.add(comment);
+                    messageAdapter.notifyDataSetChanged();
 
-                    messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageurl);
-                    recyclerView.setAdapter(messageAdapter);
                 }
 
             }

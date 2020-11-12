@@ -7,6 +7,7 @@ import model.BuyModel;
 import model.ChatModel;
 import model.ShareModel;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
@@ -43,6 +44,10 @@ public class WriteActivity extends AppCompatActivity {
     //채팅방 인스턴스
     private FirebaseDatabase database;
     String roomNumber;
+
+    //나눔 선택시 1, 구매 선택시 2
+    int category_choice;
+
 
 
     @Override
@@ -103,6 +108,7 @@ public class WriteActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //'나눔' 선택시
                 if(position == 1) {
+                    category_choice = 1;
                     targetNum.setEnabled(false);
                     btn_save.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -117,7 +123,10 @@ public class WriteActivity extends AppCompatActivity {
                             shareModel.description = et_description.getText().toString();
                             ref_share.child(String.valueOf(shareMaxNum + 1)).setValue(shareModel);
 
+
+
                             //채팅방 생성
+                            /*
                             ChatModel chatModel = new ChatModel();
                             chatModel.host = uid;
                             roomNumber = Long.toString(shareMaxNum + 1);
@@ -138,13 +147,14 @@ public class WriteActivity extends AppCompatActivity {
                             chatModel.users.put(uid, true);
 
                             FirebaseDatabase.getInstance().getReference().child("Chatlist").child(roomNumber).setValue(chatModel);
-
+                            */
                             finish();
                         }
                     });
 
                 //'구매' 선택시
                 } else {
+                    category_choice = 2;
                     targetNum.setEnabled(true);
                     btn_save.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -162,6 +172,11 @@ public class WriteActivity extends AppCompatActivity {
                             buyModel.targetNOP = targetNum.getValue() + "";
                             ref_buy.child(String.valueOf(buyMaxNum + 1)).setValue(buyModel);
 
+                            //구매 채팅방 자동으로 생성
+
+
+
+
                             finish();
 
                         }
@@ -172,5 +187,7 @@ public class WriteActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+
     }
 }
