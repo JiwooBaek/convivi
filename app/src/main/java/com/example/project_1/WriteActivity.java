@@ -124,9 +124,14 @@ public class WriteActivity extends AppCompatActivity {
                             ref_share.child(String.valueOf(shareMaxNum + 1)).setValue(shareModel);
 
 
+                            //채팅방 생성, 글 번호(RoomNum)를 기준으로
+
+
+
+
 
                             //채팅방 생성
-                            /*
+
                             ChatModel chatModel = new ChatModel();
                             chatModel.host = uid;
                             roomNumber = Long.toString(shareMaxNum + 1);
@@ -147,7 +152,7 @@ public class WriteActivity extends AppCompatActivity {
                             chatModel.users.put(uid, true);
 
                             FirebaseDatabase.getInstance().getReference().child("Chatlist").child(roomNumber).setValue(chatModel);
-                            */
+
                             finish();
                         }
                     });
@@ -173,6 +178,7 @@ public class WriteActivity extends AppCompatActivity {
                             ref_buy.child(String.valueOf(buyMaxNum + 1)).setValue(buyModel);
 
                             //구매 채팅방 자동으로 생성
+
 
 
 
