@@ -142,18 +142,20 @@ public class WriteActivity extends AppCompatActivity {
                             ChatModel chatModel = new ChatModel();
                             chatModel.host = uid;
                             chatModel.roomId = shareModel.id;
-//                            database.getInstance().getReference("Share").child(roomNumber).addListenerForSingleValueEvent(new ValueEventListener() {
-//                                @Override
-//                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                    ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
-//                                    uid = shareModel.host;
-//                                }
-//
-//                                @Override
-//                                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                                }
-//                            });
+
+
+                          database.getInstance().getReference("Share").child(roomNumber).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
+                                    uid = shareModel.host;
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
 
                             chatModel.users.put(uid, true);
 

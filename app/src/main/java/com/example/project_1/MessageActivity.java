@@ -163,18 +163,14 @@ public class MessageActivity extends AppCompatActivity {
 
                     mchat.add(comment);
                     messageAdapter.notifyDataSetChanged();
-
-<<<<<<< HEAD
                 }
-=======
                     messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageurl);
                     recyclerView.setAdapter(messageAdapter);
->>>>>>> e73e62d89d3d6af178f09325bdca1bd9041ef4e9
+                    messageAdapter.notifyDataSetChanged();
 
-                }
-                messageAdapter.notifyDataSetChanged();
-                
+
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
