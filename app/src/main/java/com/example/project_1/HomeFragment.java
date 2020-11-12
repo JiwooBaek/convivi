@@ -57,19 +57,12 @@ public class HomeFragment extends Fragment {
 
         //HomeBuyRecyclerView
         homeBuyRecyclerView = (RecyclerView) view.findViewById(R.id.buy_listView);
-
         buyLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         buyLayoutManager.setReverseLayout(true);
         buyLayoutManager.setStackFromEnd(true);
         homeBuyRecyclerView.setLayoutManager(buyLayoutManager);
         buyList = new ArrayList<>();
         homeBuyAdapter = new HomeBuyAdapter(buyList);
-
-        buyLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-        homeBuyRecyclerView.setLayoutManager(buyLayoutManager);
-        buyList = new ArrayList<>();
-        homeBuyAdapter = new HomeBuyAdapter(buyList);
-
         homeBuyRecyclerView.setAdapter(homeBuyAdapter);
         homeListDecoration = new HomeListDecoration();
         homeBuyRecyclerView.addItemDecoration(homeListDecoration);
@@ -83,9 +76,8 @@ public class HomeFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot latestBuy : dataSnapshot.getChildren()){
                             BuyModel buyModel = latestBuy.getValue(BuyModel.class);
-
-                            UserModel userModel = userDataSnapshot.getValue(UserModel.class);
-                            HomeBuyItem homeBuyItem = new HomeBuyItem(userModel.imgURL, buyModel.title, "OO동 XX아파트", buyModel.currentNOP, buyModel.targetNOP);
+                            UserModel userModel = userDataSnapshot.child(buyModel.host).getValue(UserModel.class);
+                            HomeBuyItem homeBuyItem = new HomeBuyItem(userModel.imgURL, buyModel.title, "OO동 XX아파트", String.valueOf(buyModel.currentNOP), String.valueOf(buyModel.targetNOP));
                             buyList.add(homeBuyItem);
                         }
                         homeBuyAdapter.notifyDataSetChanged();
