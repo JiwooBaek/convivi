@@ -27,6 +27,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -44,6 +49,7 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
     private TextInputEditText password;
     private FirebaseAuth firebaseAuth;
     private GoogleApiClient mGoogleApiClient;
+    private DatabaseReference ref_user = FirebaseDatabase.getInstance().getReference().child("Users");
     SignInButton signIn_google;
     private static final int RC_SIGN_IN = 1000;
 
@@ -51,11 +57,13 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signOut();
 
+        // 구글 계정 이용하여 로그인
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -75,9 +83,11 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
+        // id, password 입력창 선언
         id = (TextInputEditText) findViewById(R.id.userId);
         password = (TextInputEditText) findViewById(R.id.userPassword);
 
+        // 로그인 버튼 동작
         Button login = (Button) findViewById(R.id.logIn);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +96,7 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
+        // 회원가입 버튼 동작
         Button signUp = (Button) findViewById(R.id.signUp);
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +105,8 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
     }
+
+    // 로그인 동작
     private void loginUserAccount() {
         if(TextUtils.isEmpty(id.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Please enter email...", Toast.LENGTH_LONG).show();
@@ -119,6 +132,7 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
                 });
     }
 
+    // 구글 계정 로그인 동작
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -135,17 +149,39 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        String uid = firebaseAuth.getCurrentUser().getUid();
-        UserModel userModel = new UserModel();
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        String uid = firebaseAuth.getCurrentUser().getUid();
+                        UserModel userModel = new UserModel();
+
                         if(!task.isSuccessful()) {
                             Toast.makeText(LogInActivity.this, "Google account 인증 실패", Toast.LENGTH_SHORT).show();
                         } else {
+                            // Users DB 참조
+                            ref_user.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    // DB에 User 정보 없으면 정보 생성
+                                    if(!(dataSnapshot.hasChild(uid))) {
+                                        //RealTime Database에 User 추가
+                                        userModel.uid = uid;
+                                        userModel.name = acct.getId();
+                                        userModel.emailAddress = acct.getEmail();
+                                        userModel.imgURL = "default";
+                                        FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(userModel);
+                                    } else {
+                                        Toast.makeText(LogInActivity.this, acct.getId() + "님, 환영합니다!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                             Toast.makeText(LogInActivity.this, "Google account 로그인 성공", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LogInActivity.this, MainActivity.class));
                         }

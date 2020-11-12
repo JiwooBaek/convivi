@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.ListFragment;
+import de.hdodenhof.circleimageview.CircleImageView;
 import model.UserModel;
 
 public class MyprofileFragment extends Fragment {
@@ -25,7 +28,9 @@ public class MyprofileFragment extends Fragment {
     private FirebaseDatabase database;
     String uid;
     String userName;
+    String userImage;
     TextView userNameView;
+    CircleImageView userImageView;
 
     @Nullable
     @Override
@@ -35,6 +40,7 @@ public class MyprofileFragment extends Fragment {
         uid = firebaseAuth.getCurrentUser().getUid();
 
         userNameView = (TextView) view.findViewById(R.id.profile_name);
+        userImageView = (CircleImageView) view.findViewById(R.id.profile_img);
 
         // 사용자 정보 가져오기
         database.getInstance().getReference("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -42,7 +48,8 @@ public class MyprofileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserModel userModel = dataSnapshot.getValue(UserModel.class);
                 userName = userModel.name;
-                userNameView.setText(userName);
+                userImage = userModel.imgURL;
+
 
             }
 
@@ -52,8 +59,9 @@ public class MyprofileFragment extends Fragment {
             }
         });
 
-        // 프로플 이름 설정
+        // 프로플 이름 & 사진 설정
         userNameView.setText(userName);
+        Glide.with(this).load(userImage).into(userImageView);
 
         return view;
     }

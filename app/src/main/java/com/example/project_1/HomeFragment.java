@@ -127,7 +127,7 @@ public class HomeFragment extends Fragment {
                             ShareModel shareModel = latestShare.getValue(ShareModel.class);
 
                             UserModel userModel = userDataSnapshot.child(shareModel.host).getValue(UserModel.class);
-                            HomeShareItem homeShareItem = new HomeShareItem(shareModel.idNum, userModel.imgURL, shareModel.title, "OO동 XX아파트");
+                            HomeShareItem homeShareItem = new HomeShareItem(shareModel.id, userModel.imgURL, shareModel.title, "OO동 XX아파트");
                             shareList.add(homeShareItem);
                         }
                         homeShareAdapter.notifyDataSetChanged();
