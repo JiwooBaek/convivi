@@ -30,10 +30,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-<<<<<<< HEAD
 import com.google.firebase.database.DatabaseReference;
-=======
->>>>>>> 문자인증
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -111,10 +108,7 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
         });
     }
 
-<<<<<<< HEAD
     // 로그인 동작
-=======
->>>>>>> 문자인증
     private void loginUserAccount() {
         if(TextUtils.isEmpty(id.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Please enter email...", Toast.LENGTH_LONG).show();
