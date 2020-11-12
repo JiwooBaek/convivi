@@ -1,5 +1,6 @@
 package com.example.project_1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,10 +36,6 @@ public class SignupActivity extends AppCompatActivity {
     private TextInputEditText passwordCheck;
     private Button signUp;
     private TextView showEmailVerified;
-    String name_txt;
-    String email_txt;
-    String pwd_txt;
-    String pwdCheck_txt;
     FirebaseAuth firebaseAuth;
 
     @Override
@@ -106,6 +103,7 @@ public class SignupActivity extends AppCompatActivity {
                     FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+                            startActivity(new Intent(getApplicationContext(), VerifyPhoneNumber.class).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
                             SignupActivity.this.finish();
                         }
 
