@@ -76,16 +76,8 @@ public class HomeFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot latestBuy : dataSnapshot.getChildren()){
                             BuyModel buyModel = latestBuy.getValue(BuyModel.class);
-<<<<<<< HEAD
-
-
-
-                            UserModel userModel = userDataSnapshot.getValue(UserModel.class);
-                            HomeBuyItem homeBuyItem = new HomeBuyItem(userModel.imgURL, buyModel.title, "OO동 XX아파트", buyModel.currentNOP +"", buyModel.targetNOP +"");
-=======
                             UserModel userModel = userDataSnapshot.child(buyModel.host).getValue(UserModel.class);
                             HomeBuyItem homeBuyItem = new HomeBuyItem(userModel.imgURL, buyModel.title, "OO동 XX아파트", String.valueOf(buyModel.currentNOP), String.valueOf(buyModel.targetNOP));
->>>>>>> 6302ba126c4153d9b585e23057a5a00db0b81a69
                             buyList.add(homeBuyItem);
                         }
                         homeBuyAdapter.notifyDataSetChanged();
