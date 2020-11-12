@@ -1,5 +1,6 @@
 package com.example.project_1;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -39,6 +40,7 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import model.UserModel;
@@ -51,9 +53,9 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     private DatabaseReference ref_user = FirebaseDatabase.getInstance().getReference().child("Users");
     SignInButton signIn_google;
+    private boolean phoneAuthFlag;
+    private String currentUid;
     private static final int RC_SIGN_IN = 1000;
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,8 +124,47 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "로그인 성공!", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LogInActivity.this, MainActivity.class));
+                            // User DB에서 PhoneAuthFlag 값 가져오기 & flag 변수 설정
+                            currentUid = firebaseAuth.getCurrentUser().getUid();
+                            FirebaseDatabase.getInstance().getReference().child("Users").child(currentUid)
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            UserModel userModel = dataSnapshot.getValue(UserModel.class);
+                                            phoneAuthFlag = userModel.phoneAuthFlag;
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                            // 휴대폰 인증된 경우
+                            if(phoneAuthFlag) {
+                                Toast.makeText(getApplicationContext(), "로그인 성공!", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(LogInActivity.this, MainActivity.class));
+
+                            // 휴대폰 인증 안된 경우
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(LogInActivity.this);
+                                builder.setMessage("휴대폰 인증이 필요합니다.")
+                                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                startActivity(new Intent(getApplicationContext(), VerifyPhoneNumber.class)
+                                                        .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+                                            }
+                                        })
+                                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                 AlertDialog dialog = builder.create();
+                                 dialog.show();
+                            }
                         } else {
                             Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
                         }
@@ -143,7 +184,7 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
             } else {
-                Toast.makeText(LogInActivity.this, "Google account 통한 로그인 실패", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LogInActivity.this, "Google account 로그인 실패", Toast.LENGTH_SHORT).show();
             }
         }
     }
