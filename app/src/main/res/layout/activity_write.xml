@@ -9,8 +9,8 @@
     <RelativeLayout
         android:id="@+id/topPanel"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/common_google_signin_btn_text_light_disabled">
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark">
 
         <Button
             android:id="@+id/back_button"
@@ -18,42 +18,28 @@
             android:layout_height="match_parent"
             android:text="취소"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:text="글 작성"
-            android:textSize="10pt" />
-
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginTop="10dp">
-
-        <!-- 글 제목-->
-        <EditText
-            android:id="@+id/write_title"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentTop="true"
-            android:hint="제목을 입력하세요." />
-
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
         <LinearLayout
             android:id="@+id/pickerPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginVertical="5dp"
-            android:layout_below="@+id/write_title">
+            android:layout_marginVertical="5dp">
 
             <Spinner
                 android:id="@+id/category"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="2"
+                android:spinnerMode="dropdown"
                 android:entries="@array/WritingCategory">
             </Spinner>
 
@@ -62,6 +48,7 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:fontFamily="@font/nanumbarungothic"
                 android:text="목표인원"
                 android:textSize="18dp"/>
 
@@ -73,22 +60,37 @@
                 android:layout_alignRight="@+id/category">
             </NumberPicker>
         </LinearLayout>
+        <!-- 글 제목-->
+        <EditText
+            android:id="@+id/write_title"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@id/pickerPanel"
+            android:fontFamily="@font/nanumbarungothic_bold"
+            android:textSize="30sp"
+            android:hint="제목" />
+
 
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/pickerPanel"
+            android:layout_below="@id/write_title"
+            android:fontFamily="@font/nanumbarungothic"
             android:background="@null"
             android:hint="글을 입력해주세요." />
 
         <Button
             android:id="@+id/btn_save"
-            android:layout_width="wrap_content"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/roundrectangle_green"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="20sp"
+            android:fontFamily="@font/nanumbarungothic"
+            android:textColor="#ffffff"
             android:text="저장"
             android:layout_gravity="center|bottom"
             />
