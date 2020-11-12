@@ -7,6 +7,7 @@ import model.BuyModel;
 import model.ChatModel;
 import model.ShareModel;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -46,6 +47,10 @@ public class WriteActivity extends AppCompatActivity {
     //채팅방 인스턴스
     private FirebaseDatabase database;
     String roomNumber;
+
+    //나눔 선택시 1, 구매 선택시 2
+    int category_choice;
+
 
 
     @Override
@@ -110,6 +115,7 @@ public class WriteActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //'나눔' 선택시
                 if(position == 1) {
+                    category_choice = 1;
                     targetNum.setEnabled(false);
                     btn_save.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -124,7 +130,15 @@ public class WriteActivity extends AppCompatActivity {
                             shareModel.description = et_description.getText().toString();
                             ref_share.child(shareModel.id).setValue(shareModel);
 
+
+                            //채팅방 생성, 글 번호(RoomNum)를 기준으로
+
+
+
+
+
                             //채팅방 생성
+
                             ChatModel chatModel = new ChatModel();
                             chatModel.host = uid;
                             chatModel.roomId = shareModel.id;
@@ -151,6 +165,7 @@ public class WriteActivity extends AppCompatActivity {
 
                 //'구매' 선택시
                 } else {
+                    category_choice = 2;
                     targetNum.setEnabled(true);
                     btn_save.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -168,6 +183,12 @@ public class WriteActivity extends AppCompatActivity {
                             buyModel.targetNOP = targetNum.getValue();
                             ref_buy.child(buyModel.id).setValue(buyModel);
 
+                            //구매 채팅방 자동으로 생성
+
+
+
+
+
                             finish();
                         }
                     });
@@ -177,6 +198,8 @@ public class WriteActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+
     }
 
     private String setShareId(long num) {
