@@ -58,6 +58,9 @@ public class VerifyPhoneNumber  extends AppCompatActivity {
         codeMessage.setVisibility(View.INVISIBLE);
         codeView.setVisibility(View.INVISIBLE);
 
+        // 가상번호 자동입력
+        firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber(phoneNum, verificationCode);
+
         sendCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,9 +81,6 @@ public class VerifyPhoneNumber  extends AppCompatActivity {
                 }
             }
         });
-
-        // 가상번호 자동입력
-//        firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber(phoneNum, verificationCode);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
