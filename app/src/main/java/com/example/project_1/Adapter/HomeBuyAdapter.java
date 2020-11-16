@@ -37,12 +37,15 @@ public class HomeBuyAdapter extends RecyclerView.Adapter<HomeBuyAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String titleStr = arrayList.get(position).getTitle();
-        String addressStr = arrayList.get(position).getAdress();
-
         Glide.with(holder.itemView.getContext())
                 .load(arrayList.get(position).getProfile())
                 .into(holder.profile);
+
+        String id = arrayList.get(position).getId();
+        String titleStr = arrayList.get(position).getTitle();
+        String addressStr = arrayList.get(position).getAdress();
+        String profileImage = arrayList.get(position).getProfile();
+
         holder.title.setText(arrayList.get(position).getTitle());
         holder.adress.setText(arrayList.get(position).getAdress());
         holder.currentNOP.setText(arrayList.get(position).getCurrentNOP());
@@ -54,10 +57,13 @@ public class HomeBuyAdapter extends RecyclerView.Adapter<HomeBuyAdapter.ViewHold
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), PopUpActivity.class);
 
+                intent.putExtra("id", id);
+                intent.putExtra("profileImage", profileImage);
                 intent.putExtra("address", addressStr);
                 intent.putExtra("title", titleStr);
 
                 Toast.makeText(v.getContext(), "팝업창 띄우기", Toast.LENGTH_SHORT).show();
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 v.getContext().startActivity(intent);
 
             }

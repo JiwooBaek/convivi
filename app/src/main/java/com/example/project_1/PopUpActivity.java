@@ -3,7 +3,6 @@ package com.example.project_1;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -23,7 +22,6 @@ import androidx.annotation.Nullable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import model.BuyModel;
-import model.ChatModel;
 import model.ChatUserModel;
 import model.ShareModel;
 
