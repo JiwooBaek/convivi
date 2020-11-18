@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.project_1.HomeShareItem;
-import com.example.project_1.PopUpActivity;
+import com.example.project_1.SharePopUpActivity;
 import com.example.project_1.R;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class HomeShareAdapter extends RecyclerView.Adapter<HomeShareAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), PopUpActivity.class);
+                Intent intent = new Intent(v.getContext(), SharePopUpActivity.class);
 
                 intent.putExtra("id", id);
                 intent.putExtra("profileImage", profileImage);

@@ -12,8 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.project_1.BuyPopUpActivity;
 import com.example.project_1.HomeBuyItem;
-import com.example.project_1.PopUpActivity;
+import com.example.project_1.SharePopUpActivity;
 import com.example.project_1.R;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class HomeBuyAdapter extends RecyclerView.Adapter<HomeBuyAdapter.ViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), PopUpActivity.class);
+                Intent intent = new Intent(v.getContext(), BuyPopUpActivity .class);
 
                 intent.putExtra("id", id);
                 intent.putExtra("profileImage", profileImage);

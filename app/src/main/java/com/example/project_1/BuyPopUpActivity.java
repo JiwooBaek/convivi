@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,15 +20,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import model.BuyModel;
 import model.ChatUserModel;
 import model.ShareModel;
 
-import com.google.firebase.auth.FirebaseAuth;
-
-public class PopUpActivity extends Activity {
+public class BuyPopUpActivity extends Activity {
 
     TextView titleView;
     TextView addressView;
@@ -48,7 +46,6 @@ public class PopUpActivity extends Activity {
     String uid;
     String userUid;
     private FirebaseDatabase database;
-    private DatabaseReference ref_share = FirebaseDatabase.getInstance().getReference().child("Share");
     private DatabaseReference ref_buy = FirebaseDatabase.getInstance().getReference().child("Buy");
 
     String checkRoom = "";
@@ -58,7 +55,7 @@ public class PopUpActivity extends Activity {
         super.onCreate(savedInstanceState);
         //타이틀바 제거
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_popup);
+        setContentView(R.layout.activity_buy_popup);
 
         titleView = (TextView) findViewById(R.id.title);
         addressView = (TextView) findViewById(R.id.userAddress);
@@ -77,27 +74,7 @@ public class PopUpActivity extends Activity {
         image = intent.getStringExtra("profileImage");
 
         // 데이터 설정하기
-        if(id.substring(0, 1).equals("S")) {
-            ref_share.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
-                    uid = shareModel.host;
-                    title = shareModel.title;
-                    description = shareModel.description;
-
-                    hostLayout.setVisibility(View.INVISIBLE);
-                    titleView.setText(title);
-                    descriptionView.setText(description);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-
-        } else if(id.substring(0, 1).equals("B")) {
+        if(id.substring(0, 1).equals("B")) {
             ref_buy.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -162,7 +139,7 @@ public class PopUpActivity extends Activity {
                 //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue(chatUserModel);
 
                 //채팅방 클릭 시 이동
-                Intent intent = new Intent(PopUpActivity.this, ChatActivity.class);
+                Intent intent = new Intent(BuyPopUpActivity.this, ChatActivity.class);
                 intent.putExtra("userid", uid);
                 intent.putExtra("chatid", id);
                 startActivity(intent);

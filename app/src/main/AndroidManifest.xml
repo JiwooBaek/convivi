@@ -19,9 +19,15 @@
         <activity android:name=".MessageActivity" />
         <activity android:name=".MainActivity" />
         <activity
-            android:name=".PopUpActivity"
+            android:name=".SharePopUpActivity"
 
             android:theme="@style/Theme.AppCompat.Dialog" />
+
+        <activity
+            android:name=".BuyPopUpActivity"
+
+            android:theme="@style/Theme.AppCompat.Dialog" />
+
         <activity android:name=".LogInActivity">
             android:theme="@style/Theme.AppCompat.Dialog">
             android:theme="@style/SplashTheme">
