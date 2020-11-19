@@ -63,7 +63,7 @@ public class HomeBuyAdapter extends RecyclerView.Adapter<HomeBuyAdapter.ViewHold
                 intent.putExtra("address", addressStr);
                 intent.putExtra("title", titleStr);
 
-                Toast.makeText(v.getContext(), "팝업창 띄우기", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(v.getContext(), "팝업창 띄우기", Toast.LENGTH_SHORT).show();
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 v.getContext().startActivity(intent);
 

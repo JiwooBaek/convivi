@@ -189,7 +189,7 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
                                     if(!(dataSnapshot.hasChild(uid))) {
                                         //RealTime Database에 User 추가
                                         userModel.uid = uid;
-                                        userModel.name = acct.getId();
+                                        userModel.name = "유저" + (acct.getId()).substring(0, 4);
                                         userModel.emailAddress = acct.getEmail();
                                         userModel.imgURL = "default";
                                         FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(userModel);
