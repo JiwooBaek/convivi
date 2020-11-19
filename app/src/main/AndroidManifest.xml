@@ -7,9 +7,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@mipmap/ic_launcher_nokdu_kong2"
+        android:label="콩비비"
+        android:roundIcon="@mipmap/ic_launcher_nokdu_kong2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ChatActivity" />
@@ -19,9 +19,15 @@
         <activity android:name=".MessageActivity" />
         <activity android:name=".MainActivity" />
         <activity
-            android:name=".PopUpActivity"
+            android:name=".SharePopUpActivity"
 
             android:theme="@style/Theme.AppCompat.Dialog" />
+
+        <activity
+            android:name=".BuyPopUpActivity"
+
+            android:theme="@style/Theme.AppCompat.Dialog" />
+
         <activity android:name=".LogInActivity">
             android:theme="@style/Theme.AppCompat.Dialog">
             android:theme="@style/SplashTheme">

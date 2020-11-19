@@ -9,11 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class PopupFragment extends Fragment {
+public class SearchAdressFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = (ViewGroup)inflater.inflate(R.layout.fragment_popup, container, false);
+        View view = (ViewGroup)inflater.inflate(R.layout.fragment_search_adress, container, false);
         return view;
     }
 }

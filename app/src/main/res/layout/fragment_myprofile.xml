@@ -5,35 +5,44 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/profile_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginHorizontal="20dp">
+        android:layout_marginTop="40dp"
+        android:layout_height="200dp">
+
+        <ImageView
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_width="340dp"
+            android:layout_height="110dp"
+            android:background="@drawable/myprofile"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_img"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginVertical="15dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="30dp"
             android:background="@drawable/round"
-            android:src="@drawable/profile">
+            android:src="@drawable/polarbear">
         </de.hdodenhof.circleimageview.CircleImageView>
 
         <LinearLayout
             android:id="@+id/profile_details"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="20dp">
+            android:orientation="horizontal"
+            android:layout_toRightOf="@id/profile_img"
+            android:layout_marginLeft="10dp">
 
             <TextView
                 android:id="@+id/profile_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:fontFamily="@font/nanumbarungothic_bold"
+                android:layout_marginTop="112dp"
+
                 android:text="userId"
                 android:textSize="27dp">
             </TextView>
@@ -42,67 +51,78 @@
                 android:id="@+id/userLevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/nanumbarungothic"
+                android:layout_marginTop="112dp"
+                android:textColor="#ffffff"
                 android:text="Lv.1"
                 android:textSize="20dp"/>
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:src="@drawable/line1"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/profile_deal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         android:layout_weight="1">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:paddingTop="27dp"
+                android:paddingLeft="120dp"
+                android:text="거래"
+                android:textSize="25sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:background="@drawable/myprofile_bar"
+                android:fontFamily="@font/nanumbarungothic_bold"/>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="51dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/shopping_basket" />
+
+        </RelativeLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:text="거래"
-            android:textSize="40dp"
-            android:textStyle="bold"/>
+            android:paddingLeft="120dp"
+            android:fontFamily="@font/nanumbarungothic"
+            android:text="거래목록"
+            android:textSize="25sp"/>
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="75dp"
             android:src="@drawable/line1"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"
-            android:text="거래목록"
-            android:textSize="32dp"/>
+            android:paddingLeft="120dp"
+            android:fontFamily="@font/nanumbarungothic"
+            android:text="거래내역"
+            android:textSize="25sp"/>
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="3dp"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="75dp"
             android:src="@drawable/line1"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"
-            android:text="거래내역"
-            android:textSize="32dp"/>
-
-
     </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:src="@drawable/line1"/>
 
     <LinearLayout
         android:id="@+id/profile_review"
@@ -111,39 +131,59 @@
         android:orientation="vertical"
         android:layout_weight="1">
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:paddingTop="27dp"
+                android:paddingLeft="120dp"
+                android:text="후기"
+                android:textSize="25sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:background="@drawable/myprofile_bar"
+                android:fontFamily="@font/nanumbarungothic_bold"/>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="51dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/heart" />
+
+        </RelativeLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:text="리뷰"
-            android:textSize="40dp"
-            android:textStyle="bold"/>
+            android:paddingLeft="120dp"
+            android:fontFamily="@font/nanumbarungothic"
+            android:text="내가 작성한 후기"
+            android:textSize="25sp"/>
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="75dp"
             android:src="@drawable/line1"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"
-            android:text="내가 작성한 후기"
-            android:textSize="32dp"/>
+            android:paddingLeft="120dp"
+            android:fontFamily="@font/nanumbarungothic"
+            android:text="내 거래 후기"
+            android:textSize="25sp"/>
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="3dp"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="75dp"
             android:src="@drawable/line1"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"
-            android:text="내 거래 후기"
-            android:textSize="32dp"/>
 
     </LinearLayout>
 </LinearLayout>
