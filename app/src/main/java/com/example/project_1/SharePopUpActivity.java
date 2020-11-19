@@ -138,7 +138,7 @@ public class SharePopUpActivity extends Activity {
                 //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue(chatUserModel);
 
                 //채팅방 클릭 시 이동
-                Intent intent = new Intent(SharePopUpActivity.this, ChatActivity.class);
+                Intent intent = new Intent(SharePopUpActivity.this, MessageActivity.class);
                 intent.putExtra("userid", uid);
                 intent.putExtra("chatid", id);
                 startActivity(intent);

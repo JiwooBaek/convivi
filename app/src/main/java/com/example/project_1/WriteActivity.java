@@ -59,8 +59,7 @@ public class WriteActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     String roomNumber;
 
-    //나눔 선택시 1, 구매 선택시 2
-    int category_choice;
+
 
 
     @Override
@@ -134,7 +133,6 @@ public class WriteActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //'나눔' 선택시
                 if(position == 1) {
-                    category_choice = 1;
                     targetNum.setEnabled(false);
                     btn_save.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -191,7 +189,6 @@ public class WriteActivity extends AppCompatActivity {
 
                 //'구매' 선택시
                 } else {
-                    category_choice = 2;
                     targetNum.setEnabled(true);
                     btn_save.setOnClickListener(new View.OnClickListener() {
                         @Override
