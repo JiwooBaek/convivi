@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,7 +54,6 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     private DatabaseReference ref_user = FirebaseDatabase.getInstance().getReference().child("Users");
     SignInButton signIn_google;
-    private boolean phoneAuthFlag;
     private String currentUid;
     private static final int RC_SIGN_IN = 1000;
 
@@ -192,7 +192,11 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
                                         userModel.name = "유저" + (acct.getId()).substring(0, 4);
                                         userModel.emailAddress = acct.getEmail();
                                         userModel.imgURL = "default";
+                                        userModel.phoneAuthFlag = false;
                                         FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(userModel);
+
+                                        // 휴대폰 인증 화면으로 이동
+                                        startActivity(new Intent(getApplicationContext(), VerifyPhoneNumber.class).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
                                     } else {
                                         Toast.makeText(LogInActivity.this, acct.getId() + "님, 환영합니다!", Toast.LENGTH_SHORT).show();
                                     }
