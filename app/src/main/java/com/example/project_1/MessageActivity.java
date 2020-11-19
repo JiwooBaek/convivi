@@ -159,6 +159,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mchat.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
                     ChatModel.Comment comment = snapshot.getValue(ChatModel.Comment.class);
 
                     mchat.add(comment);

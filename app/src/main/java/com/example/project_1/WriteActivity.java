@@ -168,7 +168,7 @@ public class WriteActivity extends AppCompatActivity {
                             chatModel.roomId = shareModel.id;
 
 
-                          database.getInstance().getReference("Share").child(roomNumber).addListenerForSingleValueEvent(new ValueEventListener() {
+                          database.getInstance().getReference("Share").child(shareModel.id).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);

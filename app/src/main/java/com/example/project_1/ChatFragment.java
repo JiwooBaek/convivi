@@ -51,7 +51,6 @@ public class ChatFragment extends Fragment {
 
         String fuserid = fuser.getUid();
 
-        //chatList = new ArrayList<>();
         userList = new ArrayList<>();
         mChatList = new ArrayList<>();
 
@@ -59,7 +58,7 @@ public class ChatFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //chatList.clear();
+
                 mChatList.clear();
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -86,7 +85,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void userList(String roomnumber) {
-        reference = FirebaseDatabase.getInstance().getReference().child("Chatlist").child(roomnumber).child("users");
+        reference = FirebaseDatabase.getInstance().getReference().child("Chatlist").child("host_id").child(roomnumber);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

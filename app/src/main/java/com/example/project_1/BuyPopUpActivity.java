@@ -49,6 +49,9 @@ public class BuyPopUpActivity extends Activity {
     private DatabaseReference ref_buy = FirebaseDatabase.getInstance().getReference().child("Buy");
 
     String checkRoom = "";
+    ShareModel shareModel;
+    BuyModel buyModel;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,11 +77,35 @@ public class BuyPopUpActivity extends Activity {
         image = intent.getStringExtra("profileImage");
 
         // 데이터 설정하기
+<<<<<<< HEAD:app/src/main/java/com/example/project_1/PopUpActivity.java
+        if(id.substring(0, 1).equals("S")) {
+            ref_share.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    shareModel = dataSnapshot.getValue(ShareModel.class);
+                    uid = shareModel.host;
+                    title = shareModel.title;
+                    description = shareModel.description;
+
+                    hostLayout.setVisibility(View.INVISIBLE);
+                    titleView.setText(title);
+                    descriptionView.setText(description);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        } else if(id.substring(0, 1).equals("B")) {
+=======
         if(id.substring(0, 1).equals("B")) {
+>>>>>>> 6827df3b060294f05eb75471096514bba3688a6d:app/src/main/java/com/example/project_1/BuyPopUpActivity.java
             ref_buy.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    BuyModel buyModel = dataSnapshot.getValue(BuyModel.class);
+                    buyModel = dataSnapshot.getValue(BuyModel.class);
                     uid = buyModel.host;
                     title = buyModel.title;
                     description = buyModel.description;
@@ -114,14 +141,16 @@ public class BuyPopUpActivity extends Activity {
         openChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //ChatModel chatModel = new ChatModel();
+
                 ChatUserModel chatUserModel = new ChatUserModel();
-                //채팅방 데베에 생성
-                /*
+                //기존 채팅방에 접속
+
+
+
                 ChatModel chatModel = new ChatModel();
                 chatModel.host = uid;
-                chatModel.roomNumber = idNum;
-                database.getInstance().getReference("Share").child(idNum).addListenerForSingleValueEvent(new ValueEventListener() {
+                chatModel.roomId = shareModel.id;
+                database.getInstance().getReference("Share").child(shareModel.id).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
@@ -132,17 +161,22 @@ public class BuyPopUpActivity extends Activity {
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
-                });*/
+                });
                 //chatModel.users.put(fuserUid, true);
                 chatUserModel.users.put(userUid, true);
 
                 //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue(chatUserModel);
 
                 //채팅방 클릭 시 이동
+<<<<<<< HEAD:app/src/main/java/com/example/project_1/PopUpActivity.java
+                Intent intent = new Intent(PopUpActivity.this, MessageActivity.class);
+=======
                 Intent intent = new Intent(BuyPopUpActivity.this, ChatActivity.class);
+>>>>>>> 6827df3b060294f05eb75471096514bba3688a6d:app/src/main/java/com/example/project_1/BuyPopUpActivity.java
                 intent.putExtra("userid", uid);
                 intent.putExtra("chatid", id);
                 startActivity(intent);
+
             }
         });
 
