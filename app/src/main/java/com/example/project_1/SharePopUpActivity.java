@@ -115,24 +115,7 @@ public class SharePopUpActivity extends Activity {
             public void onClick(View view) {
                 //ChatModel chatModel = new ChatModel();
                 ChatUserModel chatUserModel = new ChatUserModel();
-                //채팅방 데베에 생성
-                /*
-                ChatModel chatModel = new ChatModel();
-                chatModel.host = uid;
-                chatModel.roomNumber = idNum;
-                database.getInstance().getReference("Share").child(idNum).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
-                        uid = shareModel.host;
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });*/
-                //chatModel.users.put(fuserUid, true);
                 chatUserModel.users.put(userUid, true);
 
                 //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue(chatUserModel);

@@ -155,17 +155,14 @@ public class WriteActivity extends AppCompatActivity {
 
                             //채팅방 생성, 글 번호(RoomNum)를 기준으로
 
-
-
-
-
                             //채팅방 생성
 
                             ChatModel chatModel = new ChatModel();
                             chatModel.host = uid;
+                            chatModel.guest = "null";
                             chatModel.roomId = shareModel.id;
 
-
+                            /*
                           database.getInstance().getReference("Share").child(shareModel.id).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -177,9 +174,9 @@ public class WriteActivity extends AppCompatActivity {
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                 }
-                            });
+                            });*/
 
-                            chatModel.users.put(uid, true);
+                            //chatModel.users.put(uid, true);
 
                             FirebaseDatabase.getInstance().getReference().child("Chatlist").child(chatModel.roomId).setValue(chatModel);
 
