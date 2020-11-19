@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import de.hdodenhof.circleimageview.CircleImageView;
 import model.BuyModel;
+import model.ChatModel;
 import model.ChatUserModel;
 import model.ShareModel;
 
@@ -47,6 +48,7 @@ public class BuyPopUpActivity extends Activity {
     String userUid;
     private FirebaseDatabase database;
     private DatabaseReference ref_buy = FirebaseDatabase.getInstance().getReference().child("Buy");
+    private DatabaseReference ref_share = FirebaseDatabase.getInstance().getReference().child("Share");
 
     String checkRoom = "";
     ShareModel shareModel;
@@ -70,15 +72,14 @@ public class BuyPopUpActivity extends Activity {
         hostLayout = (LinearLayout) findViewById(R.id.number_of_people);
 
 
-
         //데이터 가져오기
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
         image = intent.getStringExtra("profileImage");
 
         // 데이터 설정하기
-<<<<<<< HEAD:app/src/main/java/com/example/project_1/PopUpActivity.java
-        if(id.substring(0, 1).equals("S")) {
+
+        if (id.substring(0, 1).equals("S")) {
             ref_share.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -98,63 +99,22 @@ public class BuyPopUpActivity extends Activity {
                 }
             });
 
-        } else if(id.substring(0, 1).equals("B")) {
-=======
-        if(id.substring(0, 1).equals("B")) {
->>>>>>> 6827df3b060294f05eb75471096514bba3688a6d:app/src/main/java/com/example/project_1/BuyPopUpActivity.java
-            ref_buy.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    buyModel = dataSnapshot.getValue(BuyModel.class);
-                    uid = buyModel.host;
-                    title = buyModel.title;
-                    description = buyModel.description;
-                    targetNum = Integer.toString(buyModel.targetNOP);
-                    currentNum = Integer.toString(buyModel.currentNOP);
-
-                    titleView.setText(title);
-                    descriptionView.setText(description);
-                    targetNumView.setText(targetNum);
-                    currentNumView.setText(currentNum);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-
-        } else {
-            Toast.makeText(this, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
-        }
-
-        //데이터 설정하기
-        titleView.setText(title);
-        descriptionView.setText(description);
-        Glide.with(this).load(image).into(profileImageView);
-
-        Button openChat;
-        openChat = (Button) findViewById(R.id.chat_button);
-        userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        // 채팅방 버튼 클릭시 이동
-        openChat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                ChatUserModel chatUserModel = new ChatUserModel();
-                //기존 채팅방에 접속
-
-
-
-                ChatModel chatModel = new ChatModel();
-                chatModel.host = uid;
-                chatModel.roomId = shareModel.id;
-                database.getInstance().getReference("Share").child(shareModel.id).addListenerForSingleValueEvent(new ValueEventListener() {
+        } else if (id.substring(0, 1).equals("B")) {
+            if (id.substring(0, 1).equals("B")) {
+                ref_buy.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
-                        uid = shareModel.host;
+                        buyModel = dataSnapshot.getValue(BuyModel.class);
+                        uid = buyModel.host;
+                        title = buyModel.title;
+                        description = buyModel.description;
+                        targetNum = Integer.toString(buyModel.targetNOP);
+                        currentNum = Integer.toString(buyModel.currentNOP);
+
+                        titleView.setText(title);
+                        descriptionView.setText(description);
+                        targetNumView.setText(targetNum);
+                        currentNumView.setText(currentNum);
                     }
 
                     @Override
@@ -162,26 +122,61 @@ public class BuyPopUpActivity extends Activity {
 
                     }
                 });
-                //chatModel.users.put(fuserUid, true);
-                chatUserModel.users.put(userUid, true);
 
-                //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue(chatUserModel);
-
-                //채팅방 클릭 시 이동
-<<<<<<< HEAD:app/src/main/java/com/example/project_1/PopUpActivity.java
-                Intent intent = new Intent(PopUpActivity.this, MessageActivity.class);
-=======
-                Intent intent = new Intent(BuyPopUpActivity.this, ChatActivity.class);
->>>>>>> 6827df3b060294f05eb75471096514bba3688a6d:app/src/main/java/com/example/project_1/BuyPopUpActivity.java
-                intent.putExtra("userid", uid);
-                intent.putExtra("chatid", id);
-                startActivity(intent);
-
+            } else {
+                Toast.makeText(this, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
             }
-        });
 
+            //데이터 설정하기
+            titleView.setText(title);
+            descriptionView.setText(description);
+            Glide.with(this).load(image).into(profileImageView);
+
+            Button openChat;
+            openChat = (Button) findViewById(R.id.chat_button);
+            userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            // 채팅방 버튼 클릭시 이동
+            openChat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    ChatUserModel chatUserModel = new ChatUserModel();
+                    //기존 채팅방에 접속
+
+
+                    ChatModel chatModel = new ChatModel();
+                    chatModel.host = uid;
+                    chatModel.roomId = shareModel.id;
+                    database.getInstance().getReference("Share").child(shareModel.id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
+                            uid = shareModel.host;
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    //chatModel.users.put(fuserUid, true);
+                    chatUserModel.users.put(userUid, true);
+
+                    //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue(chatUserModel);
+
+                    //채팅방 클릭 시 이동
+                    Intent intent = new Intent(BuyPopUpActivity.this, MessageActivity.class);
+                    intent.putExtra("userid", uid);
+                    intent.putExtra("chatid", id);
+                    startActivity(intent);
+
+                }
+            });
+
+        }
     }
-
+}
     //바깥 레이어 클릭시 안닫히게
 //    @Override
 //    public boolean onTouchEvent(MotionEvent event) {
@@ -190,4 +185,4 @@ public class BuyPopUpActivity extends Activity {
 //        }
 //        return true;
 //    }
-}
+
