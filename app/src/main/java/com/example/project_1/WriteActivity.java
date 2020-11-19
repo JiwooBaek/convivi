@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -29,6 +30,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class WriteActivity extends AppCompatActivity {
 
@@ -47,6 +50,7 @@ public class WriteActivity extends AppCompatActivity {
     private Button btn_image;
     private RecyclerView imageView;
     private Uri imageUri;
+    private ArrayList<ImageView> imageList;
 
     private long shareCount;
     private  long buyCount;
@@ -119,7 +123,7 @@ public class WriteActivity extends AppCompatActivity {
         btn_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
             }
         });
 

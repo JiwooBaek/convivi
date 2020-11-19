@@ -123,47 +123,30 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
                 .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        // User DB에서 PhoneAuthFlag 값 가져오기 & flag 변수 설정
-                        currentUid = firebaseAuth.getCurrentUser().getUid();
-                        FirebaseDatabase.getInstance().getReference().child("Users").child(currentUid)
-                                .addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        UserModel userModel = dataSnapshot.getValue(UserModel.class);
-                                        phoneAuthFlag = userModel.phoneAuthFlag;
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-                        //휴대폰 인증 flag == true
-                        if(task.isSuccessful() && phoneAuthFlag) {
+                        if(task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "로그인 성공!", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LogInActivity.this, MainActivity.class));
 
-                        // 휴대폰 인증 flag != true
                         } else {
                             Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
-                        AlertDialog.Builder builder = new AlertDialog.Builder(LogInActivity.this);
-                        builder.setMessage("휴대폰 인증이 필요합니다.")
-                                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = new Intent(getApplicationContext(), VerifyPhoneNumber.class);
-                                        intent.putExtra("uid", currentUid).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                        startActivity(intent);
-                                    }
-                                })
-                                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(LogInActivity.this);
+//                        builder.setMessage("휴대폰 인증이 필요합니다.")
+//                                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        Intent intent = new Intent(getApplicationContext(), VerifyPhoneNumber.class);
+//                                        intent.putExtra("uid", currentUid).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                                        startActivity(intent);
+//                                    }
+//                                })
+//                                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        dialog.cancel();
+//                                    }
+//                                });
+//                        AlertDialog dialog = builder.create();
+//                        dialog.show();
                         }
                     }
 

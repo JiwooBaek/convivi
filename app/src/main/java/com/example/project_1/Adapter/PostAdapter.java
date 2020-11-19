@@ -1,7 +1,6 @@
-package com.example.project_1;
+package com.example.project_1.Adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import model.BuyModel;
 
+import com.example.project_1.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
