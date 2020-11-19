@@ -65,7 +65,7 @@ public class ChatActivity extends AppCompatActivity {
 
         //Firebase DB관리 객체와 'caht'노드 참조객체 얻어오기
         firebaseDatabase= FirebaseDatabase.getInstance();
-        chatRef= firebaseDatabase.getReference("chat");
+        chatRef= firebaseDatabase.getReference("Chatlist");
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 

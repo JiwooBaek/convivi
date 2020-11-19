@@ -54,6 +54,9 @@ public class PopUpActivity extends Activity {
     private DatabaseReference ref_buy = FirebaseDatabase.getInstance().getReference().child("Buy");
 
     String checkRoom = "";
+    ShareModel shareModel;
+    BuyModel buyModel;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,7 +86,7 @@ public class PopUpActivity extends Activity {
             ref_share.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
+                    shareModel = dataSnapshot.getValue(ShareModel.class);
                     uid = shareModel.host;
                     title = shareModel.title;
                     description = shareModel.description;
@@ -103,7 +106,7 @@ public class PopUpActivity extends Activity {
             ref_buy.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    BuyModel buyModel = dataSnapshot.getValue(BuyModel.class);
+                    buyModel = dataSnapshot.getValue(BuyModel.class);
                     uid = buyModel.host;
                     title = buyModel.title;
                     description = buyModel.description;
@@ -139,14 +142,16 @@ public class PopUpActivity extends Activity {
         openChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //ChatModel chatModel = new ChatModel();
+
                 ChatUserModel chatUserModel = new ChatUserModel();
-                //채팅방 데베에 생성
-                /*
+                //기존 채팅방에 접속
+
+
+
                 ChatModel chatModel = new ChatModel();
                 chatModel.host = uid;
-                chatModel.roomNumber = idNum;
-                database.getInstance().getReference("Share").child(idNum).addListenerForSingleValueEvent(new ValueEventListener() {
+                chatModel.roomId = shareModel.id;
+                database.getInstance().getReference("Share").child(shareModel.id).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
@@ -157,17 +162,18 @@ public class PopUpActivity extends Activity {
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
-                });*/
+                });
                 //chatModel.users.put(fuserUid, true);
                 chatUserModel.users.put(userUid, true);
 
                 //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue(chatUserModel);
 
                 //채팅방 클릭 시 이동
-                Intent intent = new Intent(PopUpActivity.this, ChatActivity.class);
+                Intent intent = new Intent(PopUpActivity.this, MessageActivity.class);
                 intent.putExtra("userid", uid);
                 intent.putExtra("chatid", id);
                 startActivity(intent);
+
             }
         });
 
