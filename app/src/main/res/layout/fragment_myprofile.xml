@@ -144,6 +144,12 @@
             android:paddingLeft="10dp"
             android:text="내 거래 후기"
             android:textSize="32dp"/>
-
     </LinearLayout>
+
+    <Button
+        android:id="@+id/adressSetting"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="동네 설정" />
+
 </LinearLayout>
