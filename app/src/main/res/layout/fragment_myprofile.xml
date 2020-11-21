@@ -185,7 +185,6 @@
             android:layout_marginLeft="75dp"
             android:src="@drawable/line1"/>
 
-<<<<<<< HEAD
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -193,8 +192,6 @@
             android:paddingLeft="10dp"
             android:text="내 거래 후기"
             android:textSize="32dp"/>
-=======
->>>>>>> 40d6599dbbb4cedb7ac4bff15b286a0f359611d7
     </LinearLayout>
 
     <Button

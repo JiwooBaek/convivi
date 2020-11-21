@@ -1,8 +1,10 @@
 package com.example.project_1.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,39 +17,51 @@ import java.util.ArrayList;
 
 import model.addressSearch.Document;
 
-public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.Viewholder> {
-    ArrayList<Document> items = new ArrayList<>();
+public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHolder> {
+    Context context;
+    ArrayList<Document> items;
+    EditText editText;
+    RecyclerView recyclerView;
 
-    public AddressAdapter(ArrayList<Document> items) {
+    public AddressAdapter(Context context, ArrayList<Document> items, EditText editText, RecyclerView recyclerView) {
+        this.context = context;
         this.items = items;
+        this.editText = editText;
+        this.recyclerView = recyclerView;
     }
 
     @NonNull
     @Override
-    public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.address_item, parent, false);
-        RecyclerView.ViewHolder holder = new Viewholder(view);
-        return (Viewholder) holder;
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AddressAdapter.Viewholder holder, int position) {
-        holder.address.setText(items.get(position).getAddressName());
+    public void onBindViewHolder(@NonNull AddressAdapter.ViewHolder holder, int position) {
+        final Document model = items.get(position);
+        holder.address.setText(model.getAddressName());
+    }
+
+    public void claer(){
+        items.clear();
+    }
+
+    public void addItem(Document item) {
+        items.add(item);
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return (null != items ? items.size() : 0);
     }
 
-    public void clear(){
-        items.clear();
-    }
 
-    public class Viewholder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         protected TextView address;
 
-        public Viewholder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.address = (TextView) itemView.findViewById(R.id.address);
         }

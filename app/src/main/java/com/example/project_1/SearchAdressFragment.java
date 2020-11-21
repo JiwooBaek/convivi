@@ -22,6 +22,7 @@ import com.example.project_1.api.ApiInterface;
 
 import java.util.ArrayList;
 
+import model.addressSearch.Address;
 import model.addressSearch.AddressSearch;
 import model.addressSearch.Document;
 import retrofit2.Call;
@@ -31,47 +32,49 @@ import retrofit2.Response;
 public class SearchAdressFragment extends Fragment {
 
     private ArrayList<AddressItem> addressItems;
-    private ArrayList<Document> documents;
     private AddressAdapter addressAdapter;
     private RecyclerView addressRecyclerView;
     private LinearLayoutManager layoutManager;
     private EditText addressSearch;
-    private AddressItem addressItem;
+    ArrayList<Document> items = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = (ViewGroup)inflater.inflate(R.layout.fragment_search_adress, container, false);
+        View view = (ViewGroup) inflater.inflate(R.layout.fragment_search_adress, container, false);
 
-        addressRecyclerView = (RecyclerView)view.findViewById(R.id.addressRecyclerView);
+        addressRecyclerView = (RecyclerView) view.findViewById(R.id.addressRecyclerView);
         addressSearch = (EditText) view.findViewById(R.id.addressSearch);
-        layoutManager = new LinearLayoutManager(getActivity().getApplicationContext(),RecyclerView.VERTICAL, false);
+        layoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), RecyclerView.VERTICAL, false);
         addressRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity().getApplicationContext(), DividerItemDecoration.VERTICAL));
         addressRecyclerView.setLayoutManager(layoutManager);
-        addressAdapter = new AddressAdapter(documents);
+        addressAdapter = new AddressAdapter(getActivity().getApplicationContext(), items, addressSearch, addressRecyclerView);
         addressRecyclerView.setAdapter(addressAdapter);
 
         addressSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                addressRecyclerView.setVisibility(View.INVISIBLE);
+                addressRecyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() >= 1){
-                    addressAdapter.clear();
+                if (count >= 2) {
+                    items.clear();
+                    addressAdapter.claer();
                     addressAdapter.notifyDataSetChanged();
                     ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
                     Call<AddressSearch> call = apiInterface.getSearchAddress(getString(R.string.restapi_key), s.toString());
                     call.enqueue(new Callback<AddressSearch>() {
                         @Override
                         public void onResponse(Call<AddressSearch> call, Response<AddressSearch> response) {
-                            Log.d("응답", response.body().toString());
-                            if(response.isSuccessful()){
+                            if (response.isSuccessful()) {
+                                assert response.body() != null;
                                 for (Document document : response.body().getDocuments()) {
-                                    documents.add(document);
-                                } addressAdapter.notifyDataSetChanged();
+                                    addressAdapter.addItem(document);
+                                    Log.d("응답", addressAdapter.getItemCount() + "");
+                                }
+                                addressAdapter.notifyDataSetChanged();
                             }
                         }
 
@@ -80,19 +83,21 @@ public class SearchAdressFragment extends Fragment {
 
                         }
                     });
-
                 } else {
-                    addressRecyclerView.setVisibility(View.INVISIBLE);
+                    if (s.length() <= 0) {
+                        addressRecyclerView.setVisibility(View.GONE);
+                    }
                 }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
+
         return view;
     }
+
 }
