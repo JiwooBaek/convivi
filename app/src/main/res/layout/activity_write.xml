@@ -24,43 +24,24 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-        <LinearLayout
-            android:id="@+id/pickerPanel"
-            android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginVertical="5dp">
-
-            <Spinner
-                android:id="@+id/category"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="2"
-                android:spinnerMode="dropdown"
-                android:entries="@array/WritingCategory">
-            </Spinner>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:fontFamily="@font/nanumbarungothic"
-                android:text="목표인원"
-                android:textSize="18dp"/>
-
-            <NumberPicker
-                android:id="@+id/targetNoP"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_below="@+id/write_title"
-                android:layout_alignRight="@+id/category">
-            </NumberPicker>
-        </LinearLayout>
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/roundrectangle_green"
+            android:fontFamily="@font/nanumbarungothic"
+            android:text="저장"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
         <!-- 글 제목-->
         <EditText
             android:id="@+id/write_title"
@@ -68,33 +49,77 @@
             android:layout_height="60dp"
             android:layout_below="@id/pickerPanel"
             android:fontFamily="@font/nanumbarungothic_bold"
-            android:textSize="30sp"
-            android:hint="제목" />
+            android:hint="제목"
+            android:textSize="30sp" />
 
+        <LinearLayout
+            android:id="@+id/add_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            android:layout_below="@+id/write_title"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/addImageButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/imagePreview"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:scrollbars="horizontal"
+                android:layout_marginLeft="15dp"/>
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/write_title"
-            android:fontFamily="@font/nanumbarungothic"
+            android:layout_below="@id/add_image"
+            android:layout_marginTop="10dp"
             android:background="@null"
+            android:fontFamily="@font/nanumbarungothic"
             android:hint="글을 입력해주세요." />
 
-        <Button
-            android:id="@+id/btn_save"
-            android:layout_width="400dp"
+
+        <LinearLayout
+            android:id="@+id/pickerPanel"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/roundrectangle_green"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:textSize="20sp"
-            android:fontFamily="@font/nanumbarungothic"
-            android:textColor="#ffffff"
-            android:text="저장"
-            android:layout_gravity="center|bottom"
-            />
+            android:layout_marginVertical="5dp"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/category"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="2"
+                android:entries="@array/WritingCategory"
+                android:spinnerMode="dropdown"></Spinner>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nanumbarungothic"
+                android:gravity="center"
+                android:text="목표인원"
+                android:textSize="18dp" />
+
+            <NumberPicker
+                android:id="@+id/targetNoP"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_below="@+id/write_title"
+                android:layout_alignRight="@+id/category"></NumberPicker>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
 

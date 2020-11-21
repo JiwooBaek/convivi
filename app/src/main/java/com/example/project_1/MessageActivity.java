@@ -154,20 +154,18 @@ public class MessageActivity extends AppCompatActivity {
         messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageurl);
         recyclerView.setAdapter(messageAdapter);
 
+        reference = FirebaseDatabase.getInstance().getReference().child("Chatlist").child(chatid).child("comments");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mchat.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ChatModel.Comment comment = snapshot.getValue(ChatModel.Comment.class);
-
                     mchat.add(comment);
-                    messageAdapter.notifyDataSetChanged();
                 }
                     messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageurl);
                     recyclerView.setAdapter(messageAdapter);
                     messageAdapter.notifyDataSetChanged();
-
 
             }
 

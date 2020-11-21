@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,7 +54,6 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     private DatabaseReference ref_user = FirebaseDatabase.getInstance().getReference().child("Users");
     SignInButton signIn_google;
-    private boolean phoneAuthFlag;
     private String currentUid;
     private static final int RC_SIGN_IN = 1000;
 
@@ -123,47 +123,30 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
                 .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        // User DB에서 PhoneAuthFlag 값 가져오기 & flag 변수 설정
-                        currentUid = firebaseAuth.getCurrentUser().getUid();
-                        FirebaseDatabase.getInstance().getReference().child("Users").child(currentUid)
-                                .addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        UserModel userModel = dataSnapshot.getValue(UserModel.class);
-                                        phoneAuthFlag = userModel.phoneAuthFlag;
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-                        //휴대폰 인증 flag == true
-                        if(task.isSuccessful() && phoneAuthFlag) {
+                        if(task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "로그인 성공!", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LogInActivity.this, MainActivity.class));
 
-                        // 휴대폰 인증 flag != true
                         } else {
                             Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
-                        AlertDialog.Builder builder = new AlertDialog.Builder(LogInActivity.this);
-                        builder.setMessage("휴대폰 인증이 필요합니다.")
-                                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = new Intent(getApplicationContext(), VerifyPhoneNumber.class);
-                                        intent.putExtra("uid", currentUid).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                        startActivity(intent);
-                                    }
-                                })
-                                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(LogInActivity.this);
+//                        builder.setMessage("휴대폰 인증이 필요합니다.")
+//                                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        Intent intent = new Intent(getApplicationContext(), VerifyPhoneNumber.class);
+//                                        intent.putExtra("uid", currentUid).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                                        startActivity(intent);
+//                                    }
+//                                })
+//                                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        dialog.cancel();
+//                                    }
+//                                });
+//                        AlertDialog dialog = builder.create();
+//                        dialog.show();
                         }
                     }
 
@@ -206,10 +189,14 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
                                     if(!(dataSnapshot.hasChild(uid))) {
                                         //RealTime Database에 User 추가
                                         userModel.uid = uid;
-                                        userModel.name = acct.getId();
+                                        userModel.name = "유저" + (acct.getId()).substring(0, 4);
                                         userModel.emailAddress = acct.getEmail();
                                         userModel.imgURL = "default";
+                                        userModel.phoneAuthFlag = false;
                                         FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(userModel);
+
+                                        // 휴대폰 인증 화면으로 이동
+                                        startActivity(new Intent(getApplicationContext(), VerifyPhoneNumber.class).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
                                     } else {
                                         Toast.makeText(LogInActivity.this, acct.getId() + "님, 환영합니다!", Toast.LENGTH_SHORT).show();
                                     }

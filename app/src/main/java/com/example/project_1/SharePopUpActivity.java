@@ -27,7 +27,7 @@ import model.ShareModel;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class PopUpActivity extends Activity {
+public class SharePopUpActivity extends Activity {
 
     TextView titleView;
     TextView addressView;
@@ -49,7 +49,6 @@ public class PopUpActivity extends Activity {
     String userUid;
     private FirebaseDatabase database;
     private DatabaseReference ref_share = FirebaseDatabase.getInstance().getReference().child("Share");
-    private DatabaseReference ref_buy = FirebaseDatabase.getInstance().getReference().child("Buy");
 
     String checkRoom = "";
 
@@ -58,7 +57,7 @@ public class PopUpActivity extends Activity {
         super.onCreate(savedInstanceState);
         //타이틀바 제거
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_popup);
+        setContentView(R.layout.activity_share_popup);
 
         titleView = (TextView) findViewById(R.id.title);
         addressView = (TextView) findViewById(R.id.userAddress);
@@ -97,29 +96,6 @@ public class PopUpActivity extends Activity {
                 }
             });
 
-        } else if(id.substring(0, 1).equals("B")) {
-            ref_buy.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    BuyModel buyModel = dataSnapshot.getValue(BuyModel.class);
-                    uid = buyModel.host;
-                    title = buyModel.title;
-                    description = buyModel.description;
-                    targetNum = Integer.toString(buyModel.targetNOP);
-                    currentNum = Integer.toString(buyModel.currentNOP);
-
-                    titleView.setText(title);
-                    descriptionView.setText(description);
-                    targetNumView.setText(targetNum);
-                    currentNumView.setText(currentNum);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-
         } else {
             Toast.makeText(this, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
         }
@@ -139,30 +115,13 @@ public class PopUpActivity extends Activity {
             public void onClick(View view) {
                 //ChatModel chatModel = new ChatModel();
                 ChatUserModel chatUserModel = new ChatUserModel();
-                //채팅방 데베에 생성
-                /*
-                ChatModel chatModel = new ChatModel();
-                chatModel.host = uid;
-                chatModel.roomNumber = idNum;
-                database.getInstance().getReference("Share").child(idNum).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
-                        uid = shareModel.host;
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });*/
-                //chatModel.users.put(fuserUid, true);
                 chatUserModel.users.put(userUid, true);
 
                 //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue(chatUserModel);
 
                 //채팅방 클릭 시 이동
-                Intent intent = new Intent(PopUpActivity.this, ChatActivity.class);
+                Intent intent = new Intent(SharePopUpActivity.this, MessageActivity.class);
                 intent.putExtra("userid", uid);
                 intent.putExtra("chatid", id);
                 startActivity(intent);

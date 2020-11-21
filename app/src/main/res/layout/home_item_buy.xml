@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/profile"
         android:layout_alignBottom="@id/profile"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="50dp"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/currentNOP"

@@ -11,8 +11,9 @@
         android:layout_height="wrap_content"
         android:text="대여 및 나눔"
         android:fontFamily="@font/nanumbarungothic_bold"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="40sp"
-        android:padding="10dp"
+        android:padding="15dp"
         android:gravity="center" />
 
     <ListView

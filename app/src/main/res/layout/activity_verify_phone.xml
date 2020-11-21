@@ -12,6 +12,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginBottom="20dp"
         android:textSize="18dp"
+        android:textColor="@color/colorPrimaryDark"
         android:text="인증번호 전송을 위해 전화번호를 입력해주세요."/>
 
 
@@ -50,6 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:backgroundTint="@color/colorPrimary"
             android:text="인증번호 전송"></Button>
 
     </LinearLayout>
@@ -62,6 +64,7 @@
         android:layout_below="@+id/PhoneNumber_box"
         android:layout_marginHorizontal="10dp"
         android:text="인증번호 입력"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="18dp"
         android:textStyle="bold"/>
 
@@ -91,6 +94,7 @@
             android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
             android:gravity="center"
+            android:fontFamily="@font/nanumbarungothic"
             android:text="코드 전송 중입니다.\n기다려주세요."
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
@@ -110,5 +114,6 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
         android:text="완 료"/>
 </RelativeLayout>
