@@ -9,9 +9,11 @@ import model.ChatModel;
 import model.ShareModel;
 
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 
@@ -23,6 +25,7 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
@@ -48,9 +51,11 @@ public class WriteActivity extends AppCompatActivity {
     private DatabaseReference ref_buy;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Button btn_image;
-    private RecyclerView imageView;
+    private RecyclerView imageItemView;
     private Uri imageUri;
     private ArrayList<ImageView> imageList;
+    private static final int GALLERY_CODE = 10;
+
 
     private long shareCount;
     private  long buyCount;
@@ -77,7 +82,10 @@ public class WriteActivity extends AppCompatActivity {
         category = (Spinner) findViewById(R.id.category);
         targetNum = (NumberPicker) findViewById(R.id.targetNoP);
         btn_image = (Button) findViewById(R.id.addImageButton);
-        imageView = (RecyclerView) findViewById(R.id.imagePreview);
+
+        //Image RecyclerView
+        imageItemView = (RecyclerView) findViewById(R.id.imagePreview);
+
 
         // 목표인원수 제한 설정 및 설정값 가져오기
         targetNum.setMinValue(1);
@@ -119,10 +127,11 @@ public class WriteActivity extends AppCompatActivity {
             }
         });
 
+        // 이미지 추가 버튼 동작
         btn_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                openFileChooser();
             }
         });
 
@@ -229,11 +238,37 @@ public class WriteActivity extends AppCompatActivity {
 
     }
 
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, GALLERY_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        ImageView image = null;
+
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+            && data != null && data.getData() != null) {
+                imageUri = data.getData();
+                Glide.with(this).load(imageUri).into(image);
+
+                imageList.add(image);
+        }
+
+
+    }
+
+    //나눔게시글 아이디 설정
     private String setShareId(long num) {
         String id = "S" + num;
         return id;
     }
 
+    //공구게시글 아이디 설정
     private String setBuyId(long num) {
         String id = "B" + num;
         return id;

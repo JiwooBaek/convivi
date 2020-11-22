@@ -1,4 +1,4 @@
-package com.example.project_1;
+package com.example.project_1.Item;
 
 public class HomeShareItem {
     private String id;

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.example.project_1.Item.ListRowItem_Buy;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import model.BuyModel;
-import model.ShareModel;
 import model.UserModel;
 
 public class ViewMoreActivity2 extends AppCompatActivity {

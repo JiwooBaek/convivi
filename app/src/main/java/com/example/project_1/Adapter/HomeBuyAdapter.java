@@ -6,15 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.project_1.BuyPopUpActivity;
-import com.example.project_1.HomeBuyItem;
-import com.example.project_1.SharePopUpActivity;
+import com.example.project_1.Item.HomeBuyItem;
 import com.example.project_1.R;
 
 import java.util.ArrayList;

@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.project_1.Item.MessageItem;
 
 import java.util.ArrayList;
 
