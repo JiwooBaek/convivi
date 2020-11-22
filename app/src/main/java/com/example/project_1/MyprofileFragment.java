@@ -1,9 +1,11 @@
 package com.example.project_1;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +33,21 @@ public class MyprofileFragment extends Fragment {
     String userImage;
     TextView userNameView;
     CircleImageView userImageView;
+    Button adressSetting;
+
+    MainActivity activity;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        activity = (MainActivity)getActivity();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        activity = null;
+    }
 
     @Nullable
     @Override
@@ -42,26 +59,33 @@ public class MyprofileFragment extends Fragment {
         userNameView = (TextView) view.findViewById(R.id.profile_name);
         userImageView = (CircleImageView) view.findViewById(R.id.profile_img);
 
-        // 사용자 정보 가져오기
-        database.getInstance().getReference("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserModel userModel = dataSnapshot.getValue(UserModel.class);
-                userName = userModel.name;
-                userImage = userModel.imgURL;
 
+//        // 사용자 정보 가져오기
+//        database.getInstance().getReference("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                UserModel userModel = dataSnapshot.getValue(UserModel.class);
+//                userName = userModel.name;
+//                userImage = userModel.imgURL;
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        // 프로플 이름 & 사진 설정
+        // 프로필 이름 & 사진 설정
         userNameView.setText(userName);
         Glide.with(this).load(userImage).into(userImageView);
+
+        adressSetting = (Button) view.findViewById(R.id.adressSetting);
+        adressSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.setFrag(3);
+            }
+        });
 
         return view;
     }

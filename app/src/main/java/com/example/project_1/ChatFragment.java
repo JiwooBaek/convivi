@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import model.ChatModel;
+import model.ShareModel;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ public class ChatFragment extends Fragment {
 //    private List<UserModel> mUser;
     FirebaseUser fuser;
     DatabaseReference reference;
+    FirebaseDatabase database;
 
     private List<ChatModel> mChatList;
     //private List<ChatModel> chatList;
@@ -49,7 +51,8 @@ public class ChatFragment extends Fragment {
 
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
-        String fuserid = fuser.getUid();
+        final String fuserId = fuser.getUid();
+        String chatTitle;
 
         userList = new ArrayList<>();
         mChatList = new ArrayList<>();
@@ -62,13 +65,24 @@ public class ChatFragment extends Fragment {
                 mChatList.clear();
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    ChatModel chatList = snapshot.getValue(ChatModel.class); //숫자 때문에 잘되고 있는지 의문.
-                    userList(chatList.roomId);
-                    for(String user : userList) {
-                        if (user.equals(fuserid)) {
-                            mChatList.add(chatList);
-                        }
+                    ChatModel chatList = snapshot.getValue(ChatModel.class);
+                    if (chatList.guest.equals(fuserId) || chatList.host.equals(fuserId)) {
+                        mChatList.add(chatList);
                     }
+/*
+                    database.getInstance().getReference("Share").child(chatList.roomId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
+                            chatTitle = shareModel.title;
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });*/
+
                 }
 
                 chatAdapter = new ChatAdapter(getContext(), mChatList);
@@ -83,52 +97,5 @@ public class ChatFragment extends Fragment {
 
         return view;
     }
-
-    private void userList(String roomnumber) {
-        reference = FirebaseDatabase.getInstance().getReference().child("Chatlist").child("host_id").child(roomnumber);
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                userList.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String user = snapshot.getKey();
-                    userList.add(user);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
-/*
-    private void readChats() {
-        mUser = new ArrayList<>();
-
-        reference = FirebaseDatabase.getInstance().getReference("Users");
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mUser.clear();
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    User user = snapshot.getValue(User.class);
-
-                    for (String id : userList) {
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }*/
 
 }
