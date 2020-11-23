@@ -6,15 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import model.BuyModel;
 import model.ChatModel;
+import com.example.project_1.Item.ImageItem;
 import model.ShareModel;
 
 import android.content.Intent;
-import android.media.Image;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 
 import android.widget.AdapterView;
@@ -25,15 +25,15 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.example.project_1.Adapter.ImageAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class WriteActivity extends AppCompatActivity {
@@ -52,10 +52,10 @@ public class WriteActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private Button btn_image;
     private RecyclerView imageItemView;
+    private ImageAdapter imageAdapter;
     private Uri imageUri;
-    private ArrayList<ImageView> imageList;
+    private ArrayList<ImageItem> imageList;
     private static final int GALLERY_CODE = 10;
-
 
     private long shareCount;
     private  long buyCount;
@@ -85,6 +85,9 @@ public class WriteActivity extends AppCompatActivity {
 
         //Image RecyclerView
         imageItemView = (RecyclerView) findViewById(R.id.imagePreview);
+        imageList = new ArrayList<>();
+        imageAdapter = new ImageAdapter(imageList);
+        imageItemView.setAdapter(imageAdapter);
 
 
         // 목표인원수 제한 설정 및 설정값 가져오기
@@ -237,9 +240,9 @@ public class WriteActivity extends AppCompatActivity {
 
     private void openFileChooser() {
         Intent intent = new Intent();
-        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, GALLERY_CODE);
+        startActivityForResult(intent.createChooser(intent, "Select Picture"), GALLERY_CODE);
     }
 
     @Override
@@ -250,10 +253,11 @@ public class WriteActivity extends AppCompatActivity {
 
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
             && data != null && data.getData() != null) {
-                imageUri = data.getData();
-                Glide.with(this).load(imageUri).into(image);
+            imageUri = data.getData();
+            ImageItem imageItem = new ImageItem(imageUri);
 
-                imageList.add(image);
+            imageList.add(imageItem);
+            imageAdapter.notifyDataSetChanged();
         }
 
 
@@ -269,5 +273,11 @@ public class WriteActivity extends AppCompatActivity {
     private String setBuyId(long num) {
         String id = "B" + num;
         return id;
+    }
+
+    private void uploadImage() {
+        if(imageUri != null) {
+
+        }
     }
 }
