@@ -114,9 +114,9 @@ public class SharePopUpActivity extends Activity {
             @Override
             public void onClick(View view) {
                 //ChatModel chatModel = new ChatModel();
-                ChatUserModel chatUserModel = new ChatUserModel();
+                //ChatUserModel chatUserModel = new ChatUserModel();
 
-                chatUserModel.users.put(userUid, true);
+                //chatUserModel.users.put(userUid, true);
 
                 //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue(chatUserModel);
 
@@ -124,6 +124,7 @@ public class SharePopUpActivity extends Activity {
                 Intent intent = new Intent(SharePopUpActivity.this, MessageActivity.class);
                 intent.putExtra("userid", uid);
                 intent.putExtra("chatid", id);
+
                 startActivity(intent);
             }
         });
