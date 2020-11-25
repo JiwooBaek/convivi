@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.project_1.R;
 
 import java.io.IOException;
@@ -39,6 +40,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Uri imageUri = list.get(position).getImageUri();
+        list.get(position).setImageUrl(imageUri);
+
+        Glide.with(holder.itemView.getContext())
+                .load(list.get(position).getImageUrl())
+                .into(holder.image);
 
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(holder.itemView.getContext().getContentResolver(), imageUri);

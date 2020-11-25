@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
                             buyList.add(homeBuyItem);
                         }
                         homeBuyAdapter.notifyDataSetChanged();
-                    }
+                }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {

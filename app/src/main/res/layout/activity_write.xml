@@ -66,10 +66,15 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/imagePreview"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:scrollbars="horizontal"
                 android:layout_marginLeft="15dp"/>
+
+            <ImageView
+                android:id="@+id/imagePreview2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"/>
 
         </LinearLayout>
 

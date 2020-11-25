@@ -9,6 +9,7 @@ import model.ChatModel;
 import com.example.project_1.Item.ImageItem;
 import model.ShareModel;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -26,15 +27,22 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.project_1.Adapter.ImageAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class WriteActivity extends AppCompatActivity {
 
@@ -52,10 +60,13 @@ public class WriteActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private Button btn_image;
     private RecyclerView imageItemView;
+    private ImageView imageView;
     private ImageAdapter imageAdapter;
     private Uri imageUri;
     private ArrayList<ImageItem> imageList;
-    private static final int GALLERY_CODE = 10;
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
 
     private long shareCount;
     private  long buyCount;
@@ -82,6 +93,7 @@ public class WriteActivity extends AppCompatActivity {
         category = (Spinner) findViewById(R.id.category);
         targetNum = (NumberPicker) findViewById(R.id.targetNoP);
         btn_image = (Button) findViewById(R.id.addImageButton);
+        imageView = (ImageView) findViewById(R.id.imagePreview2);
 
         //Image RecyclerView
         imageItemView = (RecyclerView) findViewById(R.id.imagePreview);
@@ -162,6 +174,9 @@ public class WriteActivity extends AppCompatActivity {
                                 shareModel.host = uid;
                                 shareModel.description = et_description.getText().toString();
                                 ref_share.child(shareModel.id).setValue(shareModel);
+
+                                String path = "Share_image/"+shareModel.id;
+                                imageUpload(path);
                             }
 
 
@@ -214,9 +229,11 @@ public class WriteActivity extends AppCompatActivity {
                                 buyModel.host = uid;
                                 buyModel.description = et_description.getText().toString();
                                 buyModel.currentNOP = 0;
-
                                 buyModel.targetNOP = targetNum.getValue();
                                 ref_buy.child(buyModel.id).setValue(buyModel);
+
+                                String path = "Buy_image/" + buyModel.id;
+                                imageUpload(path);
                             }
 
                             //구매 채팅방 자동으로 생성
@@ -238,28 +255,65 @@ public class WriteActivity extends AppCompatActivity {
 
     }
 
+    // 갤러리에서 이미지 가져오기
     private void openFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent.createChooser(intent, "Select Picture"), GALLERY_CODE);
+        startActivityForResult(intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        ImageView image = null;
-
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
             && data != null && data.getData() != null) {
             imageUri = data.getData();
-            ImageItem imageItem = new ImageItem(imageUri);
 
-            imageList.add(imageItem);
-            imageAdapter.notifyDataSetChanged();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                imageView.setImageBitmap(bitmap);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+//            ImageItem imageItem = new ImageItem(imageUri);
+//            imageList.add(imageItem);
+//            imageAdapter.notifyDataSetChanged();
         }
+    }
 
+    private void imageUpload(String path) {
+        if(imageUri != null) {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            StorageReference ref = storageRef.child(path + "/" +  UUID.randomUUID().toString());
+            ref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+                    Toast.makeText(WriteActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressDialog.dismiss();
+                    Toast.makeText(WriteActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                    progressDialog.setMessage("Uploaded " + (int) progress + "%");
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "imageUri value is NULL", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
