@@ -72,8 +72,8 @@ public class WriteActivity extends AppCompatActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
 
-    private long shareCount;
-    private  long buyCount;
+    private long shareCount = 0;
+    private  long buyCount = 0;
 
     //채팅방 인스턴스
     private FirebaseDatabase database;
@@ -115,10 +115,15 @@ public class WriteActivity extends AppCompatActivity {
         ref_share.orderByKey().limitToLast(1).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot latestItem : dataSnapshot.getChildren()) {
-                    ShareModel shareModel = latestItem.getValue(ShareModel.class);
+                for(DataSnapshot shareItem : dataSnapshot.getChildren()) {
+                    ArrayList<ShareModel> shareModels = new ArrayList<>();
+                    shareModels.add(shareItem.getValue(ShareModel.class));
 
-                    shareCount = Long.parseLong(shareModel.id.substring(1));
+                    for(ShareModel model : shareModels) {
+                        if(Long.parseLong(model.idNum) > shareCount) {
+                            shareCount = Long.parseLong(model.idNum);
+                        }
+                    }
                     shareCount++;
                 }
             }
@@ -132,10 +137,15 @@ public class WriteActivity extends AppCompatActivity {
         ref_buy.orderByChild("id").limitToLast(1).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot latestItem : dataSnapshot.getChildren()) {
-                    BuyModel buyModel = latestItem.getValue(BuyModel.class);
+                for(DataSnapshot buyItem : dataSnapshot.getChildren()) {
+                    ArrayList<BuyModel> buyModels = new ArrayList<>();
+                    buyModels.add(buyItem.getValue(BuyModel.class));
 
-                    buyCount = Long.parseLong(buyModel.id.substring(1));
+                    for(BuyModel model : buyModels) {
+                        if(Long.parseLong(model.idNum) > buyCount) {
+                            buyCount = Long.parseLong(model.idNum);
+                        }
+                    }
                     buyCount++;
                 }
             }
