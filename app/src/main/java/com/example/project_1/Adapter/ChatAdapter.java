@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
+import model.BuyModel;
 import model.ChatModel;
 import model.ShareModel;
 
@@ -51,7 +52,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final ChatModel chatModel = mChats.get(position);
 
-        //글 제목으로 바꾸는 게 좋겠음. 일단은 host 이름으로
+
         lastMessgae(chatModel.roomId, holder.description);
         chatTitle(chatModel.roomId, holder.chat_title);
         //holder.chat_title.setText(chatModel.host);
@@ -98,6 +99,22 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
                     theChatTitle = shareModel.title;
+                    chat_title.setText(theChatTitle);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        } else if (roomid.substring(0, 1).equals("B")) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Buy").child(roomid);
+
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    BuyModel buyModel = dataSnapshot.getValue(BuyModel.class);
+                    theChatTitle = buyModel.title;
                     chat_title.setText(theChatTitle);
                 }
 

@@ -183,10 +183,7 @@ public class WriteActivity extends AppCompatActivity {
                                 imageUpload(path, imageList);
                             }
 
-
-                            //채팅방 생성, 글 번호(RoomNum)를 기준으로
-
-                            //채팅방 생성
+                            //나눔 채팅방 자동 생성
 
                             ChatModel chatModel = new ChatModel();
                             chatModel.host = uid;
@@ -240,11 +237,13 @@ public class WriteActivity extends AppCompatActivity {
                                 imageUpload(path, imageList);
                             }
 
-                            //구매 채팅방 자동으로 생성
+                            //구매 채팅방 자동 생성
+                            ChatModel chatModel = new ChatModel();
+                            chatModel.host = uid;
+                            chatModel.guest = "null";
+                            chatModel.roomId = buyModel.id;
 
-
-
-
+                            FirebaseDatabase.getInstance().getReference().child("Chatlist").child(chatModel.roomId).setValue(chatModel);
 
                             finish();
                         }

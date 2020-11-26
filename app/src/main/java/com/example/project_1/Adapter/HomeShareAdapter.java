@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -66,13 +67,13 @@ public class HomeShareAdapter extends RecyclerView.Adapter<HomeShareAdapter.View
     }
 
     public class Viewhloder extends RecyclerView.ViewHolder {
-        protected CircleImageView profile;
+        protected ImageView profile;
         protected TextView title;
         protected TextView adress;
 
         public Viewhloder(@NonNull View itemView) {
             super(itemView);
-            this.profile = (CircleImageView) itemView.findViewById(R.id.profile);
+            this.profile = (ImageView) itemView.findViewById(R.id.profile);
             this.title = (TextView) itemView.findViewById(R.id.title);
             this.adress = (TextView) itemView.findViewById(R.id.adress);
         }

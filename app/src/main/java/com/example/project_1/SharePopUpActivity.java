@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +36,7 @@ public class SharePopUpActivity extends Activity {
     TextView hostView;
     TextView targetNumView;
     TextView currentNumView;
-    CircleImageView profileImageView;
+    ImageView profileImageView;
     LinearLayout hostLayout;
     String title;
     String address;
@@ -62,7 +63,7 @@ public class SharePopUpActivity extends Activity {
         titleView = (TextView) findViewById(R.id.title);
         addressView = (TextView) findViewById(R.id.userAddress);
         descriptionView = (TextView) findViewById(R.id.description);
-        profileImageView = (CircleImageView) findViewById(R.id.profile_image);
+        profileImageView = (ImageView) findViewById(R.id.profile_image);
         hostView = (TextView) findViewById(R.id.hostName);
         targetNumView = (TextView) findViewById(R.id.targetNOP);
         currentNumView = (TextView) findViewById(R.id.currentNOP);
@@ -114,9 +115,9 @@ public class SharePopUpActivity extends Activity {
             @Override
             public void onClick(View view) {
                 //ChatModel chatModel = new ChatModel();
-                ChatUserModel chatUserModel = new ChatUserModel();
+                //ChatUserModel chatUserModel = new ChatUserModel();
 
-                chatUserModel.users.put(userUid, true);
+                //chatUserModel.users.put(userUid, true);
 
                 //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue(chatUserModel);
 
@@ -124,6 +125,7 @@ public class SharePopUpActivity extends Activity {
                 Intent intent = new Intent(SharePopUpActivity.this, MessageActivity.class);
                 intent.putExtra("userid", uid);
                 intent.putExtra("chatid", id);
+
                 startActivity(intent);
             }
         });
