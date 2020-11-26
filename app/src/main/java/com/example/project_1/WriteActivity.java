@@ -197,7 +197,7 @@ public class WriteActivity extends AppCompatActivity {
 
                             ChatModel chatModel = new ChatModel();
                             chatModel.host = uid;
-                            chatModel.guest = "null";
+                            chatModel.guest = "null";       //초기에 게스트 필드를 null로 초기화
                             chatModel.roomId = shareModel.id;
 
                             /*
@@ -242,10 +242,17 @@ public class WriteActivity extends AppCompatActivity {
                                 buyModel.currentNOP = 0;
                                 buyModel.targetNOP = targetNum.getValue();
                                 ref_buy.child(buyModel.id).setValue(buyModel);
+                            }
+
+                            //구매 채팅방 자동으로 생성
 
                                 String path = "Buy_image/" + buyModel.id;
+<<<<<<< HEAD
+                                imageUpload(path);
+=======
                                 imageUpload(path, imageList);
                             }
+>>>>>>> 6433d1d8f9cf992f27c8d52abacbfa2a3c98d918
 
                             //구매 채팅방 자동 생성
                             ChatModel chatModel = new ChatModel();
