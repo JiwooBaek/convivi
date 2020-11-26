@@ -4,7 +4,6 @@ import android.net.Uri;
 
 public class ImageItem {
     public Uri imageUri;
-    public String imageUrl;
 
     public ImageItem(Uri imageUri) {
         this.imageUri = imageUri;
@@ -18,11 +17,4 @@ public class ImageItem {
         this.imageUri = imageUri;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(Uri imageUri) {
-        this.imageUrl = imageUri.toString();
-    }
 }

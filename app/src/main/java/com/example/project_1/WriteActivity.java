@@ -3,6 +3,7 @@ package com.example.project_1;
 import androidx.annotation.NonNull;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import model.BuyModel;
 import model.ChatModel;
@@ -22,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -55,15 +57,17 @@ public class WriteActivity extends AppCompatActivity {
     private Button btn_exit;
     private Button btn_save;
     private NumberPicker targetNum;
+
     private DatabaseReference ref_share;
     private DatabaseReference ref_buy;
-    private static final int PICK_IMAGE_REQUEST = 1;
+
     private Button btn_image;
     private RecyclerView imageItemView;
-    private ImageView imageView;
     private ImageAdapter imageAdapter;
     private Uri imageUri;
     private ArrayList<ImageItem> imageList;
+    private HomeListDecoration homeListDecoration;
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
@@ -93,10 +97,10 @@ public class WriteActivity extends AppCompatActivity {
         category = (Spinner) findViewById(R.id.category);
         targetNum = (NumberPicker) findViewById(R.id.targetNoP);
         btn_image = (Button) findViewById(R.id.addImageButton);
-        imageView = (ImageView) findViewById(R.id.imagePreview2);
 
         //Image RecyclerView
         imageItemView = (RecyclerView) findViewById(R.id.imagePreview);
+        imageItemView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         imageList = new ArrayList<>();
         imageAdapter = new ImageAdapter(imageList);
         imageItemView.setAdapter(imageAdapter);
@@ -176,7 +180,7 @@ public class WriteActivity extends AppCompatActivity {
                                 ref_share.child(shareModel.id).setValue(shareModel);
 
                                 String path = "Share_image/"+shareModel.id;
-                                imageUpload(path);
+                                imageUpload(path, imageList);
                             }
 
                             //나눔 채팅방 자동 생성
@@ -230,7 +234,7 @@ public class WriteActivity extends AppCompatActivity {
                                 ref_buy.child(buyModel.id).setValue(buyModel);
 
                                 String path = "Buy_image/" + buyModel.id;
-                                imageUpload(path);
+                                imageUpload(path, imageList);
                             }
 
                             //구매 채팅방 자동 생성
@@ -270,46 +274,40 @@ public class WriteActivity extends AppCompatActivity {
             && data != null && data.getData() != null) {
             imageUri = data.getData();
 
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                imageView.setImageBitmap(bitmap);
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-//            ImageItem imageItem = new ImageItem(imageUri);
-//            imageList.add(imageItem);
-//            imageAdapter.notifyDataSetChanged();
+            ImageItem imageItem = new ImageItem(imageUri);
+            imageList.add(imageItem);
+            imageAdapter.notifyDataSetChanged();
         }
     }
 
-    private void imageUpload(String path) {
-        if(imageUri != null) {
+    private void imageUpload(String path, ArrayList<ImageItem> list) {
+        if(imageList != null && !isFinishing()) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            StorageReference ref = storageRef.child(path + "/" +  UUID.randomUUID().toString());
-            ref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    progressDialog.dismiss();
-                    Toast.makeText(WriteActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    progressDialog.dismiss();
-                    Toast.makeText(WriteActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                    progressDialog.setMessage("Uploaded " + (int) progress + "%");
-                }
-            });
+            for(ImageItem item : list) {
+                StorageReference ref = storageRef.child(path + "/" + UUID.randomUUID().toString());
+                ref.putFile(item.getImageUri()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        progressDialog.dismiss();
+                        Toast.makeText(WriteActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(WriteActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                        progressDialog.setMessage("Uploaded " + (int) progress + "%");
+                    }
+                });
+            }
         } else {
             Toast.makeText(getApplicationContext(), "imageUri value is NULL", Toast.LENGTH_SHORT).show();
         }
