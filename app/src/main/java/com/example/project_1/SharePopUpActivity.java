@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +36,7 @@ public class SharePopUpActivity extends Activity {
     TextView hostView;
     TextView targetNumView;
     TextView currentNumView;
-    CircleImageView profileImageView;
+    ImageView profileImageView;
     LinearLayout hostLayout;
     String title;
     String address;
@@ -62,7 +63,7 @@ public class SharePopUpActivity extends Activity {
         titleView = (TextView) findViewById(R.id.title);
         addressView = (TextView) findViewById(R.id.userAddress);
         descriptionView = (TextView) findViewById(R.id.description);
-        profileImageView = (CircleImageView) findViewById(R.id.profile_image);
+        profileImageView = (ImageView) findViewById(R.id.profile_image);
         hostView = (TextView) findViewById(R.id.hostName);
         targetNumView = (TextView) findViewById(R.id.targetNOP);
         currentNumView = (TextView) findViewById(R.id.currentNOP);
