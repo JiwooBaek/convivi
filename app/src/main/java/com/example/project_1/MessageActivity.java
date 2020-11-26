@@ -29,7 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import model.BuyModel;
 import model.ChatModel;
+import model.ShareModel;
 import model.UserModel;
 
 public class MessageActivity extends AppCompatActivity {
@@ -46,6 +48,8 @@ public class MessageActivity extends AppCompatActivity {
     MessageAdapter messageAdapter;
 
     List<ChatModel.Comment> mchat;
+
+    String theChatTitle;
 
     RecyclerView recyclerView;
 
@@ -90,6 +94,7 @@ public class MessageActivity extends AppCompatActivity {
         //putExtra 받아오기
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
+        chatTitle(chatid, username);
 
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +119,9 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserModel user = dataSnapshot.getValue(UserModel.class);
-                username.setText(user.name);
+
+                //채팅창 상단 이름 설정
+                //username.setText(user.name);
                 /*이 부분 나중에 고쳐야 함
                 * if (user.getImageURL().equals("default")) {
                     profile_image.setImageResource(R.mipmap.ic_launcher);
@@ -134,12 +141,6 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String myId, String chatid, String message) {
-        /*시도 해보는 중 1
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("sender", sender);
-        hashMap.put("receiver", receiver);
-        hashMap.put("message", message);
-        */
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         ChatModel.Comment chatModel = new ChatModel.Comment();
@@ -176,5 +177,41 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void chatTitle(final String roomid, final TextView chat_title) {
+        if (roomid.substring(0, 1).equals("S")) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Share").child(roomid);
+
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
+                    theChatTitle = shareModel.title;
+                    chat_title.setText(theChatTitle);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        } else if (roomid.substring(0, 1).equals("B")) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Buy").child(roomid);
+
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    BuyModel buyModel = dataSnapshot.getValue(BuyModel.class);
+                    theChatTitle = buyModel.title;
+                    chat_title.setText(theChatTitle);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 }

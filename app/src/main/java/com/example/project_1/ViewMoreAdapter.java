@@ -7,16 +7,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
-import com.example.project_1.ListRowItem;
-import com.example.project_1.R;
+import com.example.project_1.Item.ListRowItem_Share;
 
 import java.util.ArrayList;
 
 public class ViewMoreAdapter extends BaseAdapter {
     Context context;
     int layout;
-    ArrayList<ListRowItem> arrayList;
-    public ViewMoreAdapter(Context context, int layout, ArrayList<ListRowItem> arrayList) {
+    ArrayList<ListRowItem_Share> arrayList;
+    public ViewMoreAdapter(Context context, int layout, ArrayList<ListRowItem_Share> arrayList) {
         this.context = context;
         this.layout = layout;
         this.arrayList = arrayList;

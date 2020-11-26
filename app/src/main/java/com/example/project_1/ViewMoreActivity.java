@@ -7,6 +7,7 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.project_1.Item.ListRowItem_Share;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,7 +22,7 @@ import model.UserModel;
 
 
 public class ViewMoreActivity extends AppCompatActivity {
-    private ArrayList<ListRowItem> items;
+    private ArrayList<ListRowItem_Share> items;
     private DatabaseReference share = FirebaseDatabase.getInstance().getReference().child("Share");
     private DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("Users");
     private ViewMoreAdapter viewMoreAdapter;
@@ -44,7 +45,7 @@ public class ViewMoreActivity extends AppCompatActivity {
                         for(DataSnapshot Share : dataSnapshot.getChildren()){
                             ShareModel shareModel = Share.getValue(ShareModel.class);
                             UserModel userModel = userDataSnapshot.child(shareModel.host).getValue(UserModel.class);
-                            ListRowItem listRowItem = new ListRowItem(userModel.imgURL, shareModel.title, shareModel.description);
+                            ListRowItem_Share listRowItem = new ListRowItem_Share(userModel.imgURL, shareModel.title, shareModel.description);
                             items.add(listRowItem);
                         }
                         viewMoreAdapter.notifyDataSetChanged();

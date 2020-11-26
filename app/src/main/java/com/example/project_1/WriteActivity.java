@@ -6,13 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import model.BuyModel;
 import model.ChatModel;
+import com.example.project_1.Item.ImageItem;
 import model.ShareModel;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
-import android.util.Log;
+import android.provider.MediaStore;
 import android.view.View;
 
 import android.widget.AdapterView;
@@ -23,15 +26,23 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.project_1.Adapter.ImageAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class WriteActivity extends AppCompatActivity {
 
@@ -48,9 +59,14 @@ public class WriteActivity extends AppCompatActivity {
     private DatabaseReference ref_buy;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Button btn_image;
-    private RecyclerView imageView;
+    private RecyclerView imageItemView;
+    private ImageView imageView;
+    private ImageAdapter imageAdapter;
     private Uri imageUri;
-    private ArrayList<ImageView> imageList;
+    private ArrayList<ImageItem> imageList;
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
 
     private long shareCount;
     private  long buyCount;
@@ -77,7 +93,14 @@ public class WriteActivity extends AppCompatActivity {
         category = (Spinner) findViewById(R.id.category);
         targetNum = (NumberPicker) findViewById(R.id.targetNoP);
         btn_image = (Button) findViewById(R.id.addImageButton);
-        imageView = (RecyclerView) findViewById(R.id.imagePreview);
+        imageView = (ImageView) findViewById(R.id.imagePreview2);
+
+        //Image RecyclerView
+        imageItemView = (RecyclerView) findViewById(R.id.imagePreview);
+        imageList = new ArrayList<>();
+        imageAdapter = new ImageAdapter(imageList);
+        imageItemView.setAdapter(imageAdapter);
+
 
         // 목표인원수 제한 설정 및 설정값 가져오기
         targetNum.setMinValue(1);
@@ -119,10 +142,11 @@ public class WriteActivity extends AppCompatActivity {
             }
         });
 
+        // 이미지 추가 버튼 동작
         btn_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                openFileChooser();
             }
         });
 
@@ -150,12 +174,12 @@ public class WriteActivity extends AppCompatActivity {
                                 shareModel.host = uid;
                                 shareModel.description = et_description.getText().toString();
                                 ref_share.child(shareModel.id).setValue(shareModel);
+
+                                String path = "Share_image/"+shareModel.id;
+                                imageUpload(path);
                             }
 
-
-                            //채팅방 생성, 글 번호(RoomNum)를 기준으로
-
-                            //채팅방 생성
+                            //나눔 채팅방 자동 생성
 
                             ChatModel chatModel = new ChatModel();
                             chatModel.host = uid;
@@ -202,12 +226,22 @@ public class WriteActivity extends AppCompatActivity {
                                 buyModel.host = uid;
                                 buyModel.description = et_description.getText().toString();
                                 buyModel.currentNOP = 0;
-
                                 buyModel.targetNOP = targetNum.getValue();
                                 ref_buy.child(buyModel.id).setValue(buyModel);
                             }
 
                             //구매 채팅방 자동으로 생성
+
+                                String path = "Buy_image/" + buyModel.id;
+                                imageUpload(path);
+
+                            //구매 채팅방 자동 생성
+                            ChatModel chatModel = new ChatModel();
+                            chatModel.host = uid;
+                            chatModel.guest = "null";
+                            chatModel.roomId = buyModel.id;
+
+                            FirebaseDatabase.getInstance().getReference().child("Chatlist").child(chatModel.roomId).setValue(chatModel);
 
                             finish();
                         }
@@ -222,13 +256,83 @@ public class WriteActivity extends AppCompatActivity {
 
     }
 
+    // 갤러리에서 이미지 가져오기
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+            && data != null && data.getData() != null) {
+            imageUri = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                imageView.setImageBitmap(bitmap);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+//            ImageItem imageItem = new ImageItem(imageUri);
+//            imageList.add(imageItem);
+//            imageAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void imageUpload(String path) {
+        if(imageUri != null) {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            StorageReference ref = storageRef.child(path + "/" +  UUID.randomUUID().toString());
+            ref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+                    Toast.makeText(WriteActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressDialog.dismiss();
+                    Toast.makeText(WriteActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                    progressDialog.setMessage("Uploaded " + (int) progress + "%");
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "imageUri value is NULL", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    //나눔게시글 아이디 설정
     private String setShareId(long num) {
         String id = "S" + num;
         return id;
     }
 
+    //공구게시글 아이디 설정
     private String setBuyId(long num) {
         String id = "B" + num;
         return id;
+    }
+
+    private void uploadImage() {
+        if(imageUri != null) {
+
+        }
     }
 }

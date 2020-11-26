@@ -140,6 +140,7 @@ public class BuyPopUpActivity extends Activity {
             openChat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    /*
 
                     ChatUserModel chatUserModel = new ChatUserModel();
                     //기존 채팅방에 접속
@@ -161,10 +162,10 @@ public class BuyPopUpActivity extends Activity {
                         }
                     });
                     //chatModel.users.put(fuserUid, true);
-                    chatUserModel.users.put(userUid, true);
+                    //chatUserModel.users.put(userUid, true);
 
                     //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue(chatUserModel);
-
+*/
                     //채팅방 클릭 시 이동
                     Intent intent = new Intent(BuyPopUpActivity.this, MessageActivity.class);
                     intent.putExtra("userid", uid);

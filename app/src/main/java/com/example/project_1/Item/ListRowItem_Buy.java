@@ -1,16 +1,21 @@
-package com.example.project_1;
+package com.example.project_1.Item;
 
-public class ListRowItem {
-
+public class ListRowItem_Buy {
     private String profile;
     private String title;
     private String description;
+    private int currentNOP;
+    private int targetNOP;
 
-    public ListRowItem(String profile, String title, String description) {
+    public ListRowItem_Buy(String profile, String title, String description, int currentNOP, int targetNOP) {
         this.profile = profile;
         this.title = title;
         this.description = description;
+        this.currentNOP = currentNOP;
+        this.targetNOP = targetNOP;
+
     }
+
 
     public String getProfile() {
         return profile;
@@ -34,5 +39,21 @@ public class ListRowItem {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getCurrentNOP() {
+        return currentNOP;
+    }
+
+    public void setCurrentNOP(int currentNOP) {
+        this.currentNOP = currentNOP;
+    }
+
+    public int getTargetNOP() {
+        return targetNOP;
+    }
+
+    public void setTargetNOP(int targetNOP) {
+        this.targetNOP = targetNOP;
     }
 }

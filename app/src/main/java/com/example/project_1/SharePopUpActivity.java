@@ -49,7 +49,7 @@ public class SharePopUpActivity extends Activity {
     String userUid;
     private FirebaseDatabase database;
     private DatabaseReference ref_share = FirebaseDatabase.getInstance().getReference().child("Share");
-
+    private DatabaseReference ref_chatlist = FirebaseDatabase.getInstance().getReference().child("Chatlist");
     String checkRoom = "";
 
     @Override
@@ -115,17 +115,57 @@ public class SharePopUpActivity extends Activity {
             @Override
             public void onClick(View view) {
                 //ChatModel chatModel = new ChatModel();
-                ChatUserModel chatUserModel = new ChatUserModel();
+                //ChatUserModel chatUserModel = new ChatUserModel();
 
-                chatUserModel.users.put(userUid, true);
+                //chatUserModel.users.put(userUid, true);
 
                 //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue(chatUserModel);
 
                 //채팅방 클릭 시 이동
-                Intent intent = new Intent(SharePopUpActivity.this, MessageActivity.class);
-                intent.putExtra("userid", uid);
-                intent.putExtra("chatid", id);
-                startActivity(intent);
+
+                //guest가 null일때만 입장 가능
+
+                ref_chatlist.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String gueststat = dataSnapshot.child(id).child("guest").getValue(String.class);
+                        String hoststat = dataSnapshot.child(id).child("host").getValue(String.class);
+                        if(hoststat.equals(userUid)){
+
+                            Intent intent = new Intent(SharePopUpActivity.this, MessageActivity.class);
+                            intent.putExtra("userid", uid);
+                            intent.putExtra("chatid", id);
+
+                            startActivity(intent);
+                        }else if( gueststat.equals("null")) {
+                            //게스트가 null인 경우 (초기)
+                            ref_chatlist.child(id).child("guest").setValue(userUid);
+
+                            Intent intent = new Intent(SharePopUpActivity.this, MessageActivity.class);
+                            intent.putExtra("userid", uid);
+                            intent.putExtra("chatid", id);
+                            startActivity(intent);
+
+                        }else if (gueststat.equals(userUid)){
+                            Intent intent = new Intent(SharePopUpActivity.this, MessageActivity.class);
+                            intent.putExtra("userid", uid);
+                            intent.putExtra("chatid", id);
+                            startActivity(intent);
+
+                        } else{
+                            Toast.makeText(SharePopUpActivity.this, hoststat +" " + gueststat + "   인원이 찬 대화방 입니다.", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
             }
         });
 

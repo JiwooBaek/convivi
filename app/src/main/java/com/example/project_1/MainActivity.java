@@ -5,6 +5,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -19,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private HomeFragment homeFragment;
     private ChatFragment chatFragment;
     private MyprofileFragment myprofileFragment;
-
+    private SearchAdressFragment searchAdressFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +53,12 @@ public class MainActivity extends AppCompatActivity {
         myprofileFragment = new MyprofileFragment();
         setFrag(0);
 
+        searchAdressFragment = new SearchAdressFragment();
+
     }
 
     //프래그먼트 교체
-    private void setFrag(int n)
+    public void setFrag(int n)
     {
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
@@ -72,6 +75,11 @@ public class MainActivity extends AppCompatActivity {
 
             case 2:
                 ft.replace(R.id.mainFrame, myprofileFragment);
+                ft.commit();
+                break;
+
+            case 3:
+                ft.replace(R.id.mainFrame, searchAdressFragment);
                 ft.commit();
                 break;
         }

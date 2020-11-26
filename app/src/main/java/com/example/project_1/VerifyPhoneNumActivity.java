@@ -2,7 +2,6 @@ package com.example.project_1;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -18,20 +17,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthSettings;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import model.UserModel;
 
-public class VerifyPhoneNumber  extends AppCompatActivity {
+public class VerifyPhoneNumActivity extends AppCompatActivity {
 
     private String phoneNum = "1122223333";
     private String verificationCode = "123456";
@@ -158,11 +152,11 @@ public class VerifyPhoneNumber  extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
                             FirebaseDatabase.getInstance().getReference().child("Users").child(uid).child("phoneAuthFlag").setValue(true);
-                            startActivity(new Intent(VerifyPhoneNumber.this, MainActivity.class)
+                            startActivity(new Intent(VerifyPhoneNumActivity.this, MainActivity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
 
                         } else {
-                            Toast.makeText(VerifyPhoneNumber.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(VerifyPhoneNumActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });

@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.example.project_1.Adapter.HomeBuyAdapter;
 import com.example.project_1.Adapter.HomeShareAdapter;
+import com.example.project_1.Item.HomeBuyItem;
+import com.example.project_1.Item.HomeShareItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,8 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 import model.BuyModel;
 import model.ShareModel;
@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
                             buyList.add(homeBuyItem);
                         }
                         homeBuyAdapter.notifyDataSetChanged();
-                    }
+                }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {

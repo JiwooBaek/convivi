@@ -185,5 +185,19 @@
             android:layout_marginLeft="75dp"
             android:src="@drawable/line1"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:text="내 거래 후기"
+            android:textSize="32dp"/>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/adressSetting"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="동네 설정" />
+
 </LinearLayout>

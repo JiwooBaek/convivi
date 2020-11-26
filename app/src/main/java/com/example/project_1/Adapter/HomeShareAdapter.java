@@ -5,10 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.project_1.HomeShareItem;
+import com.example.project_1.Item.HomeShareItem;
 import com.example.project_1.SharePopUpActivity;
 import com.example.project_1.R;
 
