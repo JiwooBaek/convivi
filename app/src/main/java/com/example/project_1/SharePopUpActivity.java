@@ -56,6 +56,7 @@ public class SharePopUpActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //타이틀바 제거
+        
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_share_popup);
 

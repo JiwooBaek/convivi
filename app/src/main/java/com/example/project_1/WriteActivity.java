@@ -159,7 +159,7 @@ public class WriteActivity extends AppCompatActivity {
 
                             ChatModel chatModel = new ChatModel();
                             chatModel.host = uid;
-                            chatModel.guest = "null";
+                            chatModel.guest = "null";       //초기에 게스트 필드를 null로 초기화
                             chatModel.roomId = shareModel.id;
 
                             /*
@@ -208,10 +208,6 @@ public class WriteActivity extends AppCompatActivity {
                             }
 
                             //구매 채팅방 자동으로 생성
-
-
-
-
 
                             finish();
                         }
