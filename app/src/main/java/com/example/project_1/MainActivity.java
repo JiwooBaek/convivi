@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         searchAdressFragment = new SearchAdressFragment();
 
+
     }
 
     //프래그먼트 교체
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.replace(R.id.mainFrame, searchAdressFragment);
                 ft.commit();
                 break;
+
         }
     }
 }
