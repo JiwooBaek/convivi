@@ -1,19 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:layout_width="300dp"
-    android:layout_height="320dp"
+    android:layout_height="420dp"
     android:layout_gravity="center"
-    android:background="@drawable/popup_item">
+    app:cardCornerRadius="30dp"
+    android:backgroundTint="@color/colorPrimaryDark">
+
+
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorPrimaryDark" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#40000000"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="200dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_image"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/nanumbarungothic_bold"
+            android:text="제목"
+            android:textColor="#ffffff"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/userAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:fontFamily="@font/nanumbarungothic"
+            android:text="성북구 길음동" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="270dp"
+            android:layout_height="3dp"
+            android:layout_below="@id/userAddress"
+            android:layout_centerInParent="true"
+            android:layout_marginVertical="10dp"
+            android:background="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line"
+            android:layout_marginHorizontal="20dp"
+            android:textSize="16sp"
+            android:textColor="#ffffff"
+            android:fontFamily="@font/nanumbarungothic"
+            android:text="내용입니다." />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/chat_button"
         android:layout_width="80dp"
         android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="70dp"
-        android:layout_toRightOf="@+id/profile_image"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="bottom|center"
         android:background="@drawable/roundrectangle_green"
         android:fontFamily="@font/nanumbarungothic_bold"
         android:text="채팅방"
@@ -21,132 +86,84 @@
         android:textSize="20sp" />
 
     <LinearLayout
-        android:id="@+id/hostView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="75dp"
-        android:layout_toRightOf="@+id/profile_image">
+        android:layout_gravity="right"
+        android:orientation="vertical"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="150dp">
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/hostView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/nanumbarungothic_bold"
-            android:textSize="20sp"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="호스트 " />
+            android:orientation="horizontal"
+            android:layout_toRightOf="@+id/profile_image">
 
-        <TextView
-            android:id="@+id/hostName"
-            android:fontFamily="@font/nanumbarungothic"
-            android:textSize="20sp"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nanumbarungothic_bold"
+                android:textSize="20sp"
+                android:textColor="#ffffff"
+                android:text="호스트 " />
 
-        </TextView>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/hostName"
+                android:fontFamily="@font/nanumbarungothic"
+                android:textSize="20sp"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_image"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/nanumbarungothic_bold"
-        android:text="제목"
-        android:textColor="#ffffff"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:id="@+id/number_of_people"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/profile_image"
-        android:layout_below="@+id/hostView"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/NoP_textView"
+            </TextView>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/number_of_people"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/profile_image"
-            android:layout_marginRight="10dp"
-            android:textColor="@color/colorPrimaryDark"
-            android:fontFamily="@font/nanumbarungothic"
-            android:textSize="16sp"
-            android:text="모집인원" />
+            android:layout_below="@+id/hostView"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/currentNOP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
-            android:fontFamily="@font/nanumbarungothic_bold"
-            android:textSize="16sp"
-            android:text="0"/>
+            <TextView
+                android:id="@+id/NoP_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/profile_image"
+                android:layout_marginRight="10dp"
+                android:textColor="#ffffff"
+                android:fontFamily="@font/nanumbarungothic"
+                android:textSize="16sp"
+                android:text="모집인원" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
-            android:fontFamily="@font/nanumbarungothic_bold"
-            android:textSize="16sp"
-            android:text=" / "/>
+            <TextView
+                android:id="@+id/currentNOP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:fontFamily="@font/nanumbarungothic_bold"
+                android:textSize="16sp"
+                android:text="0"/>
 
-        <TextView
-            android:id="@+id/targetNOP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
-            android:fontFamily="@font/nanumbarungothic_bold"
-            android:textSize="16sp"
-            android:text="0"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:fontFamily="@font/nanumbarungothic_bold"
+                android:textSize="16sp"
+                android:text=" / "/>
 
+            <TextView
+                android:id="@+id/targetNOP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:fontFamily="@font/nanumbarungothic_bold"
+                android:textSize="16sp"
+                android:text="0"/>
+
+        </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/userAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:textSize="18sp"
-        android:textColor="#ffffff"
-        android:fontFamily="@font/nanumbarungothic"
-        android:text="성북구 길음동" />
-
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/line"
-        android:layout_marginHorizontal="20dp"
-        android:textSize="16sp"
-        android:textColor="#ffffff"
-        android:fontFamily="@font/nanumbarungothic"
-        android:text="내용입니다." />
-
-    <View
-        android:id="@+id/line"
-        android:layout_width="270dp"
-        android:layout_height="3dp"
-        android:layout_below="@id/userAddress"
-        android:layout_centerInParent="true"
-        android:layout_marginVertical="10dp"
-        android:background="@color/colorPrimary" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginVertical="17dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="20dp"
-        android:src="@drawable/polarbear"
-        app:civ_border_color="#FF000000" />
-
-</RelativeLayout>
+</androidx.cardview.widget.CardView>
