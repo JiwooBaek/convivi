@@ -112,11 +112,11 @@ public class WriteActivity extends AppCompatActivity {
 
         // Share에서 가장 마지막 글 번호 가져오기
         ref_share = FirebaseDatabase.getInstance().getReference().child("Share");
-        ref_share.orderByKey().limitToLast(1).addValueEventListener(new ValueEventListener() {
+        ref_share.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<ShareModel> shareModels = new ArrayList<>();
                 for(DataSnapshot shareItem : dataSnapshot.getChildren()) {
-                    ArrayList<ShareModel> shareModels = new ArrayList<>();
                     shareModels.add(shareItem.getValue(ShareModel.class));
 
                     for(ShareModel model : shareModels) {
@@ -124,8 +124,8 @@ public class WriteActivity extends AppCompatActivity {
                             shareCount = Long.parseLong(model.idNum);
                         }
                     }
-                    shareCount++;
                 }
+                shareCount++;
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -134,11 +134,11 @@ public class WriteActivity extends AppCompatActivity {
         });
 
         ref_buy = FirebaseDatabase.getInstance().getReference().child("Buy");
-        ref_buy.orderByChild("id").limitToLast(1).addValueEventListener(new ValueEventListener() {
+        ref_buy.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<BuyModel> buyModels = new ArrayList<>();
                 for(DataSnapshot buyItem : dataSnapshot.getChildren()) {
-                    ArrayList<BuyModel> buyModels = new ArrayList<>();
                     buyModels.add(buyItem.getValue(BuyModel.class));
 
                     for(BuyModel model : buyModels) {
@@ -146,8 +146,8 @@ public class WriteActivity extends AppCompatActivity {
                             buyCount = Long.parseLong(model.idNum);
                         }
                     }
-                    buyCount++;
                 }
+                buyCount++;
             }
 
             @Override
@@ -242,17 +242,10 @@ public class WriteActivity extends AppCompatActivity {
                                 buyModel.currentNOP = 0;
                                 buyModel.targetNOP = targetNum.getValue();
                                 ref_buy.child(buyModel.id).setValue(buyModel);
-                            }
-
-                            //구매 채팅방 자동으로 생성
 
                                 String path = "Buy_image/" + buyModel.id;
-<<<<<<< HEAD
-                                imageUpload(path);
-=======
                                 imageUpload(path, imageList);
                             }
->>>>>>> 6433d1d8f9cf992f27c8d52abacbfa2a3c98d918
 
                             //구매 채팅방 자동 생성
                             ChatModel chatModel = new ChatModel();
