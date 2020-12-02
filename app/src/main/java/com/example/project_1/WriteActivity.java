@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import model.BuyModel;
 import model.ChatModel;
 import com.example.project_1.Item.ImageItem;
+
+import model.ImageModel;
 import model.ShareModel;
 
 import android.app.ProgressDialog;
@@ -16,6 +18,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.view.View;
 
@@ -62,12 +65,14 @@ public class WriteActivity extends AppCompatActivity {
     private DatabaseReference ref_buy;
 
     private Button btn_image;
-    private RecyclerView imageItemView;
-    private ImageAdapter imageAdapter;
+//    private RecyclerView imageItemView;
+    private ImageView imageView;
+//    private ImageAdapter imageAdapter;
     private Uri imageUri;
-    private ArrayList<ImageItem> imageList;
-    private HomeListDecoration homeListDecoration;
+//    private ArrayList<ImageItem> imageList;
+//    private HomeListDecoration homeListDecoration;
     private static final int PICK_IMAGE_REQUEST = 1;
+//    private final int MAX_SIZE = 5;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
@@ -97,13 +102,14 @@ public class WriteActivity extends AppCompatActivity {
         category = (Spinner) findViewById(R.id.category);
         targetNum = (NumberPicker) findViewById(R.id.targetNoP);
         btn_image = (Button) findViewById(R.id.addImageButton);
+        imageView = (ImageView) findViewById(R.id.imagePreview2);
 
         //Image RecyclerView
-        imageItemView = (RecyclerView) findViewById(R.id.imagePreview);
-        imageItemView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        imageList = new ArrayList<>();
-        imageAdapter = new ImageAdapter(imageList);
-        imageItemView.setAdapter(imageAdapter);
+//        imageItemView = (RecyclerView) findViewById(R.id.imagePreview);
+//        imageItemView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+//        imageList = new ArrayList<>();
+//        imageAdapter = new ImageAdapter(imageList);
+//        imageItemView.setAdapter(imageAdapter);
 
 
         // 목표인원수 제한 설정 및 설정값 가져오기
@@ -164,6 +170,12 @@ public class WriteActivity extends AppCompatActivity {
             }
         });
 
+        btn_exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         // 게시글 유형 선택 & 작성 완료 버튼 동작
         category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -190,33 +202,11 @@ public class WriteActivity extends AppCompatActivity {
                                 ref_share.child(shareModel.id).setValue(shareModel);
 
                                 String path = "Share_image/"+shareModel.id;
-                                imageUpload(path, imageList);
+                                imageUpload(path, shareModel.id);
                             }
 
                             //나눔 채팅방 자동 생성
-
-                            ChatModel chatModel = new ChatModel();
-                            chatModel.host = uid;
-                            chatModel.guest = "null";       //초기에 게스트 필드를 null로 초기화
-                            chatModel.roomId = shareModel.id;
-
-                            /*
-                          database.getInstance().getReference("Share").child(shareModel.id).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
-                                    uid = shareModel.host;
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });*/
-
-                            //chatModel.users.put(uid, true);
-
-                            FirebaseDatabase.getInstance().getReference().child("Chatlist").child(chatModel.roomId).setValue(chatModel);
+                            setChatRoom(shareModel.id, uid);
 
                             finish();
                         }
@@ -244,17 +234,11 @@ public class WriteActivity extends AppCompatActivity {
                                 ref_buy.child(buyModel.id).setValue(buyModel);
 
                                 String path = "Buy_image/" + buyModel.id;
-                                imageUpload(path, imageList);
+                                imageUpload(path, buyModel.id);
                             }
 
                             //구매 채팅방 자동 생성
-                            ChatModel chatModel = new ChatModel();
-                            chatModel.host = uid;
-                            chatModel.guest = "null";
-                            chatModel.roomId = buyModel.id;
-
-                            FirebaseDatabase.getInstance().getReference().child("Chatlist").child(chatModel.roomId).setValue(chatModel);
-
+                            setChatRoom(buyModel.id, uid);
                             finish();
                         }
                     });
@@ -284,42 +268,85 @@ public class WriteActivity extends AppCompatActivity {
             && data != null && data.getData() != null) {
             imageUri = data.getData();
 
-            ImageItem imageItem = new ImageItem(imageUri);
-            imageList.add(imageItem);
-            imageAdapter.notifyDataSetChanged();
+//            ImageItem imageItem = new ImageItem(imageUri);
+//
+//            //이미지 개수 제한
+//            if(imageList.size() <= MAX_SIZE) {
+//                imageList.add(imageItem);
+//            } else {
+//                Toast.makeText(getApplicationContext(), "더 이상 이미지를 추가할 수 없습니다!", Toast.LENGTH_SHORT).show();
+//            }
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            imageAdapter.notifyDataSetChanged();
         }
     }
 
-    private void imageUpload(String path, ArrayList<ImageItem> list) {
-        if(imageList != null && !isFinishing()) {
-            final ProgressDialog progressDialog = new ProgressDialog(this);
+    private void imageUpload(String path, String uploadId) {
+        if(imageUri != null && !isFinishing()) {
+            ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            for(ImageItem item : list) {
-                StorageReference ref = storageRef.child(path + "/" + UUID.randomUUID().toString());
-                ref.putFile(item.getImageUri()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        progressDialog.dismiss();
-                        Toast.makeText(WriteActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+//            for(ImageItem item : list) {
+            StorageReference ref = storageRef.child(path + "/" + UUID.randomUUID().toString());
+            ref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    ImageModel imageModel = new ImageModel();
+                    imageModel.url = taskSnapshot.getUploadSessionUri().toString();
+
+                    if(path.substring(0, 3).equals("Buy")){
+                        FirebaseDatabase.getInstance().getReference().child("BuyImages").child(uploadId).setValue(imageModel);
+                    } else {
+                        FirebaseDatabase.getInstance().getReference().child("ShareImages").child(uploadId).setValue(imageModel);
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(WriteActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                        progressDialog.setMessage("Uploaded " + (int) progress + "%");
-                    }
-                });
+
+                    progressDialog.hide();
+                    Toast.makeText(WriteActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressDialog.dismiss();
+                    Toast.makeText(WriteActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                    progressDialog.setMessage("Uploaded " + (int) progress + "%");
+                }
+            });
+
+            if ( progressDialog!=null && progressDialog.isShowing() ){
+                progressDialog.cancel();
             }
-        } else {
-            Toast.makeText(getApplicationContext(), "imageUri value is NULL", Toast.LENGTH_SHORT).show();
+//            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                @Override
+//                public void onSuccess(Uri uri) {
+//                    final String downloadUrl = uri.toString();
+//
+//                    //DB에 이미지 url 저장
+//                    ImageModel imageModel = new ImageModel();
+//                    imageModel.url = downloadUrl;
+//
+//                    if(path.substring(0, 3).equals("Buy")){
+//                        FirebaseDatabase.getInstance().getReference().child("BuyImages").child(uploadId).setValue(imageModel);
+//                    } else {
+//                        FirebaseDatabase.getInstance().getReference().child("ShareImages").child(uploadId).setValue(imageModel);
+//                    }
+//                }
+//            });
+            } else {
+//            Toast.makeText(getApplicationContext(), "imageUri value is NULL", Toast.LENGTH_SHORT).show();
+            return;
         }
 
     }
@@ -336,9 +363,12 @@ public class WriteActivity extends AppCompatActivity {
         return id;
     }
 
-    private void uploadImage() {
-        if(imageUri != null) {
+    private void setChatRoom(String id, String uid) {
+        ChatModel chatModel = new ChatModel();
+        chatModel.host = uid;
+        chatModel.guest = "null";
+        chatModel.roomId = id;
 
-        }
+        FirebaseDatabase.getInstance().getReference().child("Chatlist").child(chatModel.roomId).setValue(chatModel);
     }
 }

@@ -2,7 +2,10 @@ package com.example.project_1;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -11,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,12 +23,13 @@ import com.google.firebase.database.ValueEventListener;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import model.BuyModel;
-import model.ChatUserModel;
+import model.ImageModel;
 import model.ShareModel;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.io.IOException;
 
 public class SharePopUpActivity extends Activity {
 
@@ -36,7 +39,7 @@ public class SharePopUpActivity extends Activity {
     TextView hostView;
     TextView targetNumView;
     TextView currentNumView;
-    ImageView profileImageView;
+    ImageView imageView;
     LinearLayout hostLayout;
     String title;
     String address;
@@ -48,10 +51,11 @@ public class SharePopUpActivity extends Activity {
     String currentNum;
     String uid;
     String userUid;
+    Uri imageUri;
     private FirebaseDatabase database;
     private DatabaseReference ref_share = FirebaseDatabase.getInstance().getReference().child("Share");
+    private DatabaseReference ref_shareImage = FirebaseDatabase.getInstance().getReference().child("ShareImages");
     private DatabaseReference ref_chatlist = FirebaseDatabase.getInstance().getReference().child("Chatlist");
-    String checkRoom = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +68,7 @@ public class SharePopUpActivity extends Activity {
         titleView = (TextView) findViewById(R.id.title);
         addressView = (TextView) findViewById(R.id.userAddress);
         descriptionView = (TextView) findViewById(R.id.description);
-        profileImageView = (ImageView) findViewById(R.id.profile_image);
+        imageView = (ImageView) findViewById(R.id.imageView);
         hostView = (TextView) findViewById(R.id.hostName);
         targetNumView = (TextView) findViewById(R.id.targetNOP);
         currentNumView = (TextView) findViewById(R.id.currentNOP);
@@ -75,37 +79,71 @@ public class SharePopUpActivity extends Activity {
         //데이터 가져오기
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
-        image = intent.getStringExtra("profileImage");
 
         // 데이터 설정하기
-        if(id.substring(0, 1).equals("S")) {
-            ref_share.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
-                    uid = shareModel.host;
-                    title = shareModel.title;
-                    description = shareModel.description;
 
-                    hostLayout.setVisibility(View.INVISIBLE);
-                    titleView.setText(title);
-                    descriptionView.setText(description);
-                }
+        ref_share.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
+                uid = shareModel.host;
+                title = shareModel.title;
+                description = shareModel.description;
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                hostLayout.setVisibility(View.INVISIBLE);
+                titleView.setText(title);
+                descriptionView.setText(description);
+            }
 
-                }
-            });
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        } else {
-            Toast.makeText(this, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
-        }
+            }
+        });
+
+        //데이터 설정하기
+        ref_shareImage.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot imageSnapshot) {
+                ref_share.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        ImageModel imageModel = imageSnapshot.getValue(ImageModel.class);
+                        ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
+
+                        imageUri = Uri.parse(imageModel.url);
+                        uid = shareModel.host;
+                        title = shareModel.title;
+                        description = shareModel.description;
+
+                        try {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                            imageView.setImageBitmap(bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        titleView.setText(title);
+                        descriptionView.setText(description);
+                        targetNumView.setText(targetNum);
+                        currentNumView.setText(currentNum);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         //데이터 설정하기
         titleView.setText(title);
         descriptionView.setText(description);
-        Glide.with(this).load(image).into(profileImageView);
 
         Button openChat;
         openChat = (Button) findViewById(R.id.chat_button);

@@ -59,22 +59,6 @@ public class MyprofileFragment extends Fragment {
         userNameView = (TextView) view.findViewById(R.id.profile_name);
         userImageView = (CircleImageView) view.findViewById(R.id.profile_img);
 
-
-//        // 사용자 정보 가져오기
-//        database.getInstance().getReference("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                UserModel userModel = dataSnapshot.getValue(UserModel.class);
-//                userName = userModel.name;
-//                userImage = userModel.imgURL;
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-
         // 프로필 이름 & 사진 설정
         userNameView.setText(userName);
         Glide.with(this).load(userImage).into(userImageView);

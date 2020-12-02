@@ -2,13 +2,13 @@ package com.example.project_1.Item;
 
 public class HomeShareItem {
     private String id;
-    private String profile;
+    private String imageUrl;
     private String title;
     private String adress;
 
-    public HomeShareItem(String id, String profile, String title, String adress) {
+    public HomeShareItem(String id, String imageUrl, String title, String adress) {
         this.id = id;
-        this.profile = profile;
+        this.imageUrl = imageUrl;
         this.title = title;
         this.adress = adress;
     }
@@ -21,12 +21,12 @@ public class HomeShareItem {
         this.id = id;
     }
 
-    public String getProfile() {
-        return profile;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setProfile(String profile) {
-        this.profile = profile;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getTitle() {
