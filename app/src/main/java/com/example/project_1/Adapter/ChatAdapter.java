@@ -55,6 +55,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
 
         lastMessgae(chatModel.roomId, holder.description);
         chatTitle(chatModel.roomId, holder.chat_title);
+        numberOfPeople(chatModel.roomId, holder.number_of_people);
         //holder.chat_title.setText(chatModel.host);
         holder.write_image.setImageResource(R.mipmap.ic_launcher);
 
@@ -148,6 +149,28 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
                 }
 
                 theLastMessage = "default";
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void numberOfPeople(final String roomid, final TextView number_of_people) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(roomid);
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ChatModel chatModel = dataSnapshot.getValue(ChatModel.class);
+                if (chatModel.guest.equals("null")) {
+                    number_of_people.setText("1");
+                } else {
+                    number_of_people.setText("2");
+                }
             }
 
             @Override
