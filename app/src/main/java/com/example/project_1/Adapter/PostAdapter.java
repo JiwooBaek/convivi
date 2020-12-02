@@ -33,7 +33,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyHolder> {
     //아이템 뷰를 관리하는 viewHolder 객체 생성
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.list_row,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.list_row_share,parent,false);
         return new PostAdapter.MyHolder(view);
     }
     //position에 해당하는 데이터를 viewholder가 관리하는 view에 바인딩

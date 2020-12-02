@@ -11,11 +11,11 @@ import com.example.project_1.Item.ListRowItem_Share;
 
 import java.util.ArrayList;
 
-public class ViewMoreAdapter extends BaseAdapter {
+public class ShareListAdapter extends BaseAdapter {
     Context context;
     int layout;
     ArrayList<ListRowItem_Share> arrayList;
-    public ViewMoreAdapter(Context context, int layout, ArrayList<ListRowItem_Share> arrayList) {
+    public ShareListAdapter(Context context, int layout, ArrayList<ListRowItem_Share> arrayList) {
         this.context = context;
         this.layout = layout;
         this.arrayList = arrayList;

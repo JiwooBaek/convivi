@@ -15,8 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ChatActivity" />
-        <activity android:name=".ViewMoreActivity2" />
-        <activity android:name=".ViewMoreActivity" />
+        <activity android:name=".BuyListActivity" />
+        <activity android:name=".ShareListActivity" />
         <activity android:name=".WriteActivity" />
         <activity android:name=".MessageActivity" />
         <activity android:name=".MainActivity" />

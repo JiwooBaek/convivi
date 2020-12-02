@@ -12,11 +12,11 @@ import com.example.project_1.Item.ListRowItem_Buy;
 
 import java.util.ArrayList;
 
-public class ViewMoreAdapterBuy extends BaseAdapter {
+public class BuyListAdapter extends BaseAdapter {
     Context context;
     int layout;
     ArrayList<ListRowItem_Buy> arrayList_buy;
-    public ViewMoreAdapterBuy(Context context, int layout, ArrayList<ListRowItem_Buy> arrayList_buy) {
+    public BuyListAdapter(Context context, int layout, ArrayList<ListRowItem_Buy> arrayList_buy) {
         this.context = context;
         this.layout = layout;
         this.arrayList_buy = arrayList_buy;

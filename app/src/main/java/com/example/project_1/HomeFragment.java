@@ -1,7 +1,6 @@
 package com.example.project_1;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +11,12 @@ import com.example.project_1.Adapter.HomeBuyAdapter;
 import com.example.project_1.Adapter.HomeShareAdapter;
 import com.example.project_1.Item.HomeBuyItem;
 import com.example.project_1.Item.HomeShareItem;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,12 +25,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import model.BuyModel;
 import model.ImageModel;
 import model.ShareModel;
-import model.UserModel;
 
 public class HomeFragment extends Fragment {
     //HomeBuy RecyclerView 관련 변수
@@ -152,7 +146,7 @@ public class HomeFragment extends Fragment {
         view_more_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity().getApplicationContext(), ViewMoreActivity.class));
+                startActivity(new Intent(getActivity().getApplicationContext(), ShareListActivity.class));
             }
         });
 
@@ -162,7 +156,7 @@ public class HomeFragment extends Fragment {
         view_more_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity().getApplicationContext(), ViewMoreActivity2.class));
+                startActivity(new Intent(getActivity().getApplicationContext(), BuyListActivity.class));
             }
         });
 

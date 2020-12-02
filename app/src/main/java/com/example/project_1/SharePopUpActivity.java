@@ -22,12 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-<<<<<<< HEAD
-import model.BuyModel;
 import model.ImageModel;
-=======
->>>>>>> 628cac4db6fd36d746b5d46e5d334ebea08f6112
 import model.ShareModel;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,7 +50,6 @@ public class SharePopUpActivity extends Activity {
     String uid;
     String userUid;
     Uri imageUri;
-    private FirebaseDatabase database;
     private DatabaseReference ref_share = FirebaseDatabase.getInstance().getReference().child("Share");
     private DatabaseReference ref_shareImage = FirebaseDatabase.getInstance().getReference().child("ShareImages");
     private DatabaseReference ref_chatlist = FirebaseDatabase.getInstance().getReference().child("Chatlist");
@@ -83,27 +77,6 @@ public class SharePopUpActivity extends Activity {
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
 
-        // 데이터 설정하기
-
-        ref_share.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
-                uid = shareModel.host;
-                title = shareModel.title;
-                description = shareModel.description;
-
-                hostLayout.setVisibility(View.INVISIBLE);
-                titleView.setText(title);
-                descriptionView.setText(description);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
         //데이터 설정하기
         ref_shareImage.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -130,23 +103,17 @@ public class SharePopUpActivity extends Activity {
                         targetNumView.setText(targetNum);
                         currentNumView.setText(currentNum);
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
                 });
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
-        //데이터 설정하기
-        titleView.setText(title);
-        descriptionView.setText(description);
 
         Button openChat;
         openChat = (Button) findViewById(R.id.chat_button);
@@ -156,17 +123,6 @@ public class SharePopUpActivity extends Activity {
         openChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //ChatModel chatModel = new ChatModel();
-                //ChatUserModel chatUserModel = new ChatUserModel();
-
-                //chatUserModel.users.put(userUid, true);
-
-                //FirebaseDatabase.getInstance().getReference().child("Chatlist").child(idNum).child("users").setValue(chatUserModel);
-
-                //채팅방 클릭 시 이동
-
-                //guest가 null일때만 입장 가능
-
                 ref_chatlist.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -197,17 +153,11 @@ public class SharePopUpActivity extends Activity {
                         } else{
                             Toast.makeText(SharePopUpActivity.this, hoststat +" " + gueststat + "   인원이 찬 대화방 입니다.", Toast.LENGTH_SHORT).show();
                         }
-
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
                     }
                 });
-
-
-
             }
         });
 
