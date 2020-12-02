@@ -62,6 +62,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nanumbarungothic_bold"
             android:text="공구제목"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textColor="#ffffff"
             android:textSize="30sp" />
         <TextView

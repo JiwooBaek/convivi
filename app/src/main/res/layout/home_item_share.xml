@@ -33,6 +33,7 @@
             android:fontFamily="@font/nanumbarungothic_bold"
             android:textColor="#ffffff"
             android:text="대여제목"
+            android:ellipsize="end"
             android:textSize="30sp"
             android:textStyle="bold" />
         <TextView
