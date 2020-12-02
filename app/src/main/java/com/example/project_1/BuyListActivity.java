@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.example.project_1.Adapter.BuyListAdapter;
 import com.example.project_1.Item.ListRowItem_Buy;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,7 +43,8 @@ public class BuyListActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot Buy : dataSnapshot.getChildren()){
                             BuyModel buyModel = Buy.getValue(BuyModel.class);
-                            ImageModel imageModel = imageDataSnapshot.child(buyModel.host).getValue(ImageModel.class);
+                            ImageModel imageModel = imageDataSnapshot.child(buyModel.id).getValue(ImageModel.class);
+
                             ListRowItem_Buy listRowItem_buy = new ListRowItem_Buy(imageModel.url, buyModel.title, buyModel.description, buyModel.currentNOP, buyModel.targetNOP);
                             items.add(listRowItem_buy);
                         }

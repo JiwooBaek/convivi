@@ -1,4 +1,4 @@
-package com.example.project_1;
+package com.example.project_1.Adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.project_1.Item.ListRowItem_Share;
+import com.example.project_1.R;
 
 import java.util.ArrayList;
 
@@ -39,19 +40,19 @@ public class ShareListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        final int pos = position;
-        if (view == null)
+        if (view != null) {
+            TextView title = view.findViewById(R.id.text_title);
+            TextView description = view.findViewById(R.id.text_description);
+            ImageView image= view.findViewById(R.id.img_flag);
+
+            title.setText(arrayList.get(position).getTitle());
+            description.setText(arrayList.get(position).getDescription());
+            if (!(arrayList.get(position).getImage()).equals("default")) {
+                Glide.with(view.getContext()).load(arrayList.get(position).getImage()).into(image);
+            }
+        } else {
             view = View.inflate(context, layout, null);
-
-        TextView title = view.findViewById(R.id.text_title);
-        title.setText(arrayList.get(pos).getTitle());
-        TextView description = view.findViewById(R.id.text_description);
-        description.setText(arrayList.get(pos).getDescription());
-        ImageView image= view.findViewById(R.id.img_flag);
-        Glide.with(view.getContext())
-                .load(arrayList.get(position).getProfile())
-                .into(image);
-
+        }
         return view;
     }
 }

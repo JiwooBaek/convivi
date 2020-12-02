@@ -1,14 +1,14 @@
 package com.example.project_1.Item;
 
 public class ListRowItem_Buy {
-    private String profile;
+    private String image;
     private String title;
     private String description;
     private int currentNOP;
     private int targetNOP;
 
-    public ListRowItem_Buy(String profile, String title, String description, int currentNOP, int targetNOP) {
-        this.profile = profile;
+    public ListRowItem_Buy(String image, String title, String description, int currentNOP, int targetNOP) {
+        this.image = image;
         this.title = title;
         this.description = description;
         this.currentNOP = currentNOP;
@@ -17,12 +17,12 @@ public class ListRowItem_Buy {
     }
 
 
-    public String getProfile() {
-        return profile;
+    public String getImage() {
+        return image;
     }
 
-    public void setProfile(String profile) {
-        this.profile = profile;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getTitle() {
