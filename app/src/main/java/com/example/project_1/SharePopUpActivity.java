@@ -23,8 +23,11 @@ import com.google.firebase.database.ValueEventListener;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+<<<<<<< HEAD
 import model.BuyModel;
 import model.ImageModel;
+=======
+>>>>>>> 628cac4db6fd36d746b5d46e5d334ebea08f6112
 import model.ShareModel;
 
 import com.google.firebase.auth.FirebaseAuth;

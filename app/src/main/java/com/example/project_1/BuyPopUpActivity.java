@@ -24,8 +24,14 @@ import java.io.IOException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+<<<<<<< HEAD
 import model.BuyModel;
 import model.ImageModel;
+=======
+
+import model.BuyModel;
+import model.ShareModel;
+>>>>>>> 628cac4db6fd36d746b5d46e5d334ebea08f6112
 
 public class BuyPopUpActivity extends Activity {
 
