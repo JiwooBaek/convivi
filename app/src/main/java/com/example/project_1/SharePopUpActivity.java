@@ -21,9 +21,6 @@ import com.google.firebase.database.ValueEventListener;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-import model.BuyModel;
-import model.ChatUserModel;
 import model.ShareModel;
 
 import com.google.firebase.auth.FirebaseAuth;

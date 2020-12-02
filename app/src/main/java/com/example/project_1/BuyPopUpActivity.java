@@ -21,10 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import de.hdodenhof.circleimageview.CircleImageView;
+
 import model.BuyModel;
-import model.ChatModel;
-import model.ChatUserModel;
 import model.ShareModel;
 
 public class BuyPopUpActivity extends Activity {
