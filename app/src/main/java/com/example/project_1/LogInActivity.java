@@ -1,8 +1,13 @@
 package com.example.project_1;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -30,6 +35,10 @@ import com.google.firebase.database.ValueEventListener;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import model.UserModel;
 
 public class LogInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
@@ -45,6 +54,7 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);

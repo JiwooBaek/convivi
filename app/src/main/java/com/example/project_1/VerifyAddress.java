@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
-import net.daum.android.map.MapView;
+import net.daum.mf.map.api.MapView;
 
 public class VerifyAddress extends AppCompatActivity {
 
