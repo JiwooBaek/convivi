@@ -2,10 +2,7 @@ package com.example.project_1;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -28,8 +25,6 @@ import model.ShareModel;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.io.IOException;
-
 public class SharePopUpActivity extends Activity {
 
     TextView titleView;
@@ -50,7 +45,7 @@ public class SharePopUpActivity extends Activity {
     String currentNum;
     String uid;
     String userUid;
-    Uri imageUri;
+    String imageUrl;
     private DatabaseReference ref_share = FirebaseDatabase.getInstance().getReference().child("Share");
     private DatabaseReference ref_shareImage = FirebaseDatabase.getInstance().getReference().child("ShareImages");
     private DatabaseReference ref_chatlist = FirebaseDatabase.getInstance().getReference().child("Chatlist");
@@ -88,13 +83,13 @@ public class SharePopUpActivity extends Activity {
                         ImageModel imageModel = imageSnapshot.getValue(ImageModel.class);
                         ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
 
-                        imageUri = Uri.parse(imageModel.url);
+                        imageUrl = imageModel.url;
                         uid = shareModel.host;
                         title = shareModel.title;
                         description = shareModel.description;
 
                         if (!(imageModel.getUrl()).equals("default")) {
-                            Glide.with(getApplicationContext()).load(imageModel.getUrl()).into(imageView);
+                            Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
                         }
                         titleView.setText(title);
                         descriptionView.setText(description);

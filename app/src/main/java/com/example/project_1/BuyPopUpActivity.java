@@ -48,7 +48,7 @@ public class BuyPopUpActivity extends Activity {
     String currentNum;
     String uid;
     String userUid;
-    Uri imageUri;
+    String imageUrl;
     private FirebaseDatabase database;
     private DatabaseReference ref_buy = FirebaseDatabase.getInstance().getReference().child("Buy");
     private DatabaseReference ref_buyImage = FirebaseDatabase.getInstance().getReference().child("BuyImages");
@@ -84,7 +84,7 @@ public class BuyPopUpActivity extends Activity {
                         ImageModel imageModel = imageSnapshot.getValue(ImageModel.class);
                         BuyModel buyModel = dataSnapshot.getValue(BuyModel.class);
 
-                        imageUri = Uri.parse(imageModel.url);
+                        imageUrl = imageModel.url;
                         uid = buyModel.host;
                         title = buyModel.title;
                         description = buyModel.description;
@@ -92,7 +92,7 @@ public class BuyPopUpActivity extends Activity {
                         currentNum = Integer.toString(buyModel.currentNOP);
 
                         if (!(imageModel.getUrl()).equals("default")) {
-                            Glide.with(getApplicationContext()).load(imageModel.getUrl()).into(imageView);
+                            Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
                         }
                         titleView.setText(title);
                         descriptionView.setText(description);
