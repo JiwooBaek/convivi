@@ -349,8 +349,14 @@ public class WriteActivity extends AppCompatActivity {
 //                }
 //            });
             } else {
-//            Toast.makeText(getApplicationContext(), "imageUri value is NULL", Toast.LENGTH_SHORT).show();
-            return;
+            ImageModel imageModel = new ImageModel();
+            imageModel.url = "default";
+
+            if(path.substring(0, 3).equals("Buy")){
+                FirebaseDatabase.getInstance().getReference().child("BuyImages").child(uploadId).setValue(imageModel);
+            } else {
+                FirebaseDatabase.getInstance().getReference().child("ShareImages").child(uploadId).setValue(imageModel);
+            }
         }
 
     }
