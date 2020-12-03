@@ -12,12 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1.AddressItem;
 import com.example.project_1.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 import model.addressSearch.Document;
 
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHolder> {
+    FirebaseAuth firebaseAuth;
+    private DatabaseReference user = FirebaseDatabase.getInstance().getReference().child("Users");
+
     Context context;
     ArrayList<Document> items;
     EditText editText;
@@ -42,6 +48,13 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     public void onBindViewHolder(@NonNull AddressAdapter.ViewHolder holder, int position) {
         final Document model = items.get(position);
         holder.address.setText(model.getAddressName());
+        holder.itemView.setTag(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
     }
 
     public void claer(){

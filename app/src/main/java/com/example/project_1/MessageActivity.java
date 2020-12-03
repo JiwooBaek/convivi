@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.bumptech.glide.Glide;
+import com.bumptech.glide.Glide;
 import com.example.project_1.Adapter.MessageAdapter;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +42,7 @@ public class MessageActivity extends AppCompatActivity {
 
     FirebaseUser fuser;
     DatabaseReference reference;
+    DatabaseReference user_ref;
 
     ImageButton btn_send;
     EditText text_send;
@@ -62,6 +64,7 @@ public class MessageActivity extends AppCompatActivity {
 
 
         reference  = FirebaseDatabase.getInstance().getReference().child("Chatlist");
+        user_ref  = FirebaseDatabase.getInstance().getReference().child("Users");
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -100,9 +103,10 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String msg = text_send.getText().toString();
+                String profilUrl = user_ref.child(fuser.getUid()).child("imgURL").toString();
                 //msg가 비어있지 않으면 Uid 보내고
                 if (!msg.equals("")) {
-                    sendMessage(fuser.getUid(), chatid, msg);
+                    sendMessage(fuser.getUid(), chatid, msg, profilUrl);
                 } else {
                     Toast.makeText(MessageActivity.this, "You can't send empty message", Toast.LENGTH_SHORT).show();
                 }
@@ -115,6 +119,7 @@ public class MessageActivity extends AppCompatActivity {
         //시험으로 추가해보는 중
         reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
 
+
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -122,13 +127,11 @@ public class MessageActivity extends AppCompatActivity {
 
                 //채팅창 상단 이름 설정
                 //username.setText(user.name);
-                /*이 부분 나중에 고쳐야 함
-                * if (user.getImageURL().equals("default")) {
+                if (user.getImgURL().equals("default")) {
                     profile_image.setImageResource(R.mipmap.ic_launcher);
                 } else {
-//                    Glide.with(MessageActivity.this).load(user.getImageURL()).into(profile_image);
-                }*/
-                profile_image.setImageResource(R.mipmap.ic_launcher);
+                    Glide.with(MessageActivity.this).load(user.getImgURL()).into(profile_image);
+                }
 
                 readMessages(chatid, "default");
             }
@@ -140,12 +143,13 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
-    private void sendMessage(String myId, String chatid, String message) {
+    private void sendMessage(String myId, String chatid, String message, String profilUrl) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         ChatModel.Comment chatModel = new ChatModel.Comment();
         chatModel.uid = myId;
         chatModel.message = message;
+        chatModel.profileUrl = profilUrl;
         reference.child("Chatlist").child(chatid).child("comments").push().setValue(chatModel);
     }
 

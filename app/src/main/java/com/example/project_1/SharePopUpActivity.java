@@ -125,6 +125,7 @@ public class SharePopUpActivity extends Activity {
                         String gueststat = dataSnapshot.child(id).child("guest").getValue(String.class);
                         String hoststat = dataSnapshot.child(id).child("host").getValue(String.class);
                         if(hoststat.equals(userUid)){
+                            //host가 입장한 경우
 
                             Intent intent = new Intent(SharePopUpActivity.this, MessageActivity.class);
                             intent.putExtra("userid", uid);
@@ -141,6 +142,7 @@ public class SharePopUpActivity extends Activity {
                             startActivity(intent);
 
                         }else if (gueststat.equals(userUid)){
+
                             Intent intent = new Intent(SharePopUpActivity.this, MessageActivity.class);
                             intent.putExtra("userid", uid);
                             intent.putExtra("chatid", id);

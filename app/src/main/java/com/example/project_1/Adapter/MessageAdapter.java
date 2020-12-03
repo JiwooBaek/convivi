@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import model.ChatModel;
 
+import com.bumptech.glide.Glide;
 import com.example.project_1.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -57,11 +58,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         holder.show_message.setText(comment.message);
 
         holder.profile_image.setImageResource(R.mipmap.ic_launcher);
-       /* if(imageurl.equals("default")) {
+        if(imageurl.equals("default")) {
             holder.profile_image.setImageResource(R.mipmap.ic_launcher);
         } else {
             Glide.with(mContext).load(imageurl).into(holder.profile_image);
-        }*/
+        }
 
     }
 
