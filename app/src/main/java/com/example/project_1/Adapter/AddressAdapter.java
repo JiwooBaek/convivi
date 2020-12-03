@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1.AddressItem;
 import com.example.project_1.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -20,7 +21,8 @@ import java.util.ArrayList;
 import model.addressSearch.Document;
 
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHolder> {
-    private DatabaseReference userAddress = FirebaseDatabase.getInstance().getReference().child("Users").child("address");
+    FirebaseAuth firebaseAuth;
+    private DatabaseReference user = FirebaseDatabase.getInstance().getReference().child("Users");
 
     Context context;
     ArrayList<Document> items;
@@ -50,7 +52,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userAddress.setValue(model.getAddress().getRegion3depthHName());
+                
             }
         });
     }
