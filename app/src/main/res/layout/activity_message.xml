@@ -22,7 +22,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
+                android:id="@+id/imageView"
                 android:layout_width="30dp"
                 android:layout_height="30dp" />
 

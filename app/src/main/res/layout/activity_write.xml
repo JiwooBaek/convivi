@@ -18,7 +18,6 @@
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:background="@drawable/ic_action_name"/>
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -54,22 +53,30 @@
 
         <LinearLayout
             android:id="@+id/add_image"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_above="@+id/btn_save">
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/imagePreview"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="60dp"-->
+<!--                android:scrollbars="horizontal"-->
+<!--                android:layout_marginLeft="15dp"/>-->
+
+            <ImageView
+                android:id="@+id/imagePreview2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="5dp"/>
 
             <Button
                 android:id="@+id/addImageButton"
                 android:layout_width="60dp"
                 android:layout_height="60dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/imagePreview"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:scrollbars="horizontal"
-                android:layout_marginLeft="15dp"/>
 
         </LinearLayout>
 
@@ -88,7 +95,6 @@
             android:id="@+id/pickerPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/add_image"
             android:layout_marginVertical="5dp"
             android:orientation="horizontal">
 
@@ -96,25 +102,32 @@
                 android:id="@+id/category"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_weight="2"
+                android:layout_weight="1"
+                android:layout_marginLeft="15dp"
                 android:entries="@array/WritingCategory"
                 android:spinnerMode="dropdown"></Spinner>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/nanumbarungothic"
-                android:gravity="center"
-                android:text="목표인원"
-                android:textSize="18dp" />
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/nanumbarungothic"
+                    android:gravity="center"
+                    android:text="목표인원"
+                    android:textSize="18dp" />
 
-            <NumberPicker
-                android:id="@+id/targetNoP"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_below="@+id/write_title"
-                android:layout_alignRight="@+id/category"></NumberPicker>
+                <NumberPicker
+                    android:id="@+id/targetNoP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/write_title"
+                    android:layout_alignRight="@+id/category"></NumberPicker>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

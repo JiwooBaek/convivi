@@ -1,7 +1,6 @@
 package com.example.project_1.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import model.ChatModel;
 
-import com.example.project_1.MessageActivity;
 import com.example.project_1.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -80,7 +77,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
             show_message = itemView.findViewById(R.id.show_message);
-            profile_image = itemView.findViewById(R.id.profile_image);
+            profile_image = itemView.findViewById(R.id.imageView);
         }
     }
 

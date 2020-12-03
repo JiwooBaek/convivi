@@ -1,22 +1,32 @@
 package com.example.project_1.Item;
 
 public class ListRowItem_Share {
-    private String profile;
+    private String id;
+    private String image;
     private String title;
     private String description;
 
-    public ListRowItem_Share(String profile, String title, String description) {
-        this.profile = profile;
+    public ListRowItem_Share(String id, String image, String title, String description) {
+        this.id = id;
+        this.image = image;
         this.title = title;
         this.description = description;
     }
 
-    public String getProfile() {
-        return profile;
+    public String getId() {
+        return id;
     }
 
-    public void setProfile(String profile) {
-        this.profile = profile;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getTitle() {

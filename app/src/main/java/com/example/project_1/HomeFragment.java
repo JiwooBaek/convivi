@@ -1,7 +1,13 @@
 package com.example.project_1;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +30,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import model.BuyModel;
+import model.ImageModel;
 import model.ShareModel;
-import model.UserModel;
 
 public class HomeFragment extends Fragment {
     //HomeBuy RecyclerView 관련 변수
@@ -48,6 +56,8 @@ public class HomeFragment extends Fragment {
     private DatabaseReference buy = FirebaseDatabase.getInstance().getReference().child("Buy");
     private DatabaseReference share = FirebaseDatabase.getInstance().getReference().child("Share");
     private DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("Users");
+    private DatabaseReference buyImage = FirebaseDatabase.getInstance().getReference().child("BuyImages");
+    private DatabaseReference shareImage = FirebaseDatabase.getInstance().getReference().child("ShareImages");
 
 
     @Nullable
@@ -67,22 +77,22 @@ public class HomeFragment extends Fragment {
         homeListDecoration = new HomeListDecoration();
         homeBuyRecyclerView.addItemDecoration(homeListDecoration);
 
-        //Buy DB에서 최근 5개의 글 가져와 HomeBuyRecyclerView로 보여주기
-        users.addValueEventListener(new ValueEventListener() {
+//        Buy DB에서 최근 5개의 글 가져와 HomeBuyRecyclerView로 보여주기
+        buyImage.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot userDataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot imageDataSnapshot) {
                 buy.orderByKey().limitToLast(5).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot latestBuy : dataSnapshot.getChildren()){
+                        for (DataSnapshot latestBuy : dataSnapshot.getChildren()) {
                             BuyModel buyModel = latestBuy.getValue(BuyModel.class);
+                            ImageModel imageModel = imageDataSnapshot.child(buyModel.id).getValue(ImageModel.class);
 
-                            UserModel userModel = userDataSnapshot.child(buyModel.host).getValue(UserModel.class);
-                            HomeBuyItem homeBuyItem = new HomeBuyItem(buyModel.id, userModel.imgURL, buyModel.title, "OO동 XX아파트", String.valueOf(buyModel.currentNOP), String.valueOf(buyModel.targetNOP));
+                            HomeBuyItem homeBuyItem = new HomeBuyItem(buyModel.id, imageModel.url, buyModel.title, "OO동 XX아파트", String.valueOf(buyModel.currentNOP), String.valueOf(buyModel.targetNOP));
                             buyList.add(homeBuyItem);
                         }
                         homeBuyAdapter.notifyDataSetChanged();
-                }
+                    }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -109,17 +119,17 @@ public class HomeFragment extends Fragment {
         homeShareRecyclerView.addItemDecoration(homeListDecoration);
 
         //Share DB에서 최근 5개의 글 가져와 HomeShareRecyclerView로 보여주기
-        users.addValueEventListener(new ValueEventListener() {
+        shareImage.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot userDataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot imageDataSnapshot) {
                 share.orderByKey().limitToLast(5).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot latestShare : dataSnapshot.getChildren()){
                             ShareModel shareModel = latestShare.getValue(ShareModel.class);
+                            ImageModel imageModel = imageDataSnapshot.child(shareModel.id).getValue(ImageModel.class);
 
-                            UserModel userModel = userDataSnapshot.child(shareModel.host).getValue(UserModel.class);
-                            HomeShareItem homeShareItem = new HomeShareItem(shareModel.id, userModel.imgURL, shareModel.title, "OO동 XX아파트");
+                            HomeShareItem homeShareItem = new HomeShareItem(shareModel.id, imageModel.url, shareModel.title, "OO동 XX아파트");
                             shareList.add(homeShareItem);
                         }
                         homeShareAdapter.notifyDataSetChanged();
@@ -144,7 +154,7 @@ public class HomeFragment extends Fragment {
         view_more_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity().getApplicationContext(), ViewMoreActivity.class));
+                startActivity(new Intent(getActivity().getApplicationContext(), ShareListActivity.class));
             }
         });
 
@@ -154,7 +164,7 @@ public class HomeFragment extends Fragment {
         view_more_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity().getApplicationContext(), ViewMoreActivity2.class));
+                startActivity(new Intent(getActivity().getApplicationContext(), BuyListActivity.class));
             }
         });
 
@@ -167,6 +177,8 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getActivity().getApplicationContext(), WriteActivity.class));
             }
         });
-        return view;
+
+            return view;
     }
+
 }

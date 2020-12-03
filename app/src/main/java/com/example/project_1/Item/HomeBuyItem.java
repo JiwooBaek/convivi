@@ -1,16 +1,18 @@
 package com.example.project_1.Item;
 
+import android.net.Uri;
+
 public class HomeBuyItem {
     private String id;
-    private String profile;
+    private String imageUrl;
     private String title;
     private String adress;
     private String currentNOP;
     private String targetNOP;
 
-    public HomeBuyItem(String id, String profile, String title, String adress, String currentNOP, String targetNOP) {
+    public HomeBuyItem(String id, String imageUrl, String title, String adress, String currentNOP, String targetNOP) {
         this.id = id;
-        this.profile = profile;
+        this.imageUrl = imageUrl;
         this.title = title;
         this.adress = adress;
         this.currentNOP = currentNOP;
@@ -25,12 +27,12 @@ public class HomeBuyItem {
         this.id = id;
     }
 
-    public String getProfile() {
-        return profile;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setProfile(String profile) {
-        this.profile = profile;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getTitle() {

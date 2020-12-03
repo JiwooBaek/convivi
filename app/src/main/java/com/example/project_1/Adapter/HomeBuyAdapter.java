@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.project_1.BuyPopUpActivity;
 import com.example.project_1.Item.HomeBuyItem;
 import com.example.project_1.R;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 
 import java.util.ArrayList;
 
@@ -36,14 +37,14 @@ public class HomeBuyAdapter extends RecyclerView.Adapter<HomeBuyAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(holder.itemView.getContext())
-                .load(arrayList.get(position).getProfile())
-                .into(holder.profile);
-
+        if (!((arrayList.get(position).getImageUrl()).equals("default"))) {
+            Glide.with(holder.itemView.getContext())
+            .load(arrayList.get(position)
+            .getImageUrl()).into(holder.image);
+        }
         String id = arrayList.get(position).getId();
         String titleStr = arrayList.get(position).getTitle();
         String addressStr = arrayList.get(position).getAdress();
-        String profileImage = arrayList.get(position).getProfile();
 
         holder.title.setText(arrayList.get(position).getTitle());
         holder.adress.setText(arrayList.get(position).getAdress());
@@ -57,9 +58,6 @@ public class HomeBuyAdapter extends RecyclerView.Adapter<HomeBuyAdapter.ViewHold
                 Intent intent = new Intent(v.getContext(), BuyPopUpActivity .class);
 
                 intent.putExtra("id", id);
-                intent.putExtra("profileImage", profileImage);
-                intent.putExtra("address", addressStr);
-                intent.putExtra("title", titleStr);
 
 //                Toast.makeText(v.getContext(), "팝업창 띄우기", Toast.LENGTH_SHORT).show();
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -75,7 +73,7 @@ public class HomeBuyAdapter extends RecyclerView.Adapter<HomeBuyAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        protected ImageView profile;
+        protected ImageView image;
         protected TextView title;
         protected TextView adress;
         protected TextView currentNOP;
@@ -83,7 +81,7 @@ public class HomeBuyAdapter extends RecyclerView.Adapter<HomeBuyAdapter.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.profile = (ImageView) itemView.findViewById(R.id.profile);
+            this.image = (ImageView) itemView.findViewById(R.id.image);
             this.title = (TextView) itemView.findViewById(R.id.title);
             this.adress = (TextView) itemView.findViewById(R.id.adress);
             this.currentNOP = (TextView) itemView.findViewById(R.id.currentNOP);
