@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import model.addressSearch.Document;
 
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHolder> {
-    FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private DatabaseReference user = FirebaseDatabase.getInstance().getReference().child("Users");
 
     Context context;
@@ -49,10 +49,12 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
         final Document model = items.get(position);
         holder.address.setText(model.getAddressName());
         holder.itemView.setTag(position);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                String uid = firebaseAuth.getCurrentUser().getUid();
+                user.child(uid).child("address").setValue(model.getAddress().getRegion3depthHName());
             }
         });
     }

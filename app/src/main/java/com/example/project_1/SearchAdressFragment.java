@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_1.Adapter.AddressAdapter;
 import com.example.project_1.api.ApiClient;
 import com.example.project_1.api.ApiInterface;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -30,7 +31,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchAdressFragment extends Fragment {
-
     private ArrayList<AddressItem> addressItems;
     private AddressAdapter addressAdapter;
     private RecyclerView addressRecyclerView;

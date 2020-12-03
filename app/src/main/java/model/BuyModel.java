@@ -9,6 +9,7 @@ public class BuyModel {
     public String imgUrl;
     public int currentNOP; //현재 모인 인원
     public int targetNOP; // 목표 공구 인원
+    public String address;
 
 
     public BuyModel() {

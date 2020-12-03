@@ -7,6 +7,7 @@ public class ShareModel {
     public String host;
     public String description;
     public String imgUrl;
+    public String address;
 
     public ShareModel() {
     }
