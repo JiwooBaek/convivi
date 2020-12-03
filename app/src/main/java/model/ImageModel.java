@@ -1,7 +1,7 @@
 package model;
 
 public class ImageModel {
-    private String url;
+    public String url;
 
     public ImageModel() {
     }

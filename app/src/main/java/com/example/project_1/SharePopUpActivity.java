@@ -88,7 +88,7 @@ public class SharePopUpActivity extends Activity {
                         title = shareModel.title;
                         description = shareModel.description;
 
-                        if (!(imageModel.getUrl()).equals("default")) {
+                        if (!(imageUrl).equals("default")) {
                             Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
                         }
                         titleView.setText(title);

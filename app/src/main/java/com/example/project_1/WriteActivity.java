@@ -11,7 +11,6 @@ import com.example.project_1.Item.ImageItem;
 
 import model.ImageModel;
 import model.ShareModel;
-import retrofit2.http.HEAD;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -69,7 +68,7 @@ public class WriteActivity extends AppCompatActivity {
 //    private RecyclerView imageItemView;
     private ImageView imageView;
 //    private ImageAdapter imageAdapter;
-    private Uri imageUri = null;
+    private Uri imageUri;
 //    private ArrayList<ImageItem> imageList;
 //    private HomeListDecoration homeListDecoration;
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -84,9 +83,6 @@ public class WriteActivity extends AppCompatActivity {
     //채팅방 인스턴스
     private FirebaseDatabase database;
     String roomNumber;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,10 +201,8 @@ public class WriteActivity extends AppCompatActivity {
                                 String path = "Share_image/"+shareModel.id;
                                 imageUpload(path, shareModel.id);
                             }
-
                             //나눔 채팅방 자동 생성
                             setChatRoom(shareModel.id, uid);
-
                             finish();
                         }
                     });
@@ -235,7 +229,6 @@ public class WriteActivity extends AppCompatActivity {
                                 ref_buy.child(buyModel.id).setValue(buyModel);
 
                                 String path = "Buy_image/" + buyModel.id;
-
                                 imageUpload(path, buyModel.id);
                             }
                             //구매 채팅방 생성
@@ -303,7 +296,7 @@ public class WriteActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             ImageModel imageModel = new ImageModel();
-                            imageModel.setUrl(uri.toString());
+                            imageModel.url = uri.toString();
 
                             if(path.substring(0, 3).equals("Buy")){
                                 FirebaseDatabase.getInstance().getReference().child("BuyImages").child(uploadId).setValue(imageModel);
@@ -330,7 +323,7 @@ public class WriteActivity extends AppCompatActivity {
                 }
             });
 
-            if ( progressDialog!=null && progressDialog.isShowing() ){
+            if (progressDialog!=null && progressDialog.isShowing() ){
                 progressDialog.cancel();
             }
 //            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -351,8 +344,7 @@ public class WriteActivity extends AppCompatActivity {
 //            });
             } else {
                 ImageModel imageModel = new ImageModel();
-                imageModel.setUrl("default");
-
+                imageModel.url = "default";
 
                 if(path.substring(0, 3).equals("Buy")){
                     FirebaseDatabase.getInstance().getReference().child("BuyImages").child(uploadId).setValue(imageModel);
