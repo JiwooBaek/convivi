@@ -29,16 +29,32 @@ public class VerifyAddress extends AppCompatActivity {
 
         MapView mapView = new MapView(this);
         ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.map_view);
-        mapView.setMapViewEventListener(new MapViewEventListener() {
+        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
+        mapView.setShowCurrentLocationMarker(true);
+        mapView.setCurrentLocationEventListener(new MapView.CurrentLocationEventListener() {
             @Override
-            public void onLoadMapView() {
-                mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
-                mapView.setShowCurrentLocationMarker(true);
-                mapView.setZoomLevel(1, true);
+            public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) {
+                mapView.setMapCenterPointAndZoomLevel(mapPoint, 1, true);
+                mapViewContainer.addView(mapView);
+            }
+
+            @Override
+            public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
+
+            }
+
+            @Override
+            public void onCurrentLocationUpdateFailed(MapView mapView) {
+
+            }
+
+            @Override
+            public void onCurrentLocationUpdateCancelled(MapView mapView) {
+
             }
         });
 
-        mapViewContainer.addView(mapView);
+
 
         
     }
