@@ -7,7 +7,6 @@ public class UserModel {
     public String address;
     public String imgURL;
     public boolean phoneAuthFlag;
-    public String address;
     public boolean addressFlag;
 
 

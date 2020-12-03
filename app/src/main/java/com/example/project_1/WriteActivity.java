@@ -11,6 +11,7 @@ import com.example.project_1.Item.ImageItem;
 
 import model.ImageModel;
 import model.ShareModel;
+import retrofit2.http.HEAD;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -234,17 +235,10 @@ public class WriteActivity extends AppCompatActivity {
                                 ref_buy.child(buyModel.id).setValue(buyModel);
 
                                 String path = "Buy_image/" + buyModel.id;
-<<<<<<< HEAD
 
                                 imageUpload(path, buyModel.id);
                             }
-=======
-                                imageUpload(path, buyModel.id);
-                            }
-
->>>>>>> 21315d8516bcc1da5189304b5695dc037a6317a6
-
-                            //구매 채팅방 자동 생성
+                            //구매 채팅방 생성
                             setChatRoom(buyModel.id, uid);
                             finish();
                         }
