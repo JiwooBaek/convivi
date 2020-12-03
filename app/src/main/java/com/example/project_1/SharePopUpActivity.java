@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -92,12 +93,7 @@ public class SharePopUpActivity extends Activity {
                         title = shareModel.title;
                         description = shareModel.description;
 
-                        try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                            imageView.setImageBitmap(bitmap);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        Glide.with(getApplicationContext()).load(imageModel.getUrl()).into(imageView);
                         titleView.setText(title);
                         descriptionView.setText(description);
                         targetNumView.setText(targetNum);

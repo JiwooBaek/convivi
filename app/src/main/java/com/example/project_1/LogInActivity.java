@@ -125,24 +125,6 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
 
                         } else {
                             Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(LogInActivity.this);
-//                        builder.setMessage("휴대폰 인증이 필요합니다.")
-//                                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        Intent intent = new Intent(getApplicationContext(), VerifyPhoneNumber.class);
-//                                        intent.putExtra("uid", currentUid).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                                        startActivity(intent);
-//                                    }
-//                                })
-//                                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        dialog.cancel();
-//                                    }
-//                                });
-//                        AlertDialog dialog = builder.create();
-//                        dialog.show();
                         }
                     }
 
@@ -187,6 +169,7 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
                                         userModel.uid = uid;
                                         userModel.name = "유저" + (acct.getId()).substring(0, 4);
                                         userModel.emailAddress = acct.getEmail();
+                                        userModel.address = "null";
                                         userModel.imgURL = "default";
                                         userModel.phoneAuthFlag = false;
                                         FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(userModel);

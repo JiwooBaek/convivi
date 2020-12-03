@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -90,12 +91,7 @@ public class BuyPopUpActivity extends Activity {
                         targetNum = Integer.toString(buyModel.targetNOP);
                         currentNum = Integer.toString(buyModel.currentNOP);
 
-                        try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                            imageView.setImageBitmap(bitmap);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        Glide.with(getApplicationContext()).load(imageModel.getUrl()).into(imageView);
                         titleView.setText(title);
                         descriptionView.setText(description);
                         targetNumView.setText(targetNum);
@@ -114,12 +110,7 @@ public class BuyPopUpActivity extends Activity {
 
             }
         });
-        try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-            imageView.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
         Button openChat;
         openChat = (Button) findViewById(R.id.chat_button);

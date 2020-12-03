@@ -4,6 +4,7 @@ public class UserModel {
     public String uid;
     public String name;
     public String emailAddress;
+    public String address;
     public String imgURL;
     public boolean phoneAuthFlag;
 
