@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeShareAdapter extends RecyclerView.Adapter<HomeShareAdapter.Viewhloder> {
     ArrayList<HomeShareItem> arrayList;
@@ -36,12 +35,13 @@ public class HomeShareAdapter extends RecyclerView.Adapter<HomeShareAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull HomeShareAdapter.Viewhloder holder, int position) {
-        Glide.with(holder.itemView.getContext())
-                .load(arrayList.get(position).getProfile())
-                .into(holder.profile);
-
+        if(!(arrayList.get(position).getImageUrl()).equals("default")) {
+            Glide.with(holder.itemView.getContext())
+                    .load(arrayList.get(position)
+                            .getImageUrl()).into(holder.image);
+        }
         String id = arrayList.get(position).getId();
-        String profileImage = arrayList.get(position).getProfile();
+        String profileImage = arrayList.get(position).getImageUrl();
 
         holder.title.setText(arrayList.get(position).getTitle());
         holder.adress.setText(arrayList.get(position).getAdress());
@@ -52,7 +52,6 @@ public class HomeShareAdapter extends RecyclerView.Adapter<HomeShareAdapter.View
                 Intent intent = new Intent(v.getContext(), SharePopUpActivity.class);
 
                 intent.putExtra("id", id);
-                intent.putExtra("profileImage", profileImage);
 
 //                Toast.makeText(v.getContext(), "팝업창 띄우기", Toast.LENGTH_SHORT).show();
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -67,13 +66,13 @@ public class HomeShareAdapter extends RecyclerView.Adapter<HomeShareAdapter.View
     }
 
     public class Viewhloder extends RecyclerView.ViewHolder {
-        protected ImageView profile;
+        protected ImageView image;
         protected TextView title;
         protected TextView adress;
 
         public Viewhloder(@NonNull View itemView) {
             super(itemView);
-            this.profile = (ImageView) itemView.findViewById(R.id.profile);
+            this.image = (ImageView) itemView.findViewById(R.id.image);
             this.title = (TextView) itemView.findViewById(R.id.title);
             this.adress = (TextView) itemView.findViewById(R.id.adress);
         }

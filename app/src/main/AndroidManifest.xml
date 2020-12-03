@@ -19,8 +19,8 @@
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <activity android:name=".VerifyAddress"></activity>
         <activity android:name=".ChatActivity" />
-        <activity android:name=".ViewMoreActivity2" />
-        <activity android:name=".ViewMoreActivity" />
+        <activity android:name=".BuyListActivity" />
+        <activity android:name=".ShareListActivity" />
         <activity android:name=".WriteActivity" />
         <activity android:name=".MessageActivity" />
         <activity android:name=".MainActivity" />
