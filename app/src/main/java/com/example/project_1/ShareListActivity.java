@@ -47,7 +47,7 @@ public class ShareListActivity extends AppCompatActivity {
                             ShareModel shareModel = Share.getValue(ShareModel.class);
                             ImageModel imageModel = imageDataSnapshot.child(shareModel.id).getValue(ImageModel.class);
 
-                            ListRowItem_Share listRowItem = new ListRowItem_Share(shareModel.id, imageModel.url, shareModel.title, shareModel.description);
+                            ListRowItem_Share listRowItem = new ListRowItem_Share(shareModel.id, imageModel.getUrl(), shareModel.title, shareModel.description);
                             items.add(listRowItem);
                         }
                         shareListAdapter.notifyDataSetChanged();

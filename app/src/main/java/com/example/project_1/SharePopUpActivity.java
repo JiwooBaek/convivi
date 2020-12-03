@@ -83,7 +83,7 @@ public class SharePopUpActivity extends Activity {
                         ImageModel imageModel = imageSnapshot.getValue(ImageModel.class);
                         ShareModel shareModel = dataSnapshot.getValue(ShareModel.class);
 
-                        imageUrl = imageModel.url;
+                        imageUrl = imageModel.getUrl();
                         uid = shareModel.host;
                         title = shareModel.title;
                         description = shareModel.description;

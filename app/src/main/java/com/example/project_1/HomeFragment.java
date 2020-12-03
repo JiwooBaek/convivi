@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment {
                             BuyModel buyModel = latestBuy.getValue(BuyModel.class);
                             ImageModel imageModel = imageDataSnapshot.child(buyModel.id).getValue(ImageModel.class);
 
-                            HomeBuyItem homeBuyItem = new HomeBuyItem(buyModel.id, imageModel.url, buyModel.title, "OO동 XX아파트", String.valueOf(buyModel.currentNOP), String.valueOf(buyModel.targetNOP));
+                            HomeBuyItem homeBuyItem = new HomeBuyItem(buyModel.id, imageModel.getUrl(), buyModel.title, "OO동 XX아파트", String.valueOf(buyModel.currentNOP), String.valueOf(buyModel.targetNOP));
                             buyList.add(homeBuyItem);
                         }
                         homeBuyAdapter.notifyDataSetChanged();
@@ -129,7 +129,7 @@ public class HomeFragment extends Fragment {
                             ShareModel shareModel = latestShare.getValue(ShareModel.class);
                             ImageModel imageModel = imageDataSnapshot.child(shareModel.id).getValue(ImageModel.class);
 
-                            HomeShareItem homeShareItem = new HomeShareItem(shareModel.id, imageModel.url, shareModel.title, "OO동 XX아파트");
+                            HomeShareItem homeShareItem = new HomeShareItem(shareModel.id, imageModel.getUrl(), shareModel.title, "OO동 XX아파트");
                             shareList.add(homeShareItem);
                         }
                         homeShareAdapter.notifyDataSetChanged();

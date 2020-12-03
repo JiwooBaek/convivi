@@ -75,7 +75,7 @@ public class WriteActivity extends AppCompatActivity {
 //    private RecyclerView imageItemView;
     private ImageView imageView;
 //    private ImageAdapter imageAdapter;
-    private Uri imageUri;
+    private Uri imageUri = null;
 //    private ArrayList<ImageItem> imageList;
 //    private HomeListDecoration homeListDecoration;
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -325,7 +325,7 @@ public class WriteActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             ImageModel imageModel = new ImageModel();
-                            imageModel.url = uri.toString();
+                            imageModel.setUrl(uri.toString());
 
                             if(path.substring(0, 3).equals("Buy")){
                                 FirebaseDatabase.getInstance().getReference().child("BuyImages").child(uploadId).setValue(imageModel);
@@ -373,7 +373,8 @@ public class WriteActivity extends AppCompatActivity {
 //            });
             } else {
                 ImageModel imageModel = new ImageModel();
-                imageModel.url = "default";
+                imageModel.setUrl("default");
+
 
                 if(path.substring(0, 3).equals("Buy")){
                     FirebaseDatabase.getInstance().getReference().child("BuyImages").child(uploadId).setValue(imageModel);

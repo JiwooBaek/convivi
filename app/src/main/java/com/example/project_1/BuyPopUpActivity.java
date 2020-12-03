@@ -84,7 +84,7 @@ public class BuyPopUpActivity extends Activity {
                         ImageModel imageModel = imageSnapshot.getValue(ImageModel.class);
                         BuyModel buyModel = dataSnapshot.getValue(BuyModel.class);
 
-                        imageUrl = imageModel.url;
+                        imageUrl = imageModel.getUrl();
                         uid = buyModel.host;
                         title = buyModel.title;
                         description = buyModel.description;
