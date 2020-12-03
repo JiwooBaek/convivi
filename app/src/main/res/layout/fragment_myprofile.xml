@@ -194,10 +194,21 @@
             android:textSize="32dp"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
     <Button
-        android:id="@+id/adressSetting"
+        android:id="@+id/addressSetting"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:text="동네 설정" />
+
+    <Button
+        android:id="@+id/addressVerification"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="동네 인증" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -1,7 +1,13 @@
 package com.example.project_1;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +30,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import model.BuyModel;
@@ -169,6 +177,8 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getActivity().getApplicationContext(), WriteActivity.class));
             }
         });
-        return view;
+
+            return view;
     }
+
 }
