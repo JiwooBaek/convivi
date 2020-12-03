@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import model.BuyModel;
 import model.ChatModel;
+
+import com.example.project_1.Adapter.AddressAdapter;
 import com.example.project_1.Item.ImageItem;
 
 import model.ImageModel;
 import model.ShareModel;
+import model.UserModel;
 import retrofit2.http.HEAD;
 
 import android.app.ProgressDialog;
@@ -64,6 +67,9 @@ public class WriteActivity extends AppCompatActivity {
 
     private DatabaseReference ref_share;
     private DatabaseReference ref_buy;
+    private DatabaseReference ref_user = FirebaseDatabase.getInstance().getReference().child("Users");
+
+    private String userAddress;
 
     private Button btn_image;
 //    private RecyclerView imageItemView;
@@ -104,6 +110,20 @@ public class WriteActivity extends AppCompatActivity {
         targetNum = (NumberPicker) findViewById(R.id.targetNoP);
         btn_image = (Button) findViewById(R.id.addImageButton);
         imageView = (ImageView) findViewById(R.id.imagePreview2);
+
+        //유저 주소
+        ref_user.child(firebaseAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserModel currentUser = dataSnapshot.getValue(UserModel.class);
+                userAddress = currentUser.address;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         //Image RecyclerView
 //        imageItemView = (RecyclerView) findViewById(R.id.imagePreview);
@@ -195,6 +215,7 @@ public class WriteActivity extends AppCompatActivity {
                             if(et_title.getText().toString().equals("") || et_description.getText().toString().equals("")) {
                                 Toast.makeText(getApplicationContext(), "Input Error!", Toast.LENGTH_SHORT).show();
                             } else {
+                                shareModel.address = userAddress;
                                 shareModel.idNum = Long.toString(shareCount);
                                 shareModel.id = setShareId(shareCount);
                                 shareModel.title = et_title.getText().toString();
@@ -225,6 +246,7 @@ public class WriteActivity extends AppCompatActivity {
                             if(et_title.getText().toString().equals("") || et_description.getText().toString().equals("")) {
                                 Toast.makeText(getApplicationContext(), "Input Error!", Toast.LENGTH_SHORT).show();
                             } else {
+                                buyModel.address = userAddress;
                                 buyModel.id = setBuyId(buyCount);
                                 buyModel.idNum = Long.toString(buyCount);
                                 buyModel.title = et_title.getText().toString();
@@ -382,4 +404,5 @@ public class WriteActivity extends AppCompatActivity {
 
         FirebaseDatabase.getInstance().getReference().child("Chatlist").child(chatModel.roomId).setValue(chatModel);
     }
+
 }
