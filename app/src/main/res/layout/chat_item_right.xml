@@ -26,6 +26,10 @@
         android:text="hello"
         android:textColor="#ffffff"
         android:textSize="18sp" />
+<<<<<<< HEAD
+=======
+
+>>>>>>> 21315d8516bcc1da5189304b5695dc037a6317a6
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

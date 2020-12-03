@@ -234,9 +234,15 @@ public class WriteActivity extends AppCompatActivity {
                                 ref_buy.child(buyModel.id).setValue(buyModel);
 
                                 String path = "Buy_image/" + buyModel.id;
+<<<<<<< HEAD
 
                                 imageUpload(path, buyModel.id);
                             }
+=======
+                                imageUpload(path, buyModel.id);
+                            }
+
+>>>>>>> 21315d8516bcc1da5189304b5695dc037a6317a6
 
                             //구매 채팅방 자동 생성
                             setChatRoom(buyModel.id, uid);
