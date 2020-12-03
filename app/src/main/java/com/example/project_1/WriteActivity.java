@@ -234,8 +234,13 @@ public class WriteActivity extends AppCompatActivity {
                                 ref_buy.child(buyModel.id).setValue(buyModel);
 
                                 String path = "Buy_image/" + buyModel.id;
+<<<<<<< HEAD
+                                imageUpload(path, imageList);
+
+=======
                                 imageUpload(path, buyModel.id);
                             }
+>>>>>>> 6c290eb88776199f675823341e4aa9fd9f17f8b3
 
                             //구매 채팅방 자동 생성
                             setChatRoom(buyModel.id, uid);
@@ -349,8 +354,14 @@ public class WriteActivity extends AppCompatActivity {
 //                }
 //            });
             } else {
-//            Toast.makeText(getApplicationContext(), "imageUri value is NULL", Toast.LENGTH_SHORT).show();
-            return;
+            ImageModel imageModel = new ImageModel();
+            imageModel.url = "default";
+
+            if(path.substring(0, 3).equals("Buy")){
+                FirebaseDatabase.getInstance().getReference().child("BuyImages").child(uploadId).setValue(imageModel);
+            } else {
+                FirebaseDatabase.getInstance().getReference().child("ShareImages").child(uploadId).setValue(imageModel);
+            }
         }
 
     }

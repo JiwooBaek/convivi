@@ -6,28 +6,33 @@
     android:layout_height="wrap_content">
 
 
-    <RelativeLayout
-        android:layout_width="300dp"
-        android:layout_alignParentEnd="true"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/ic_launcher"/>
 
+<<<<<<< HEAD
+    <TextView
+        android:id="@+id/show_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="55dp"
+        android:layout_toLeftOf="@+id/profile_image"
+        android:background="@drawable/backgroud_right"
+        android:padding="8dp"
+        android:text="hello"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
+=======
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView"
             android:visibility="gone"/>
+>>>>>>> 6c290eb88776199f675823341e4aa9fd9f17f8b3
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/backgroud_right"
-            android:text="hello"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/show_message"
-            android:textSize="18sp"
-            android:textColor="#ffffff"
-            android:padding="8dp"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
 </RelativeLayout>
