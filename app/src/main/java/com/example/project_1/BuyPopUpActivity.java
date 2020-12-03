@@ -91,7 +91,9 @@ public class BuyPopUpActivity extends Activity {
                         targetNum = Integer.toString(buyModel.targetNOP);
                         currentNum = Integer.toString(buyModel.currentNOP);
 
-                        Glide.with(getApplicationContext()).load(imageModel.getUrl()).into(imageView);
+                        if (!(imageModel.getUrl()).equals("default")) {
+                            Glide.with(getApplicationContext()).load(imageModel.getUrl()).into(imageView);
+                        }
                         titleView.setText(title);
                         descriptionView.setText(description);
                         targetNumView.setText(targetNum);

@@ -92,9 +92,10 @@ public class SharePopUpActivity extends Activity {
                         uid = shareModel.host;
                         title = shareModel.title;
                         description = shareModel.description;
-
-                        Glide.with(getApplicationContext()).load(imageModel.getUrl()).into(imageView);
-                        titleView.setText(title);
+                        if (!(imageModel.getUrl()).equals("default")) {
+                            Glide.with(getApplicationContext()).load(imageModel.getUrl()).into(imageView);
+                        }
+                            titleView.setText(title);
                         descriptionView.setText(description);
                         targetNumView.setText(targetNum);
                         currentNumView.setText(currentNum);

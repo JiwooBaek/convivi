@@ -350,14 +350,14 @@ public class WriteActivity extends AppCompatActivity {
 //                }
 //            });
             } else {
-            ImageModel imageModel = new ImageModel();
-            imageModel.url = "default";
+                ImageModel imageModel = new ImageModel();
+                imageModel.url = "default";
 
-            if(path.substring(0, 3).equals("Buy")){
-                FirebaseDatabase.getInstance().getReference().child("BuyImages").child(uploadId).setValue(imageModel);
-            } else {
-                FirebaseDatabase.getInstance().getReference().child("ShareImages").child(uploadId).setValue(imageModel);
-            }
+                if(path.substring(0, 3).equals("Buy")){
+                    FirebaseDatabase.getInstance().getReference().child("BuyImages").child(uploadId).setValue(imageModel);
+                } else {
+                    FirebaseDatabase.getInstance().getReference().child("ShareImages").child(uploadId).setValue(imageModel);
+                }
         }
 
     }
