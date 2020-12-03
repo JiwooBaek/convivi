@@ -92,13 +92,13 @@ public class SharePopUpActivity extends Activity {
                         uid = shareModel.host;
                         title = shareModel.title;
                         description = shareModel.description;
+
                         if (!(imageModel.getUrl()).equals("default")) {
                             Glide.with(getApplicationContext()).load(imageModel.getUrl()).into(imageView);
                         }
-                            titleView.setText(title);
+                        titleView.setText(title);
                         descriptionView.setText(description);
-                        targetNumView.setText(targetNum);
-                        currentNumView.setText(currentNum);
+
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
