@@ -35,7 +35,7 @@ public class HomeShareAdapter extends RecyclerView.Adapter<HomeShareAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull HomeShareAdapter.Viewhloder holder, int position) {
-        if(!(arrayList.get(position).getImageUrl()).equals("default")) {
+        if (!((arrayList.get(position).getImageUrl()).equals("default"))) {
             Glide.with(holder.itemView.getContext())
                     .load(arrayList.get(position)
                             .getImageUrl()).into(holder.image);

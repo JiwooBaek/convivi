@@ -1,13 +1,15 @@
 package com.example.project_1.Item;
 
 public class ListRowItem_Buy {
+    private String id;
     private String image;
     private String title;
     private String description;
     private int currentNOP;
     private int targetNOP;
 
-    public ListRowItem_Buy(String image, String title, String description, int currentNOP, int targetNOP) {
+    public ListRowItem_Buy(String id, String image, String title, String description, int currentNOP, int targetNOP) {
+        this.id = id;
         this.image = image;
         this.title = title;
         this.description = description;
@@ -16,6 +18,13 @@ public class ListRowItem_Buy {
 
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getImage() {
         return image;

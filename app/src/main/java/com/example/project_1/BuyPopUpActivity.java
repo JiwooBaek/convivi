@@ -114,6 +114,12 @@ public class BuyPopUpActivity extends Activity {
 
             }
         });
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+            imageView.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Button openChat;
         openChat = (Button) findViewById(R.id.chat_button);

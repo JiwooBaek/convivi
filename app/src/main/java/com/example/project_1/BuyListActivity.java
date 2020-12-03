@@ -45,7 +45,7 @@ public class BuyListActivity extends AppCompatActivity {
                             BuyModel buyModel = Buy.getValue(BuyModel.class);
                             ImageModel imageModel = imageDataSnapshot.child(buyModel.id).getValue(ImageModel.class);
 
-                            ListRowItem_Buy listRowItem_buy = new ListRowItem_Buy(imageModel.url, buyModel.title, buyModel.description, buyModel.currentNOP, buyModel.targetNOP);
+                            ListRowItem_Buy listRowItem_buy = new ListRowItem_Buy(buyModel.id, imageModel.url, buyModel.title, buyModel.description, buyModel.currentNOP, buyModel.targetNOP);
                             items.add(listRowItem_buy);
                         }
                         buyMoreAdapter.notifyDataSetChanged();

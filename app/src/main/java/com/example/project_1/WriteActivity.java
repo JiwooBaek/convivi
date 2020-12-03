@@ -298,15 +298,19 @@ public class WriteActivity extends AppCompatActivity {
             ref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    ImageModel imageModel = new ImageModel();
-                    imageModel.url = taskSnapshot.getUploadSessionUri().toString();
+                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            ImageModel imageModel = new ImageModel();
+                            imageModel.url = uri.toString();
 
-                    if(path.substring(0, 3).equals("Buy")){
-                        FirebaseDatabase.getInstance().getReference().child("BuyImages").child(uploadId).setValue(imageModel);
-                    } else {
-                        FirebaseDatabase.getInstance().getReference().child("ShareImages").child(uploadId).setValue(imageModel);
-                    }
-
+                            if(path.substring(0, 3).equals("Buy")){
+                                FirebaseDatabase.getInstance().getReference().child("BuyImages").child(uploadId).setValue(imageModel);
+                            } else {
+                                FirebaseDatabase.getInstance().getReference().child("ShareImages").child(uploadId).setValue(imageModel);
+                            }
+                        }
+                    });
                     progressDialog.hide();
                     Toast.makeText(WriteActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
 

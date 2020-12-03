@@ -37,7 +37,7 @@ public class HomeBuyAdapter extends RecyclerView.Adapter<HomeBuyAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if(!(arrayList.get(position).getImageUrl()).equals("default")) {
+        if (!((arrayList.get(position).getImageUrl()).equals("default"))) {
             Glide.with(holder.itemView.getContext())
             .load(arrayList.get(position)
             .getImageUrl()).into(holder.image);
@@ -58,8 +58,6 @@ public class HomeBuyAdapter extends RecyclerView.Adapter<HomeBuyAdapter.ViewHold
                 Intent intent = new Intent(v.getContext(), BuyPopUpActivity .class);
 
                 intent.putExtra("id", id);
-                intent.putExtra("address", addressStr);
-                intent.putExtra("title", titleStr);
 
 //                Toast.makeText(v.getContext(), "팝업창 띄우기", Toast.LENGTH_SHORT).show();
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
