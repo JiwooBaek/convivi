@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import model.ChatModel;
 
+import com.bumptech.glide.Glide;
 import com.example.project_1.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
