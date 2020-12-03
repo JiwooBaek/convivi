@@ -68,7 +68,9 @@ public class WriteActivity extends AppCompatActivity {
 
     private DatabaseReference ref_share;
     private DatabaseReference ref_buy;
+    private DatabaseReference ref_user = FirebaseDatabase.getInstance().getReference().child("Users");
 
+    private String userAddress;
     private Button btn_image;
 //    private RecyclerView imageItemView;
     private ImageView imageView;
