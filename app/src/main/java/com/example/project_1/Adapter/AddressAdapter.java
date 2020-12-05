@@ -54,7 +54,9 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 String uid = firebaseAuth.getCurrentUser().getUid();
-                user.child(uid).child("address").setValue(model.getAddress().getRegion3depthHName());
+                if(model.getAddress().getRegion3depthName().equals("")) {
+                    user.child(uid).child("address").setValue(model.getAddress().getRegion3depthHName());
+                } else user.child(uid).child("address").setValue(model.getAddress().getRegion3depthName());
             }
         });
     }
