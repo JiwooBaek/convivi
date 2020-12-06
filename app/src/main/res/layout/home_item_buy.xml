@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:background="@drawable/default_image"/>
+        android:background="@drawable/nokdu_kong_beige"/>
 
     <ImageView
         android:layout_width="match_parent"
@@ -33,13 +33,14 @@
             android:text="3"
             android:fontFamily="@font/nanumbarungothic"
             android:textColor="#ffffff"
-            android:textSize="15dp"/>
+            android:textSize="20dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nanumbarungothic"
             android:textColor="#ffffff"
-            android:text=" / " />
+            android:text=" / "
+            android:textSize="20dp"/>
         <TextView
             android:id="@+id/targetNOP"
             android:layout_width="wrap_content"
@@ -47,7 +48,7 @@
             android:fontFamily="@font/nanumbarungothic"
             android:textColor="#ffffff"
             android:text="5"
-            android:textSize="15dp"/>
+            android:textSize="20dp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"

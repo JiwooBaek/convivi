@@ -18,33 +18,43 @@
             android:layout_gravity="center"
             android:background="@color/colorPrimaryDark"/>
         <TextView
-            android:id="@+id/text_title2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="35sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:fontFamily="@font/nanumbarungothic_bold"
-            android:text="제목" />
-        <TextView
             android:id="@+id/text_nop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:gravity="right"
             android:fontFamily="@font/nanumbarungothic"
             android:text="currentNOP/targetNOP"/>
         <TextView
+            android:id="@+id/text_title2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/nanumbarungothic_bold"
+            android:background="@color/colorPrimary"
+            android:textColor="#ffffff"
+            android:text="제목" />
+        <TextView
             android:id="@+id/text_description2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
+            android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:fontFamily="@font/nanumbarungothic"
             android:text="내용입니다."/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_centerInParent="true"
+            android:layout_marginVertical="10dp"
+            android:background="@color/colorPrimary" />
 
     </LinearLayout>
 
