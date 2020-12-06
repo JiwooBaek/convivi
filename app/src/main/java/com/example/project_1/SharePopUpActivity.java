@@ -115,7 +115,7 @@ public class SharePopUpActivity extends Activity {
         openChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ref_chatlist.addValueEventListener(new ValueEventListener() {
+                ref_chatlist.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String gueststat = dataSnapshot.child(id).child("guest").getValue(String.class);

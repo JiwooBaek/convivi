@@ -112,8 +112,6 @@ public class MessageActivity extends AppCompatActivity {
                 }
                 //다시 비우는 건가
                 text_send.setText("");
-
-
             }
         });
         //시험으로 추가해보는 중
