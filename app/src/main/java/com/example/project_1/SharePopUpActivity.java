@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import model.ImageModel;
 import model.ShareModel;
+import model.UserModel;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -49,6 +50,7 @@ public class SharePopUpActivity extends Activity {
     String imageUrl;
     Handler handler = new Handler();
     private DatabaseReference ref_share = FirebaseDatabase.getInstance().getReference().child("Share");
+    private DatabaseReference ref_user = FirebaseDatabase.getInstance().getReference().child("Users");
     private DatabaseReference ref_shareImage = FirebaseDatabase.getInstance().getReference().child("ShareImages");
     private DatabaseReference ref_chatlist = FirebaseDatabase.getInstance().getReference().child("Chatlist");
 
@@ -75,10 +77,11 @@ public class SharePopUpActivity extends Activity {
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
 
-        //데이터 설정하기
+        //이미지DB에서 데이터 받아오기
         ref_shareImage.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot imageSnapshot) {
+                //나눔DB에서 데이터 받아오기
                 ref_share.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -90,22 +93,38 @@ public class SharePopUpActivity extends Activity {
                         title = shareModel.title;
                         description = shareModel.description;
 
-                        Thread imageThread = new Thread(new Runnable() {
+                        //사용자DB에서 사용자 이름값 받아오기
+                        ref_user.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
-                            public void run() {
-                                handler.post(new Runnable() {
+                            public void onDataChange(@NonNull DataSnapshot userSnapshot) {
+                                UserModel userModel = userSnapshot.getValue(UserModel.class);
+
+                                hostName = userModel.name;
+
+                                Thread imageThread = new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if (!(imageUrl).equals("default")) {
-                                            Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
-                                        }
-                                        titleView.setText(title);
-                                        descriptionView.setText(description);
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (!(imageUrl).equals("default")) {
+                                                    Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
+                                                }
+                                                titleView.setText(title);
+                                                descriptionView.setText(description);
+                                                hostView.setText(hostName);
+                                            }
+                                        });
                                     }
                                 });
+                                imageThread.start();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
                             }
                         });
-                        imageThread.start();
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {

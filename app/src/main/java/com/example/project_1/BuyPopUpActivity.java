@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import model.BuyModel;
 import model.ImageModel;
+import model.UserModel;
 
 public class BuyPopUpActivity extends Activity {
 
@@ -53,6 +54,7 @@ public class BuyPopUpActivity extends Activity {
     String imageUrl;
     Handler handler = new Handler();
     private FirebaseDatabase database;
+    private DatabaseReference ref_user = FirebaseDatabase.getInstance().getReference().child("Users");
     private DatabaseReference ref_buy = FirebaseDatabase.getInstance().getReference().child("Buy");
     private DatabaseReference ref_buyImage = FirebaseDatabase.getInstance().getReference().child("BuyImages");
     private DatabaseReference ref_chatlist = FirebaseDatabase.getInstance().getReference().child("Chatlist");
@@ -95,24 +97,39 @@ public class BuyPopUpActivity extends Activity {
                         targetNum = Integer.toString(buyModel.targetNOP);
                         currentNum = Integer.toString(buyModel.currentNOP);
 
-                        Thread imageThread = new Thread(new Runnable() {
+                        ref_user.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
-                            public void run() {
-                                handler.post(new Runnable() {
+                            public void onDataChange(@NonNull DataSnapshot userSnapshot) {
+                                UserModel userModel = userSnapshot.getValue(UserModel.class);
+
+                                hostName = userModel.name;
+
+                                Thread imageThread = new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if (!(imageUrl).equals("default")) {
-                                            Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
-                                        }
-                                        titleView.setText(title);
-                                        descriptionView.setText(description);
-                                        targetNumView.setText(targetNum);
-                                        currentNumView.setText(currentNum);
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (!(imageUrl).equals("default")) {
+                                                    Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
+                                                }
+                                                titleView.setText(title);
+                                                descriptionView.setText(description);
+                                                targetNumView.setText(targetNum);
+                                                currentNumView.setText(currentNum);
+                                                hostView.setText(hostName);
+                                            }
+                                        });
                                     }
                                 });
+                                imageThread.start();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
                             }
                         });
-                        imageThread.start();
                     }
 
                     @Override
