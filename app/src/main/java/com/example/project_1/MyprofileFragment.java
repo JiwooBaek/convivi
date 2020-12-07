@@ -28,8 +28,8 @@ public class MyprofileFragment extends Fragment {
     String userImage;
     TextView userNameView;
     CircleImageView userImageView;
-    Button addressSetting;
-    Button addressVerification;
+    TextView addressSetting;
+    TextView addressVerification;
 
     MainActivity activity;
 
@@ -59,7 +59,7 @@ public class MyprofileFragment extends Fragment {
         userNameView.setText(userName);
         Glide.with(this).load(userImage).into(userImageView);
 
-        addressSetting = (Button) view.findViewById(R.id.addressSetting);
+        addressSetting = (TextView) view.findViewById(R.id.addressSetting);
         addressSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +67,7 @@ public class MyprofileFragment extends Fragment {
             }
         });
 
-        addressVerification = (Button) view.findViewById(R.id.addressVerification);
+        addressVerification = (TextView) view.findViewById(R.id.addressVerification);
         addressVerification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

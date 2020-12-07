@@ -8,8 +8,7 @@
     <RelativeLayout
         android:id="@+id/profile_main"
         android:layout_width="match_parent"
-        android:layout_marginTop="40dp"
-        android:layout_height="200dp">
+        android:layout_height="160dp">
 
         <ImageView
             android:layout_marginTop="40dp"
@@ -25,14 +24,16 @@
             android:layout_marginLeft="40dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/round"
-            android:src="@drawable/nokdu_kong_white">
+            android:src="@drawable/nokdu_kong_beige">
         </de.hdodenhof.circleimageview.CircleImageView>
 
         <LinearLayout
             android:id="@+id/profile_details"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
+
+            android:layout_marginTop="112dp"
             android:layout_toRightOf="@id/profile_img"
             android:layout_marginLeft="10dp">
 
@@ -41,7 +42,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nanumbarungothic_bold"
-                android:layout_marginTop="112dp"
 
                 android:text="userId"
                 android:textSize="27dp">
@@ -52,7 +52,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nanumbarungothic"
-                android:layout_marginTop="112dp"
                 android:textColor="#ffffff"
                 android:text="Lv.1"
                 android:textSize="20dp"/>
@@ -60,12 +59,107 @@
         </LinearLayout>
 
     </RelativeLayout>
+    <!--
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="40dp"
+        android:layout_gravity="right"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/addressSetting"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="5dp"
+            android:background="@drawable/roundrectangle_green"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="#ffffff"
+            android:fontFamily="@font/nanumbarungothic_bold"
+            android:text="동네 설정" />
+
+        <Button
+            android:id="@+id/addressVerification"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/roundrectangle_green"
+            android:backgroundTint="#fae5c8"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/nanumbarungothic_bold"
+            android:text="동네 인증" />
+    </LinearLayout> -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:paddingTop="27dp"
+                android:paddingLeft="120dp"
+                android:text="내 위치"
+                android:textSize="25sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:background="@drawable/myprofile_bar"
+                android:fontFamily="@font/nanumbarungothic_bold"/>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="51dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:background="@drawable/place" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/addressSetting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="120dp"
+            android:fontFamily="@font/nanumbarungothic"
+            android:text="동네설정"
+            android:textSize="22sp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="75dp"
+            android:src="@drawable/line1"/>
+
+        <TextView
+            android:id="@+id/addressVerification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="120dp"
+            android:fontFamily="@font/nanumbarungothic"
+            android:text="동네인증"
+            android:textSize="22sp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="75dp"
+            android:src="@drawable/line1"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/profile_deal"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:layout_weight="1">
         <RelativeLayout
@@ -97,7 +191,7 @@
             android:paddingLeft="120dp"
             android:fontFamily="@font/nanumbarungothic"
             android:text="거래목록"
-            android:textSize="25sp"/>
+            android:textSize="22sp"/>
 
         <ImageView
             android:layout_width="match_parent"
@@ -113,7 +207,7 @@
             android:paddingLeft="120dp"
             android:fontFamily="@font/nanumbarungothic"
             android:text="거래내역"
-            android:textSize="25sp"/>
+            android:textSize="22sp"/>
 
         <ImageView
             android:layout_width="match_parent"
@@ -129,6 +223,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="10dp"
         android:layout_weight="1">
 
         <RelativeLayout
@@ -160,7 +255,7 @@
             android:paddingLeft="120dp"
             android:fontFamily="@font/nanumbarungothic"
             android:text="내가 작성한 후기"
-            android:textSize="25sp"/>
+            android:textSize="22sp"/>
 
         <ImageView
             android:layout_width="match_parent"
@@ -169,46 +264,7 @@
             android:layout_marginLeft="75dp"
             android:src="@drawable/line1"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="120dp"
-            android:fontFamily="@font/nanumbarungothic"
-            android:text="내 거래 후기"
-            android:textSize="25sp"/>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="75dp"
-            android:src="@drawable/line1"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"
-            android:text="내 거래 후기"
-            android:textSize="32dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-    <Button
-        android:id="@+id/addressSetting"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="동네 설정" />
-
-    <Button
-        android:id="@+id/addressVerification"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="동네 인증" />
     </LinearLayout>
 
 </LinearLayout>

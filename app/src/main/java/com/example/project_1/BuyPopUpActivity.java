@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,6 +53,7 @@ public class BuyPopUpActivity extends Activity {
     private FirebaseDatabase database;
     private DatabaseReference ref_buy = FirebaseDatabase.getInstance().getReference().child("Buy");
     private DatabaseReference ref_buyImage = FirebaseDatabase.getInstance().getReference().child("BuyImages");
+    private DatabaseReference ref_chatlist = FirebaseDatabase.getInstance().getReference().child("Chatlist");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,10 +124,47 @@ public class BuyPopUpActivity extends Activity {
         openChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BuyPopUpActivity.this, MessageActivity.class);
+                ref_chatlist.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String gueststat = dataSnapshot.child(id).child("guest").getValue(String.class);
+                        String hoststat = dataSnapshot.child(id).child("host").getValue(String.class);
+                        if(hoststat.equals(userUid)){
+                            //host가 입장한 경우
+
+                            Intent intent = new Intent(BuyPopUpActivity.this, MessageActivity.class);
+                            intent.putExtra("userid", uid);
+                            intent.putExtra("chatid", id);
+
+                            startActivity(intent);
+                        }else if( gueststat.equals("null")) {
+                            //게스트가 null인 경우 (초기)
+                            ref_chatlist.child(id).child("guest").setValue(userUid);
+
+                            Intent intent = new Intent(BuyPopUpActivity.this, MessageActivity.class);
+                            intent.putExtra("userid", uid);
+                            intent.putExtra("chatid", id);
+                            startActivity(intent);
+
+                        }else if (gueststat.equals(userUid)){
+
+                            Intent intent = new Intent(BuyPopUpActivity.this, MessageActivity.class);
+                            intent.putExtra("userid", uid);
+                            intent.putExtra("chatid", id);
+                            startActivity(intent);
+
+                        } else{
+                            Toast.makeText(BuyPopUpActivity.this, hoststat +" " + gueststat + "   인원이 찬 대화방 입니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+                /*Intent intent = new Intent(BuyPopUpActivity.this, MessageActivity.class);
                 intent.putExtra("userid", uid);
                 intent.putExtra("chatid", id);
-                startActivity(intent);
+                startActivity(intent);*/
 
             }
         });

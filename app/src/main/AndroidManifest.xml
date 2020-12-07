@@ -18,7 +18,6 @@
         android:networkSecurityConfig="@xml/network_security_config">
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <activity android:name=".VerifyAddress"></activity>
-        <activity android:name=".ChatActivity" />
         <activity android:name=".BuyListActivity" />
         <activity android:name=".ShareListActivity" />
         <activity android:name=".WriteActivity" />
