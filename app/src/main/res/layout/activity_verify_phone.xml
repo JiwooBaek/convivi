@@ -36,14 +36,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="10-0000-0000"
+            android:hint="010-0000-0000"
             android:textSize="20dp"
             android:digits="0123456789"
             app:errorEnabled="true"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             android:inputType="phone"
-            android:maxLength="10">
+            android:maxLength="11">
         </com.google.android.material.textfield.TextInputEditText>
 
         <Button

@@ -2,6 +2,7 @@ package com.example.project_1;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -24,11 +25,12 @@ import java.util.concurrent.TimeUnit;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import model.UserModel;
 
 public class VerifyPhoneNumActivity extends AppCompatActivity {
 
-    private String phoneNum = "1122223333";
-    private String verificationCode = "123456";
+//    private String phoneNum = "1122223333";
+//    private String verificationCode = "123456";
     private String verificationId;
     private String uid;
     private TextView message;
@@ -39,6 +41,7 @@ public class VerifyPhoneNumActivity extends AppCompatActivity {
     private Button sendCode;
     private Button button;
     private RelativeLayout container;
+    private int randomNum;
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     FirebaseAuthSettings firebaseAuthSettings = firebaseAuth.getFirebaseAuthSettings();
 
@@ -56,7 +59,7 @@ public class VerifyPhoneNumActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.Button);
         container = (RelativeLayout) findViewById(R.id.container);
 
-        //현재 유저 uid 값 받아오기
+       //현재 유저 uid 값 받아오기
         Intent intent = getIntent();
         uid = intent.getStringExtra("uid");
 
@@ -74,13 +77,14 @@ public class VerifyPhoneNumActivity extends AppCompatActivity {
                 String num = phoneNumView.getText().toString().trim();
 
                 // 입력값 오류
-                if(num.isEmpty() || num.length() < 10) {
+                if(num.isEmpty() || num.length() < 11) {
                     phoneNumView.setError("유효하지 않은 값입니다");
                     phoneNumView.requestFocus();
                     return;
                 }
+                randomNum = (int) (Math.random() * 10000);
 
-                sendVerificationCode(num);
+                sendVerificationCode(num, randomNum);
                 container.setVisibility(View.VISIBLE);
                 codeMessage.setVisibility(View.VISIBLE);
                 codeView.setVisibility(View.VISIBLE);
@@ -94,71 +98,87 @@ public class VerifyPhoneNumActivity extends AppCompatActivity {
                 String code = codeView.getText().toString().trim();
 
                 // 입력값 오류
-                if(code.isEmpty() || code.length() < 6) {
+                if(code.isEmpty() || code.length() < 4) {
                     Toast.makeText(getApplicationContext(), "유효하지 않은 값입니다", Toast.LENGTH_SHORT).show();
                 }
                 verifyCode(code);
-                Toast.makeText(getApplicationContext(), "인증이 완료되었습니다", Toast.LENGTH_SHORT).show();
             }
         });
 
 
     }
 
-    private void sendVerificationCode(String num) {
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                "+82" + num,
-                60,
-                TimeUnit.SECONDS,
-                this,
-                callbacks);
+    private void sendVerificationCode(String phoneNum, int num) {
+        String msg = "[" + num + "]" + " 전화번호 인증 코드를 입력하세요!";
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNum, null, msg, null, null);
+            Toast.makeText(getApplicationContext(), "인증코드가 전송되었습니다.", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "인증코드 전송이 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+//        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+//                "+82" + phoneNum,
+//                60,
+//                TimeUnit.SECONDS,
+//                this,
+//                callbacks);
     }
 
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks
-            callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-        @Override
-        public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-            // SMS통해서 코드 받아오기
-            String code = phoneAuthCredential.getSmsCode();
+//    private PhoneAuthProvider.OnVerificationStateChangedCallbacks
+//            callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+//        @Override
+//        public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+//            // SMS통해서 코드 받아오기
+//            String code = phoneAuthCredential.getSmsCode();
+//
+//            if(code != null) {
+//                codeView.setText(code);
+//                verifyCode(code);
+//            }
+//        }
+//
+//        @Override
+//        public void onVerificationFailed(@NonNull FirebaseException e) {
+//            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+//        }
+//
+//        @Override
+//        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+//            super.onCodeSent(s, forceResendingToken);
+//            verificationId = s;
+//        }
+//    };
 
-            if(code != null) {
-                codeView.setText(code);
-                verifyCode(code);
-            }
+    private void verifyCode(String num) {
+        if(num.equals(Integer.toString(randomNum))) {
+            FirebaseDatabase.getInstance().getReference().child("Users").child(uid).child("phoneAuthFlag").setValue(true);
+            Toast.makeText(getApplicationContext(), "인증이 완료되었습니다\n환영합니다!", Toast.LENGTH_SHORT).show();
+            //메인액티비티 이동
+            startActivity(new Intent(VerifyPhoneNumActivity.this, MainActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+        } else {
+            Toast.makeText(getApplicationContext(), "일치하지 않는 코드입니다.", Toast.LENGTH_SHORT).show();
         }
-
-        @Override
-        public void onVerificationFailed(@NonNull FirebaseException e) {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-            super.onCodeSent(s, forceResendingToken);
-            verificationId = s;
-        }
-    };
-
-    private void verifyCode(String code) {
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-        signInWithCredential(credential);
-
+//        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+//        signInWithCredential(credential);
     }
 
-    private void signInWithCredential(PhoneAuthCredential credential) {
-        firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()) {
-                            FirebaseDatabase.getInstance().getReference().child("Users").child(uid).child("phoneAuthFlag").setValue(true);
-                            startActivity(new Intent(VerifyPhoneNumActivity.this, MainActivity.class)
-                            .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
-
-                        } else {
-                            Toast.makeText(VerifyPhoneNumActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-    }
+//    private void signInWithCredential(PhoneAuthCredential credential) {
+//        firebaseAuth.signInWithCredential(credential)
+//                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if(task.isSuccessful()) {
+//                            FirebaseDatabase.getInstance().getReference().child("Users").child(uid).child("phoneAuthFlag").setValue(true);
+//                            startActivity(new Intent(VerifyPhoneNumActivity.this, MainActivity.class)
+//                            .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+//
+//                        } else {
+//                            Toast.makeText(VerifyPhoneNumActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                });
+//    }
 }

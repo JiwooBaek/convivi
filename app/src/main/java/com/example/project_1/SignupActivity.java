@@ -54,26 +54,32 @@ public class SignupActivity extends AppCompatActivity {
         verification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseAuth.createUserWithEmailAndPassword(emailAdd.getText().toString(), password.getText().toString())
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful()) {
-                                    firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()) {
-                                                firebaseAuth.getCurrentUser().sendEmailVerification();
-                                                showEmailVerified.setText("인증 메일 전송!");
-                                            } else {
-                                                Log.e("Email Verifier Error","sendEmailVerification",task.getException());
-                                                showEmailVerified.setText("이메일 인증 실패");
-                                            }
+                Thread signUp = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        firebaseAuth.createUserWithEmailAndPassword(emailAdd.getText().toString(), password.getText().toString())
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if(task.isSuccessful()) {
+                                            firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()) {
+                                                        firebaseAuth.getCurrentUser().sendEmailVerification();
+                                                        showEmailVerified.setText("인증 메일 전송!");
+                                                    } else {
+                                                        Log.e("Email Verifier Error","sendEmailVerification",task.getException());
+                                                        showEmailVerified.setText("이메일 인증 실패");
+                                                    }
+                                                }
+                                            });
                                         }
-                                    });
-                                }
-                            }
-                        });
+                                    }
+                                });
+                    }
+                });
+                signUp.start();
             }
         });
 
