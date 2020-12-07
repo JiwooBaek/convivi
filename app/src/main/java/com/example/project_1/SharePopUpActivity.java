@@ -3,6 +3,7 @@ package com.example.project_1;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -46,6 +47,7 @@ public class SharePopUpActivity extends Activity {
     String uid;
     String userUid;
     String imageUrl;
+    Handler handler = new Handler();
     private DatabaseReference ref_share = FirebaseDatabase.getInstance().getReference().child("Share");
     private DatabaseReference ref_shareImage = FirebaseDatabase.getInstance().getReference().child("ShareImages");
     private DatabaseReference ref_chatlist = FirebaseDatabase.getInstance().getReference().child("Chatlist");
@@ -88,12 +90,22 @@ public class SharePopUpActivity extends Activity {
                         title = shareModel.title;
                         description = shareModel.description;
 
-                        if (!(imageUrl).equals("default")) {
-                            Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
-                        }
-                        titleView.setText(title);
-                        descriptionView.setText(description);
-
+                        Thread imageThread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (!(imageUrl).equals("default")) {
+                                            Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
+                                        }
+                                        titleView.setText(title);
+                                        descriptionView.setText(description);
+                                    }
+                                });
+                            }
+                        });
+                        imageThread.start();
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {

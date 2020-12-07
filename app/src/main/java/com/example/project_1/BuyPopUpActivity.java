@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.Window;
@@ -50,6 +51,7 @@ public class BuyPopUpActivity extends Activity {
     String uid;
     String userUid;
     String imageUrl;
+    Handler handler = new Handler();
     private FirebaseDatabase database;
     private DatabaseReference ref_buy = FirebaseDatabase.getInstance().getReference().child("Buy");
     private DatabaseReference ref_buyImage = FirebaseDatabase.getInstance().getReference().child("BuyImages");
@@ -93,13 +95,24 @@ public class BuyPopUpActivity extends Activity {
                         targetNum = Integer.toString(buyModel.targetNOP);
                         currentNum = Integer.toString(buyModel.currentNOP);
 
-                        if (!(imageModel.getUrl()).equals("default")) {
-                            Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
-                        }
-                        titleView.setText(title);
-                        descriptionView.setText(description);
-                        targetNumView.setText(targetNum);
-                        currentNumView.setText(currentNum);
+                        Thread imageThread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (!(imageUrl).equals("default")) {
+                                            Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
+                                        }
+                                        titleView.setText(title);
+                                        descriptionView.setText(description);
+                                        targetNumView.setText(targetNum);
+                                        currentNumView.setText(currentNum);
+                                    }
+                                });
+                            }
+                        });
+                        imageThread.start();
                     }
 
                     @Override
