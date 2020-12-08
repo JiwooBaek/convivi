@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,7 +57,11 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
                 String uid = firebaseAuth.getCurrentUser().getUid();
                 if(model.getAddress().getRegion3depthName().equals("")) {
                     user.child(uid).child("address").setValue(model.getAddress().getRegion3depthHName());
-                } else user.child(uid).child("address").setValue(model.getAddress().getRegion3depthName());
+                    Toast.makeText(context, model.getAddress().getRegion3depthHName() + "으로 동네가 설정되었습니다.", Toast.LENGTH_LONG).show();
+                } else {
+                    user.child(uid).child("address").setValue(model.getAddress().getRegion3depthName());
+                    Toast.makeText(context, model.getAddress().getRegion3depthName() + "으로 동네가 설정되었습니다.", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
