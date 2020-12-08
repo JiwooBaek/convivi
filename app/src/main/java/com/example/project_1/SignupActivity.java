@@ -102,7 +102,10 @@ public class SignupActivity extends AppCompatActivity {
                     FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            startActivity(new Intent(getApplicationContext(), VerifyPhoneNumActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+                            Intent intent = new Intent(getApplicationContext(), VerifyPhoneNumActivity.class);
+                            intent.putExtra(uid, "uid");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            startActivity(intent);
                             SignupActivity.this.finish();
                         }
 
