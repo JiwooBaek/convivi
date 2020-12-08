@@ -18,6 +18,7 @@ import com.example.project_1.Adapter.HomeShareAdapter;
 import com.example.project_1.Item.HomeBuyItem;
 import com.example.project_1.Item.HomeShareItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import model.BuyModel;
 import model.ImageModel;
 import model.ShareModel;
+import model.UserModel;
 
 public class HomeFragment extends Fragment {
     //HomeBuy RecyclerView 관련 변수
@@ -52,7 +54,11 @@ public class HomeFragment extends Fragment {
     private RecyclerView homeShareRecyclerView;
     private LinearLayoutManager shareLayoutManager;
 
+    //currentUser
+    private String uid;
+
     //Firebase
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private DatabaseReference buy = FirebaseDatabase.getInstance().getReference().child("Buy");
     private DatabaseReference share = FirebaseDatabase.getInstance().getReference().child("Share");
     private DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -64,6 +70,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = (ViewGroup)inflater.inflate(R.layout.fragment_home, container, false);
+
+        uid = firebaseAuth.getCurrentUser().getUid();
 
         //HomeBuyRecyclerView
         homeBuyRecyclerView = (RecyclerView) view.findViewById(R.id.buy_listView);
@@ -78,27 +86,69 @@ public class HomeFragment extends Fragment {
         homeBuyRecyclerView.addItemDecoration(homeListDecoration);
 
 //        Buy DB에서 최근 5개의 글 가져와 HomeBuyRecyclerView로 보여주기
-        buyImage.addValueEventListener(new ValueEventListener() {
+        users.child(uid).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot imageDataSnapshot) {
-                buy.orderByKey().limitToLast(5).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot latestBuy : dataSnapshot.getChildren()) {
-                            BuyModel buyModel = latestBuy.getValue(BuyModel.class);
-                            ImageModel imageModel = imageDataSnapshot.child(buyModel.id).getValue(ImageModel.class);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserModel user = dataSnapshot.getValue(UserModel.class);
+                if(user.addressFlag == true){
+                    buyImage.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot imageDataSnapshot) {
+                            buy.orderByChild("address").equalTo(user.address).limitToLast(5).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot latestBuy : dataSnapshot.getChildren()) {
+                                        BuyModel buyModel = latestBuy.getValue(BuyModel.class);
+                                        ImageModel imageModel = imageDataSnapshot.child(buyModel.id).getValue(ImageModel.class);
 
-                            HomeBuyItem homeBuyItem = new HomeBuyItem(buyModel.id, imageModel.url, buyModel.title, "OO동 XX아파트", String.valueOf(buyModel.currentNOP), String.valueOf(buyModel.targetNOP));
-                            buyList.add(homeBuyItem);
+                                        HomeBuyItem homeBuyItem = new HomeBuyItem(buyModel.id, imageModel.url, buyModel.title, buyModel.address, String.valueOf(buyModel.currentNOP), String.valueOf(buyModel.targetNOP));
+                                        buyList.add(homeBuyItem);
+                                    }
+                                    homeBuyAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                         }
-                        homeBuyAdapter.notifyDataSetChanged();
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    }
-                });
+                        }
+                    });
+                } else {
+                    buyImage.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot imageDataSnapshot) {
+                            buy.orderByKey().limitToLast(5).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot latestBuy : dataSnapshot.getChildren()) {
+                                        BuyModel buyModel = latestBuy.getValue(BuyModel.class);
+                                        ImageModel imageModel = imageDataSnapshot.child(buyModel.id).getValue(ImageModel.class);
+
+                                        HomeBuyItem homeBuyItem = new HomeBuyItem(buyModel.id, imageModel.url, buyModel.title, buyModel.address, String.valueOf(buyModel.currentNOP), String.valueOf(buyModel.targetNOP));
+                                        buyList.add(homeBuyItem);
+                                    }
+                                    homeBuyAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
             }
 
             @Override
@@ -106,6 +156,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
 
         //HomeShareRecyclerView
         homeShareRecyclerView = (RecyclerView) view.findViewById(R.id.share_listView);
@@ -119,27 +170,69 @@ public class HomeFragment extends Fragment {
         homeShareRecyclerView.addItemDecoration(homeListDecoration);
 
         //Share DB에서 최근 5개의 글 가져와 HomeShareRecyclerView로 보여주기
-        shareImage.addValueEventListener(new ValueEventListener() {
+        users.child(uid).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot imageDataSnapshot) {
-                share.orderByKey().limitToLast(5).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot latestShare : dataSnapshot.getChildren()){
-                            ShareModel shareModel = latestShare.getValue(ShareModel.class);
-                            ImageModel imageModel = imageDataSnapshot.child(shareModel.id).getValue(ImageModel.class);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserModel user = dataSnapshot.getValue(UserModel.class);
+                if(user.addressFlag == true){
+                    shareImage.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot imageDataSnapshot) {
+                            share.orderByChild("address").equalTo(user.address).limitToLast(5).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for(DataSnapshot latestShare : dataSnapshot.getChildren()){
+                                        ShareModel shareModel = latestShare.getValue(ShareModel.class);
+                                        ImageModel imageModel = imageDataSnapshot.child(shareModel.id).getValue(ImageModel.class);
 
-                            HomeShareItem homeShareItem = new HomeShareItem(shareModel.id, imageModel.url, shareModel.title, "OO동 XX아파트");
-                            shareList.add(homeShareItem);
+                                        HomeShareItem homeShareItem = new HomeShareItem(shareModel.id, imageModel.url, shareModel.title, shareModel.address);
+                                        shareList.add(homeShareItem);
+                                    }
+                                    homeShareAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                         }
-                        homeShareAdapter.notifyDataSetChanged();
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    }
-                });
+                        }
+                    });
+                } else {
+                    shareImage.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot imageDataSnapshot) {
+                            share.orderByKey().limitToLast(5).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for(DataSnapshot latestShare : dataSnapshot.getChildren()){
+                                        ShareModel shareModel = latestShare.getValue(ShareModel.class);
+                                        ImageModel imageModel = imageDataSnapshot.child(shareModel.id).getValue(ImageModel.class);
+
+                                        HomeShareItem homeShareItem = new HomeShareItem(shareModel.id, imageModel.url, shareModel.title, shareModel.address);
+                                        shareList.add(homeShareItem);
+                                    }
+                                    homeShareAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
             }
 
             @Override
@@ -147,6 +240,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
 
 
         //대여 및 나눔 더보기 클릭 시 ViewMoreActivity로 이동
@@ -180,5 +274,4 @@ public class HomeFragment extends Fragment {
 
             return view;
     }
-
 }
