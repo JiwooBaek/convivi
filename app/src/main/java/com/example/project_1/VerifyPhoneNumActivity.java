@@ -1,6 +1,8 @@
 package com.example.project_1;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.View;
@@ -20,11 +22,16 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import model.UserModel;
 
 public class VerifyPhoneNumActivity extends AppCompatActivity {
@@ -41,7 +48,7 @@ public class VerifyPhoneNumActivity extends AppCompatActivity {
     private Button sendCode;
     private Button button;
     private RelativeLayout container;
-    private int randomNum;
+    private String code;
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     FirebaseAuthSettings firebaseAuthSettings = firebaseAuth.getFirebaseAuthSettings();
 
@@ -59,6 +66,20 @@ public class VerifyPhoneNumActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.Button);
         container = (RelativeLayout) findViewById(R.id.container);
 
+        //SMS 수신권한
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);   // SEND_SMS 권한이 있는지 체크
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "SMS 권한 주어져 있음", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "SMS 권한 없음", Toast.LENGTH_LONG).show();
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)) {
+                Toast.makeText(this, "SMS 권한 설명 필요함", Toast.LENGTH_LONG).show();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.SEND_SMS}, 1);
+            }
+        }
+
        //현재 유저 uid 값 받아오기
         Intent intent = getIntent();
         uid = intent.getStringExtra("uid");
@@ -74,17 +95,18 @@ public class VerifyPhoneNumActivity extends AppCompatActivity {
         sendCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String num = phoneNumView.getText().toString().trim();
+                String num = "82" + phoneNumView.getText().toString().trim();
 
                 // 입력값 오류
-                if(num.isEmpty() || num.length() < 11) {
+                if(num.isEmpty() || num.length() < 10) {
                     phoneNumView.setError("유효하지 않은 값입니다");
                     phoneNumView.requestFocus();
                     return;
                 }
-                randomNum = (int) (Math.random() * 10000);
 
-                sendVerificationCode(num, randomNum);
+                code = createCode();
+
+                sendVerificationCode(num, code);
                 container.setVisibility(View.VISIBLE);
                 codeMessage.setVisibility(View.VISIBLE);
                 codeView.setVisibility(View.VISIBLE);
@@ -108,12 +130,30 @@ public class VerifyPhoneNumActivity extends AppCompatActivity {
 
     }
 
-    private void sendVerificationCode(String phoneNum, int num) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0) {
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "SMS 수신 권한을 사용자가 승인함", Toast.LENGTH_LONG).show();
+                    } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                        Toast.makeText(this, "SMS 수신 권한을 사용자가 거부함", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, "SMS 수신 권한을 부여받지 못함", Toast.LENGTH_LONG).show();
+                    }
+                }
+        }
+    }
+
+
+    private void sendVerificationCode(String phoneNum, String num) {
         String msg = "[" + num + "]" + " 전화번호 인증 코드를 입력하세요!";
         try {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(phoneNum, null, msg, null, null);
             Toast.makeText(getApplicationContext(), "인증코드가 전송되었습니다.", Toast.LENGTH_SHORT).show();
+            codeView.setText(num);
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "인증코드 전송이 실패하였습니다.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
@@ -152,7 +192,7 @@ public class VerifyPhoneNumActivity extends AppCompatActivity {
 //    };
 
     private void verifyCode(String num) {
-        if(num.equals(Integer.toString(randomNum))) {
+        if(num.equals(code)) {
             FirebaseDatabase.getInstance().getReference().child("Users").child(uid).child("phoneAuthFlag").setValue(true);
             Toast.makeText(getApplicationContext(), "인증이 완료되었습니다\n환영합니다!", Toast.LENGTH_SHORT).show();
             //메인액티비티 이동
@@ -163,6 +203,14 @@ public class VerifyPhoneNumActivity extends AppCompatActivity {
         }
 //        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
 //        signInWithCredential(credential);
+    }
+
+    private String createCode() {
+        //4자리 랜덤코드 생성
+        int num = (int) (Math.random() * 10000 + 1);
+        NumberFormat formatter = new DecimalFormat("0000");
+        String randCode = formatter.format(num);
+        return randCode;
     }
 
 //    private void signInWithCredential(PhoneAuthCredential credential) {
