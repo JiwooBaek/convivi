@@ -52,6 +52,7 @@ public class BuyPopUpActivity extends Activity {
     String uid;
     String userUid;
     String imageUrl;
+    private boolean addressFlag;
     Handler handler = new Handler();
     private FirebaseDatabase database;
     private DatabaseReference ref_user = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -154,37 +155,53 @@ public class BuyPopUpActivity extends Activity {
         openChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ref_user.child(userUid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        UserModel userModel = dataSnapshot.getValue(UserModel.class);
+                        addressFlag = userModel.addressFlag;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
                 ref_chatlist.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String gueststat = dataSnapshot.child(id).child("guest").getValue(String.class);
                         String hoststat = dataSnapshot.child(id).child("host").getValue(String.class);
-                        if(hoststat.equals(userUid)){
-                            //host가 입장한 경우
+                        if (addressFlag == false) {
+                            Toast.makeText(getApplicationContext(),"동네 인증이 필요합니다", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (hoststat.equals(userUid)) {
+                                //host가 입장한 경우
 
-                            Intent intent = new Intent(BuyPopUpActivity.this, MessageActivity.class);
-                            intent.putExtra("userid", uid);
-                            intent.putExtra("chatid", id);
+                                Intent intent = new Intent(BuyPopUpActivity.this, MessageActivity.class);
+                                intent.putExtra("userid", uid);
+                                intent.putExtra("chatid", id);
 
-                            startActivity(intent);
-                        }else if( gueststat.equals("null")) {
-                            //게스트가 null인 경우 (초기)
-                            ref_chatlist.child(id).child("guest").setValue(userUid);
+                                startActivity(intent);
+                            } else if (gueststat.equals("null")) {
+                                //게스트가 null인 경우 (초기)
+                                ref_chatlist.child(id).child("guest").setValue(userUid);
 
-                            Intent intent = new Intent(BuyPopUpActivity.this, MessageActivity.class);
-                            intent.putExtra("userid", uid);
-                            intent.putExtra("chatid", id);
-                            startActivity(intent);
+                                Intent intent = new Intent(BuyPopUpActivity.this, MessageActivity.class);
+                                intent.putExtra("userid", uid);
+                                intent.putExtra("chatid", id);
+                                startActivity(intent);
 
-                        }else if (gueststat.equals(userUid)){
+                            } else if (gueststat.equals(userUid)) {
 
-                            Intent intent = new Intent(BuyPopUpActivity.this, MessageActivity.class);
-                            intent.putExtra("userid", uid);
-                            intent.putExtra("chatid", id);
-                            startActivity(intent);
+                                Intent intent = new Intent(BuyPopUpActivity.this, MessageActivity.class);
+                                intent.putExtra("userid", uid);
+                                intent.putExtra("chatid", id);
+                                startActivity(intent);
 
-                        } else{
-                            Toast.makeText(BuyPopUpActivity.this, hoststat +" " + gueststat + "   인원이 찬 대화방 입니다.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(BuyPopUpActivity.this, hoststat + " " + gueststat + "   인원이 찬 대화방 입니다.", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                     @Override

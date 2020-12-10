@@ -153,7 +153,6 @@ public class VerifyPhoneNumActivity extends AppCompatActivity {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(phoneNum, null, msg, null, null);
             Toast.makeText(getApplicationContext(), "인증코드가 전송되었습니다.", Toast.LENGTH_SHORT).show();
-            codeView.setText(num);
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "인증코드 전송이 실패하였습니다.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();

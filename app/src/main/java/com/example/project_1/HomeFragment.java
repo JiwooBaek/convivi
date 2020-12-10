@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.project_1.Adapter.HomeBuyAdapter;
 import com.example.project_1.Adapter.HomeShareAdapter;
@@ -56,6 +57,7 @@ public class HomeFragment extends Fragment {
 
     //currentUser
     private String uid;
+    private boolean addressFlag;
 
     //Firebase
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -90,6 +92,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserModel user = dataSnapshot.getValue(UserModel.class);
+                addressFlag = user.addressFlag;
                 if(user.addressFlag == true){
                     buyImage.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -174,6 +177,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserModel user = dataSnapshot.getValue(UserModel.class);
+                addressFlag = user.addressFlag;
                 if(user.addressFlag == true){
                     shareImage.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -268,7 +272,11 @@ public class HomeFragment extends Fragment {
         write_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity().getApplicationContext(), WriteActivity.class));
+                if(addressFlag == true) {
+                    startActivity(new Intent(getActivity().getApplicationContext(), WriteActivity.class));
+                } else {
+                    Toast.makeText(view.getContext(), "동네 인증이 필요합니다", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
