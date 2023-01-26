@@ -24,4 +24,16 @@
 - 지도 연결
 - 동네 검색 & 설정
 
-
+<img src="![1](https://user-images.githubusercontent.com/105335295/214835409-0484ac0c-03f3-45a0-bf4a-1af8374e4ea9.gif)
+">
+<img src="![2](https://user-images.githubusercontent.com/105335295/214835413-69748f4c-0ab3-45c8-a46e-3159398e157b.gif)
+">
+<img src="![3](https://user-images.githubusercontent.com/105335295/214835421-59a2d139-21cf-4beb-a432-ef5b71c4cd3b.gif)">
+<img src="![4](https://user-images.githubusercontent.com/105335295/214835376-c2470577-b29a-498d-9ae3-a9c6ccbc8b44.gif)
+">
+<img src="![5](https://user-images.githubusercontent.com/105335295/214835393-33b4623a-f542-495d-9a7c-16b32db4689b.gif)
+">
+<img src="![6](https://user-images.githubusercontent.com/105335295/214835402-59fd2b76-4b07-44ec-afa3-aa27b64051be.gif)
+">
+<img src="![7](https://user-images.githubusercontent.com/105335295/214835408-3b346c33-722a-4842-80a4-844576af5b48.gif)
+">
