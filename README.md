@@ -24,7 +24,7 @@
 - 지도 연결
 - 동네 검색 & 설정
 
-<img src="![1](https://user-images.githubusercontent.com/105335295/214835409-0484ac0c-03f3-45a0-bf4a-1af8374e4ea9.gif)
+<img src="https://user-images.githubusercontent.com/105335295/214835409-0484ac0c-03f3-45a0-bf4a-1af8374e4ea9.gif
 ">
 <img src="![2](https://user-images.githubusercontent.com/105335295/214835413-69748f4c-0ab3-45c8-a46e-3159398e157b.gif)
 ">
